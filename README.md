@@ -1,8 +1,12 @@
+# SketchSolve
+
 A geometric constraints solver for use in CAD software
+
+## Background
 
 SketchSolve can be used to solve solve geometric constraints problems found in CAD software.
 This project is one of the first geometric constraints solver intended to be used in open source CAD software.
-Another similar project here on Google code is psketcher. In these problems profiles can be created from
+Another similar project here on Google code is [psketcher](https://code.google.com/archive/p/psketcher/). In these problems profiles can be created from
 primitive objects like points, lines, circles, and arcs. These primitives are subjected to geometric
 constraints like equal length, concentric arcs and so forth. The solver then solves for a set of primitive
 parameters that satisfy the sketch constraints.
@@ -11,9 +15,13 @@ Currently only 2d sketch problems are supported. However I hope to soon also hav
 constraints working. This would make SketchSolve be able to solve complex Assemblies. However, I only plan
 to write that section of the code if people actually use the 2d solver.
 
+## Implementation
+
 The solution method used is actually a optimization method. The sum of the constraint violations are the
 objective of the optimization problem. The optimization routine used is a BFGS update Newtons method.
 An Optimization routine was selected because there are often more or fewer constraint equations than unknowns.
+
+## Suppoerted constraints
 
 The constraints that are currently supported are the following:
 * pointOnPoint
@@ -65,8 +73,13 @@ Let me know if there are constraints that you use that are not on these lists !!
 
 Thanks!
 
+## Acknowledgements
+
 This repository was cloned from [SketchSolve.NET](https://github.com/bradphelan/SketchSolve.NET)
 which in turn was cloned from [SketchSolve](http://code.google.com/p/sketchsolve/.)
 
-The LICENSE file was inferred from the license field on the google code project, but was not inserted by the original creator.
+## License
+
+The [LICENSE](LICENSE) file was inferred from the license field on the google code project,
+but was not inserted by the original creator.
 
