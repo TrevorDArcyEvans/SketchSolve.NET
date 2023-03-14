@@ -1,12 +1,8 @@
-using System;
+namespace SketchSolveC;
 
-namespace SketchSolveC
+public class ObjectMixins
 {
-    public class ObjectMixins
+    public ObjectMixins ()
     {
-        public ObjectMixins ()
-        {
-        }
     }
 }
-
