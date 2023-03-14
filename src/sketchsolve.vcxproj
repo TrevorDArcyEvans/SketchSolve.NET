@@ -73,13 +73,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Derivatives.cpp" />
-    <ClCompile Include="src\solve.cpp" />
-    <ClCompile Include="src\SolverPointers.cpp" />
+    <ClCompile Include="Derivatives.cpp" />
+    <ClCompile Include="solve.cpp" />
+    <ClCompile Include="SolverPointers.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\solve.h" />
-    <ClInclude Include="src\timer.h" />
+    <ClInclude Include="solve.h" />
+    <ClInclude Include="timer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
