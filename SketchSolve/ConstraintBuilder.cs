@@ -1,6 +1,6 @@
 namespace SketchSolve;
 
-public static class ConstraintBuilderMixins
+public static class ConstraintBuilder
 {
   public static Constraint IsHorizontal(this Line line)
   {
