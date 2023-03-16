@@ -61,7 +61,7 @@ public class Constraint : IEnumerable<Parameter>
   public static double Calculate(IEnumerable<Constraint> constraints)
   {
     double error = 0;
-    double dx, dy, m, n;
+    double dx, dy;
 
     foreach (var constraint in constraints)
     {
@@ -154,8 +154,8 @@ public class Constraint : IEnumerable<Parameter>
           dx = L1_P2_x - L1_P1_x;
           dy = L1_P2_y - L1_P1_y;
 
-          m = dy / dx; // Slope
-          n = dx / dy; // 1/Slope
+          var m = dy / dx; // Slope
+          var n = dx / dy; // 1/Slope
 
           if (m <= 1 && m >= -1)
           {
@@ -421,8 +421,8 @@ public class Constraint : IEnumerable<Parameter>
           dx = L1_P2_x - L1_P1_x;
           dy = L1_P2_y - L1_P1_y;
 
-          m = dy / dx;
-          n = dx / dy;
+          var m = dy / dx;
+          var n = dx / dy;
           // Calculate the error between the expected intersection point
           // and the true point of the second lines two end points on the
           // first line
