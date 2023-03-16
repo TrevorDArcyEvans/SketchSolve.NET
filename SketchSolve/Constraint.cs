@@ -61,7 +61,6 @@ public class Constraint : IEnumerable<Parameter>
   public static double Calculate(IEnumerable<Constraint> constraints)
   {
     double error = 0;
-    double dx, dy;
 
     foreach (var constraint in constraints)
     {
@@ -151,8 +150,8 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.PointOnLine:
         {
-          dx = L1_P2_x - L1_P1_x;
-          dy = L1_P2_y - L1_P1_y;
+          var dx = L1_P2_x - L1_P1_x;
+          var dy = L1_P2_y - L1_P1_y;
 
           var m = dy / dx; // Slope
           var n = dx / dy; // 1/Slope
@@ -174,8 +173,8 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.P2LDistance:
         {
-          dx = L1_P2_x - L1_P1_x;
-          dy = L1_P2_y - L1_P1_y;
+          var dx = L1_P2_x - L1_P1_x;
+          var dy = L1_P2_y - L1_P1_y;
 
           var t = -(L1_P1_x * dx - P1_x * dx + L1_P1_y * dy - P1_y * dy) / (dx * dx + dy * dy);
           var Xint = L1_P1_x + dx * t;
@@ -187,8 +186,8 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.P2LDistanceVert:
         {
-          dx = L1_P2_x - L1_P1_x;
-          dy = L1_P2_y - L1_P1_y;
+          var dx = L1_P2_x - L1_P1_x;
+          var dy = L1_P2_y - L1_P1_y;
 
           var t = (P1_x - L1_P1_x) / dx;
           var Yint = L1_P1_y + dy * t;
@@ -199,8 +198,8 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.P2LDistanceHoriz:
         {
-          dx = L1_P2_x - L1_P1_x;
-          dy = L1_P2_y - L1_P1_y;
+          var dx = L1_P2_x - L1_P1_x;
+          var dy = L1_P2_y - L1_P1_y;
 
           var t = (P1_y - L1_P1_y) / dy;
           var Xint = L1_P1_x + dx * t;
@@ -260,8 +259,8 @@ public class Constraint : IEnumerable<Parameter>
           error += temp*temp*100;
           */
 
-          dx = L1_P2_x - L1_P1_x;
-          dy = L1_P2_y - L1_P1_y;
+          var dx = L1_P2_x - L1_P1_x;
+          var dy = L1_P2_y - L1_P1_y;
 
           var radsq = (A1_Center_x - A1_Start_x) * (A1_Center_x - A1_Start_x) + (A1_Center_y - A1_Start_y) * (A1_Center_y - A1_Start_y);
           var t = -(L1_P1_x * dx - A1_Center_x * dx + L1_P1_y * dy - A1_Center_y * dy) / (dx * dx + dy * dy);
@@ -398,8 +397,8 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.Parallel:
         {
-          dx = L1_P2_x - L1_P1_x;
-          dy = L1_P2_y - L1_P1_y;
+          var dx = L1_P2_x - L1_P1_x;
+          var dy = L1_P2_y - L1_P1_y;
           var dx2 = L2_P2_x - L2_P1_x;
           var dy2 = L2_P2_y - L2_P1_y;
 
@@ -418,8 +417,8 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.Collinear:
         {
-          dx = L1_P2_x - L1_P1_x;
-          dy = L1_P2_y - L1_P1_y;
+          var dx = L1_P2_x - L1_P1_x;
+          var dy = L1_P2_y - L1_P1_y;
 
           var m = dy / dx;
           var n = dx / dy;
@@ -485,7 +484,7 @@ public class Constraint : IEnumerable<Parameter>
           var tempEnd = Math.Atan2(A1_End_y - A1_Center_y, A1_End_x - A1_Center_x);
           var Ex = A1_Center_x + rad1 * Math.Cos((tempEnd + tempStart) / 2);
           var Ey = A1_Center_y + rad1 * Math.Sin((tempEnd + tempStart) / 2);
-          var tempX= Ex - P1_x;
+          var tempX = Ex - P1_x;
           var tempY = Ey - P1_y;
           error += tempX * tempX + tempY * tempY;
         }
@@ -520,8 +519,8 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.SymmetricPoints:
         {
-          dx = Sym_P2_x - Sym_P1_x;
-          dy = Sym_P2_y - Sym_P1_y;
+          var dx = Sym_P2_x - Sym_P1_x;
+          var dy = Sym_P2_y - Sym_P1_y;
           var t = -(dy * P1_x - dx * P1_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
           var Ex = P1_x + dy * t * 2;
           var Ey = P1_y - dx * t * 2;
@@ -533,8 +532,8 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.SymmetricLines:
         {
-          dx = Sym_P2_x - Sym_P1_x;
-          dy = Sym_P2_y - Sym_P1_y;
+          var dx = Sym_P2_x - Sym_P1_x;
+          var dy = Sym_P2_y - Sym_P1_y;
           var t = -(dy * L1_P1_x - dx * L1_P1_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
           var Ex = L1_P1_x + dy * t * 2;
           var Ey = L1_P1_y - dx * t * 2;
@@ -553,8 +552,8 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.SymmetricCircles:
         {
-          dx = Sym_P2_x - Sym_P1_x;
-          dy = Sym_P2_y - Sym_P1_y;
+          var dx = Sym_P2_x - Sym_P1_x;
+          var dy = Sym_P2_y - Sym_P1_y;
           var t = -(dy * C1_Center_x - dx * C1_Center_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
           var Ex = C1_Center_x + dy * t * 2;
           var Ey = C1_Center_y - dx * t * 2;
@@ -569,8 +568,9 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.SymmetricArcs:
         {
-          dx = Sym_P2_x - Sym_P1_x;
-          dy = Sym_P2_y - Sym_P1_y;
+          var dx = Sym_P2_x - Sym_P1_x;
+          var dy = Sym_P2_y - Sym_P1_y;
+
           var t = -(dy * A1_Start_x - dx * A1_Start_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
           var Ex = A1_Start_x + dy * t * 2;
           var Ey = A1_Start_y - dx * t * 2;
