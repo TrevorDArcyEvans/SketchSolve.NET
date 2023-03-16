@@ -28,7 +28,6 @@ public class Solver_Tests
 
     var r = Solver.Solve(line.IsVertical());
 
-    Console.WriteLine(line);
     using (new AssertionScope())
     {
       r.Should().BeApproximately(0, 0.0001);
@@ -60,7 +59,6 @@ public class Solver_Tests
       var line1 = new Line(new Point(0, 0, false), new Point(10, 0, false, true));
       var line2 = new Line(new Point(0, 0, false), new Point(10, -1, false));
 
-      Console.WriteLine(i);
       const double angle = Math.PI / 2 / 3;   // 30 deg
 
       var error = Solver.Solve(line1.HasInternalAngle(line2, new Parameter(angle, false)));
@@ -84,7 +82,6 @@ public class Solver_Tests
       var line1 = new Line(new Point(0, 0, false), new Point(10, 0, false, true));
       var line2 = new Line(new Point(0, 0, false), new Point(10, -1, false));
 
-      Console.WriteLine(i);
       const double angle = Math.PI / 2 / 3;   // 30 deg
 
       var error = Solver.Solve(line1.HasExternalAngle(line2, new Parameter(angle, false)));
@@ -109,9 +106,6 @@ public class Solver_Tests
       var line2 = new Line(new Point(0, 0, false), new Point(10, 10, true, false));
 
       var error = Solver.Solve(line1.IsPerpendicularTo(line2));
-
-      Console.WriteLine(line1);
-      Console.WriteLine(line2);
 
       using (new AssertionScope())
       {
@@ -167,7 +161,6 @@ public class Solver_Tests
 
     var error = Solver.Solve(line.IsTangentTo(circle));
 
-    Console.WriteLine(line);
     using (new AssertionScope())
     {
       error.Should().BeApproximately(0, 0.0001);
@@ -195,7 +188,6 @@ public class Solver_Tests
 
     var error = Solver.Solve(line.IsTangentTo(circle));
 
-    Console.WriteLine(line);
     using (new AssertionScope())
     {
       error.Should().BeApproximately(0, 0.0001);
@@ -222,9 +214,6 @@ public class Solver_Tests
     var line = new Line(new Point(-100, -v, false, true), new Point(100, -v * 2.1, false, true));
 
     var error = Solver.Solve(line.IsTangentTo(circle), line.IsHorizontal());
-
-    Console.WriteLine(line);
-    Console.WriteLine(circle);
 
     using (new AssertionScope())
     {
@@ -267,13 +256,6 @@ public class Solver_Tests
       line2.P2.IsColocated(line3.P1),
       line3.P2.IsColocated(line0.P1),
       line0.IsVertical());
-
-    Console.WriteLine(line0);
-    Console.WriteLine(line1);
-    Console.WriteLine(line2);
-    Console.WriteLine(line3);
-
-    Console.WriteLine(circle.CenterTo(line0));
 
     error.Should().BeApproximately(0, 0.0001);
   }
