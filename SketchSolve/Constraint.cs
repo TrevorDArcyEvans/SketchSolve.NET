@@ -61,7 +61,7 @@ public class Constraint : IEnumerable<Parameter>
   public static double Calculate(IEnumerable<Constraint> constraints)
   {
     double error = 0;
-    double dx, dy, m, n, Ex, Ey, rad1, rad2, t, Xint, Yint, dx2, dy2, hyp1, hyp2;
+    double dx, dy, m, n, Ex, Ey, rad1, rad2, t, dx2, dy2, hyp1, hyp2;
 
     foreach (var constraint in constraints)
     {
@@ -178,8 +178,8 @@ public class Constraint : IEnumerable<Parameter>
           dy = L1_P2_y - L1_P1_y;
 
           t = -(L1_P1_x * dx - P1_x * dx + L1_P1_y * dy - P1_y * dy) / (dx * dx + dy * dy);
-          Xint = L1_P1_x + dx * t;
-          Yint = L1_P1_y + dy * t;
+          var Xint = L1_P1_x + dx * t;
+          var Yint = L1_P1_y + dy * t;
           var temp = Hypot(P1_x - Xint, P1_y - Yint) - distance;
           error += temp * temp / 10;
         }
@@ -191,7 +191,7 @@ public class Constraint : IEnumerable<Parameter>
           dy = L1_P2_y - L1_P1_y;
 
           t = (P1_x - L1_P1_x) / dx;
-          Yint = L1_P1_y + dy * t;
+          var Yint = L1_P1_y + dy * t;
           var temp = Math.Abs(P1_y - Yint) - distance;
           error += temp * temp;
         }
@@ -203,7 +203,7 @@ public class Constraint : IEnumerable<Parameter>
           dy = L1_P2_y - L1_P1_y;
 
           t = (P1_y - L1_P1_y) / dy;
-          Xint = L1_P1_x + dx * t;
+          var Xint = L1_P1_x + dx * t;
           var temp = Math.Abs(P1_x - Xint) - distance;
           error += temp * temp / 10;
         }
@@ -265,8 +265,8 @@ public class Constraint : IEnumerable<Parameter>
 
           var radsq = (A1_Center_x - A1_Start_x) * (A1_Center_x - A1_Start_x) + (A1_Center_y - A1_Start_y) * (A1_Center_y - A1_Start_y);
           t = -(L1_P1_x * dx - A1_Center_x * dx + L1_P1_y * dy - A1_Center_y * dy) / (dx * dx + dy * dy);
-          Xint = L1_P1_x + dx * t;
-          Yint = L1_P1_y + dy * t;
+          var Xint = L1_P1_x + dx * t;
+          var Yint = L1_P1_y + dy * t;
           var temp = (A1_Center_x - Xint) * (A1_Center_x - Xint) + (A1_Center_y - Yint) * (A1_Center_y - Yint) - radsq;
           error += temp * temp;
         }
