@@ -61,7 +61,7 @@ public class Constraint : IEnumerable<Parameter>
   public static double Calculate(IEnumerable<Constraint> constraints)
   {
     double error = 0;
-    double dx, dy, m, n, Ex, Ey;
+    double dx, dy, m, n;
 
     foreach (var constraint in constraints)
     {
@@ -160,13 +160,13 @@ public class Constraint : IEnumerable<Parameter>
           if (m <= 1 && m >= -1)
           {
             //Calculate the expected y point given the x coordinate of the point
-            Ey = L1_P1_y + m * (P1_x - L1_P1_x);
+            var Ey = L1_P1_y + m * (P1_x - L1_P1_x);
             error += (Ey - P1_y) * (Ey - P1_y);
           }
           else
           {
             //Calculate the expected x point given the y coordinate of the point
-            Ex = L1_P1_x + n * (P1_y - L1_P1_y);
+            var Ex = L1_P1_x + n * (P1_y - L1_P1_y);
             error += (Ex - P1_x) * (Ex - P1_x);
           }
         }
@@ -429,7 +429,7 @@ public class Constraint : IEnumerable<Parameter>
           if (m <= 1 && m > -1)
           {
             //Calculate the expected y point given the x coordinate of the point
-            Ey = L1_P1_y + m * (L2_P1_x - L1_P1_x);
+            var Ey = L1_P1_y + m * (L2_P1_x - L1_P1_x);
             error += (Ey - L2_P1_y) * (Ey - L2_P1_y);
 
             Ey = L1_P1_y + m * (L2_P2_x - L1_P1_x);
@@ -438,7 +438,7 @@ public class Constraint : IEnumerable<Parameter>
           else
           {
             //Calculate the expected x point given the y coordinate of the point
-            Ex = L1_P1_x + n * (L2_P1_y - L1_P1_y);
+            var Ex = L1_P1_x + n * (L2_P1_y - L1_P1_y);
             error += (Ex - L2_P1_x) * (Ex - L2_P1_x);
 
             Ex = L1_P1_x + n * (L2_P2_y - L1_P1_y);
@@ -470,8 +470,8 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.PointOnLineMidpoint:
         {
-          Ex = (L1_P1_x + L1_P2_x) / 2;
-          Ey = (L1_P1_y + L1_P2_y) / 2;
+          var Ex = (L1_P1_x + L1_P2_x) / 2;
+          var Ey = (L1_P1_y + L1_P2_y) / 2;
           var tempX = Ex - P1_x;
           var tempY = Ey - P1_y;
           error += tempX * tempX + tempY * tempY;
@@ -483,8 +483,8 @@ public class Constraint : IEnumerable<Parameter>
           var rad1 = Hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
           var tempStart = Math.Atan2(A1_Start_y - A1_Center_y, A1_Start_x - A1_Center_x);
           var tempEnd = Math.Atan2(A1_End_y - A1_Center_y, A1_End_x - A1_Center_x);
-          Ex = A1_Center_x + rad1 * Math.Cos((tempEnd + tempStart) / 2);
-          Ey = A1_Center_y + rad1 * Math.Sin((tempEnd + tempStart) / 2);
+          var Ex = A1_Center_x + rad1 * Math.Cos((tempEnd + tempStart) / 2);
+          var Ey = A1_Center_y + rad1 * Math.Sin((tempEnd + tempStart) / 2);
           var tempX= Ex - P1_x;
           var tempY = Ey - P1_y;
           error += tempX * tempX + tempY * tempY;
@@ -493,8 +493,8 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.PointOnCircleQuad:
         {
-          Ex = C1_Center_x;
-          Ey = C1_Center_y;
+          var Ex = C1_Center_x;
+          var Ey = C1_Center_y;
           switch ((int)quadIndex)
           {
             case 0:
@@ -523,8 +523,8 @@ public class Constraint : IEnumerable<Parameter>
           dx = Sym_P2_x - Sym_P1_x;
           dy = Sym_P2_y - Sym_P1_y;
           var t = -(dy * P1_x - dx * P1_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
-          Ex = P1_x + dy * t * 2;
-          Ey = P1_y - dx * t * 2;
+          var Ex = P1_x + dy * t * 2;
+          var Ey = P1_y - dx * t * 2;
           var tempX = Ex - P2_x;
           var tempY = Ey - P2_y;
           error += tempX * tempX + tempY * tempY;
@@ -536,8 +536,8 @@ public class Constraint : IEnumerable<Parameter>
           dx = Sym_P2_x - Sym_P1_x;
           dy = Sym_P2_y - Sym_P1_y;
           var t = -(dy * L1_P1_x - dx * L1_P1_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
-          Ex = L1_P1_x + dy * t * 2;
-          Ey = L1_P1_y - dx * t * 2;
+          var Ex = L1_P1_x + dy * t * 2;
+          var Ey = L1_P1_y - dx * t * 2;
           var tempX = Ex - L2_P1_x;
           var tempY = Ey - L2_P1_y;
           error += tempX * tempX + tempY * tempY;
@@ -556,8 +556,8 @@ public class Constraint : IEnumerable<Parameter>
           dx = Sym_P2_x - Sym_P1_x;
           dy = Sym_P2_y - Sym_P1_y;
           var t = -(dy * C1_Center_x - dx * C1_Center_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
-          Ex = C1_Center_x + dy * t * 2;
-          Ey = C1_Center_y - dx * t * 2;
+          var Ex = C1_Center_x + dy * t * 2;
+          var Ey = C1_Center_y - dx * t * 2;
           var tempX = Ex - C2_Center_x;
           var tempY = Ey - C2_Center_y;
           error += tempX * tempX + tempY * tempY;
@@ -572,8 +572,8 @@ public class Constraint : IEnumerable<Parameter>
           dx = Sym_P2_x - Sym_P1_x;
           dy = Sym_P2_y - Sym_P1_y;
           var t = -(dy * A1_Start_x - dx * A1_Start_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
-          Ex = A1_Start_x + dy * t * 2;
-          Ey = A1_Start_y - dx * t * 2;
+          var Ex = A1_Start_x + dy * t * 2;
+          var Ey = A1_Start_y - dx * t * 2;
           var tempX = Ex - A2_Start_x;
           var tempY = Ey - A2_Start_y;
           error += tempX * tempX + tempY * tempY;
