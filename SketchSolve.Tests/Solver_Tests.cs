@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace SketchSolve.Tests;
 
 [TestFixture]
-public class Solver
+public class Solver_Tests
 {
   [Test]
   public void HorizontalConstraintShouldWork()
