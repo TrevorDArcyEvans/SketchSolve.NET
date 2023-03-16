@@ -52,76 +52,76 @@ public abstract class Constraint : IEnumerable<Parameter>
 
 public sealed class PointOnPointConstraint : Constraint
 {
-  public Point Point1;
-  public Point Point2;
+  private readonly Point _point1;
+  private readonly Point _point2;
 
   public PointOnPointConstraint(Point point1, Point point2)
   {
-    Point1 = point1;
-    Point2 = point2;
+    _point1 = point1;
+    _point2 = point2;
   }
 
   public override double CalculateError()
   {
     //Hopefully avoid this constraint, make coincident points use the same parameters
-    var l2 = (Point1 - Point2).LengthSquared;
+    var l2 = (_point1 - _point2).LengthSquared;
     return l2;
   }
 }
 
 public sealed class HorizontalConstraint : Constraint
 {
-  public Line Line1;
+  private readonly Line _line1;
 
   public HorizontalConstraint(Line line1)
   {
-    Line1 = line1;
+    _line1 = line1;
   }
 
   public override double CalculateError()
   {
-    var L1_P1_y = Line1 == null ? 0 : Line1.P1.Y.Value;
-    var L1_P2_y = Line1 == null ? 0 : Line1.P2.Y.Value;
-    var ody = L1_P2_y - L1_P1_y;
+    var l1P1Y = _line1 == null ? 0 : _line1.P1.Y.Value;
+    var l1P2Y = _line1 == null ? 0 : _line1.P2.Y.Value;
+    var ody = l1P2Y - l1P1Y;
     return ody * ody;
   }
 }
 
 public sealed class VerticalConstraint : Constraint
 {
-  public Line Line1;
+  private readonly Line _line1;
 
   public VerticalConstraint(Line line1)
   {
-    Line1 = line1;
+    _line1 = line1;
   }
 
   public override double CalculateError()
   {
-    var L1_P1_x = Line1 == null ? 0 : Line1.P1.X.Value;
-    var L1_P2_x = Line1 == null ? 0 : Line1.P2.X.Value;
-    var odx = L1_P2_x - L1_P1_x;
+    var l1P1X = _line1 == null ? 0 : _line1.P1.X.Value;
+    var l1P2X = _line1 == null ? 0 : _line1.P2.X.Value;
+    var odx = l1P2X - l1P1X;
     return odx * odx;
   }
 }
 
 public sealed class InternalAngleConstraint : Constraint
 {
-  public Line Line1;
-  public Line Line2;
-  public Parameter Parameter;
+  private readonly Line _line1;
+  private readonly Line _line2;
+  private readonly Parameter _parameter;
 
   public InternalAngleConstraint(Line line1, Line line2, Parameter parameter)
   {
-    Line1 = line1;
-    Line2 = line2;
-    Parameter = parameter;
+    _line1 = line1;
+    _line2 = line2;
+    _parameter = parameter;
   }
 
   public override double CalculateError()
   {
-    var angleP = Parameter == null ? 0 : Parameter.Value;
-    var temp = Line1.Vector.Cosine(Line2.Vector);
+    var angleP = _parameter == null ? 0 : _parameter.Value;
+    var temp = _line1.Vector.Cosine(_line2.Vector);
     var temp2 = Math.Cos(angleP);
     return (temp - temp2) * (temp - temp2);
   }
@@ -129,21 +129,21 @@ public sealed class InternalAngleConstraint : Constraint
 
 public sealed class ExternalAngleConstraint : Constraint
 {
-  public Line Line1;
-  public Line Line2;
-  public Parameter Parameter;
+  private readonly Line _line1;
+  private readonly Line _line2;
+  private readonly Parameter _parameter;
 
   public ExternalAngleConstraint(Line line1, Line line2, Parameter parameter)
   {
-    Line1 = line1;
-    Line2 = line2;
-    Parameter = parameter;
+    _line1 = line1;
+    _line2 = line2;
+    _parameter = parameter;
   }
 
   public override double CalculateError()
   {
-    var angleP = Parameter == null ? 0 : Parameter.Value;
-    var temp = Line1.Vector.Cosine(Line2.Vector);
+    var angleP = _parameter == null ? 0 : _parameter.Value;
+    var temp = _line1.Vector.Cosine(_line2.Vector);
     var temp2 = Math.Cos(Math.PI - angleP);
     return (temp - temp2) * (temp - temp2);
   }
@@ -151,37 +151,37 @@ public sealed class ExternalAngleConstraint : Constraint
 
 public sealed class PerpendicularConstraint : Constraint
 {
-  public Line Line1;
-  public Line Line2;
+  private readonly Line _line1;
+  private readonly Line _line2;
 
   public PerpendicularConstraint(Line line1, Line line2)
   {
-    Line1 = line1;
-    Line2 = line2;
+    _line1 = line1;
+    _line2 = line2;
   }
 
   public override double CalculateError()
   {
-    var temp = Line1.Vector.Dot(Line2.Vector);
+    var temp = _line1.Vector.Dot(_line2.Vector);
     return temp * temp;
   }
 }
 
 public sealed class TangentToCircleConstraint : Constraint
 {
-  public Line Line1;
-  public Circle Circle1;
+  private readonly Line _line1;
+  private readonly Circle _circle1;
 
   public TangentToCircleConstraint(Line line1, Circle circle1)
   {
-    Line1 = line1;
-    Circle1 = circle1;
+    _line1 = line1;
+    _circle1 = circle1;
   }
 
   public override double CalculateError()
   {
-    var line = Line1;
-    var circle = Circle1;
+    var line = _line1;
+    var circle = _circle1;
     var temp = circle.CenterTo(line).Vector.Length - circle.Rad.Value;
     return temp * temp;
   }
@@ -189,91 +189,91 @@ public sealed class TangentToCircleConstraint : Constraint
 
 public sealed class P2PDistanceConstraint : Constraint
 {
-  public Point Point1;
-  public Point Point2;
-  public Parameter Parameter;
+  private readonly Point _point1;
+  private readonly Point _point2;
+  private readonly Parameter _parameter;
 
   public P2PDistanceConstraint(Point point1, Point point2, Parameter parameter)
   {
-    Point1 = point1;
-    Point2 = point2;
-    Parameter = parameter;
+    _point1 = point1;
+    _point2 = point2;
+    _parameter = parameter;
   }
 
   public override double CalculateError()
   {
-    var P1_x = Point1 == null ? 0 : Point1.X.Value;
-    var P1_y = Point1 == null ? 0 : Point1.Y.Value;
-    var P2_x = Point2 == null ? 0 : Point2.X.Value;
-    var P2_y = Point2 == null ? 0 : Point2.Y.Value;
-    var distance = Parameter == null ? 0 : Parameter.Value;
-    return (P1_x - P2_x) * (P1_x - P2_x) + (P1_y - P2_y) * (P1_y - P2_y) - distance * distance;
+    var p1X = _point1 == null ? 0 : _point1.X.Value;
+    var p1Y = _point1 == null ? 0 : _point1.Y.Value;
+    var p2X = _point2 == null ? 0 : _point2.X.Value;
+    var p2Y = _point2 == null ? 0 : _point2.Y.Value;
+    var distance = _parameter == null ? 0 : _parameter.Value;
+    return (p1X - p2X) * (p1X - p2X) + (p1Y - p2Y) * (p1Y - p2Y) - distance * distance;
   }
 }
 
 public sealed class P2PDistanceVertConstraint : Constraint
 {
-  public Point Point1;
-  public Point Point2;
-  public Parameter Parameter;
+  private readonly Point _point1;
+  private readonly Point _point2;
+  private readonly Parameter _parameter;
 
   public P2PDistanceVertConstraint(Point point1, Point point2, Parameter parameter)
   {
-    Point1 = point1;
-    Point2 = point2;
-    Parameter = parameter;
+    _point1 = point1;
+    _point2 = point2;
+    _parameter = parameter;
   }
 
   public override double CalculateError()
   {
-    var P1_y = Point1 == null ? 0 : Point1.Y.Value;
-    var P2_y = Point2 == null ? 0 : Point2.Y.Value;
-    var distance = Parameter == null ? 0 : Parameter.Value;
-    return (P1_y - P2_y) * (P1_y - P2_y) - distance * distance;
+    var p1Y = _point1 == null ? 0 : _point1.Y.Value;
+    var p2Y = _point2 == null ? 0 : _point2.Y.Value;
+    var distance = _parameter == null ? 0 : _parameter.Value;
+    return (p1Y - p2Y) * (p1Y - p2Y) - distance * distance;
   }
 }
 
 public sealed class P2PDistanceHorizConstraint : Constraint
 {
-  public Point Point1;
-  public Point Point2;
-  public Parameter Parameter;
+  private readonly Point _point1;
+  private readonly Point _point2;
+  private readonly Parameter _parameter;
 
   public P2PDistanceHorizConstraint(Point point1, Point point2, Parameter parameter)
   {
-    Point1 = point1;
-    Point2 = point2;
-    Parameter = parameter;
+    _point1 = point1;
+    _point2 = point2;
+    _parameter = parameter;
   }
 
   public override double CalculateError()
   {
-    var P1_x = Point1 == null ? 0 : Point1.X.Value;
-    var P2_x = Point2 == null ? 0 : Point2.X.Value;
-    var distance = Parameter == null ? 0 : Parameter.Value;
-    return (P1_x - P2_x) * (P1_x - P2_x) - distance * distance;
+    var p1X = _point1 == null ? 0 : _point1.X.Value;
+    var p2X = _point2 == null ? 0 : _point2.X.Value;
+    var distance = _parameter == null ? 0 : _parameter.Value;
+    return (p1X - p2X) * (p1X - p2X) - distance * distance;
   }
 }
 
 public sealed class PointOnLineConstraint : Constraint
 {
-  public Point Point1;
-  public Line Line1;
+  private readonly Point _point1;
+  private readonly Line _line1;
 
   public PointOnLineConstraint(Point point1, Line line1)
   {
-    Point1 = point1;
-    Line1 = line1;
+    _point1 = point1;
+    _line1 = line1;
   }
 
   public override double CalculateError()
   {
-    var L1_P1_x = Line1 == null ? 0 : Line1.P1.X.Value;
-    var L1_P1_y = Line1 == null ? 0 : Line1.P1.Y.Value;
-    var L1_P2_x = Line1 == null ? 0 : Line1.P2.X.Value;
-    var L1_P2_y = Line1 == null ? 0 : Line1.P2.Y.Value;
-    var dx = L1_P2_x - L1_P1_x;
-    var dy = L1_P2_y - L1_P1_y;
+    var l1P1X = _line1 == null ? 0 : _line1.P1.X.Value;
+    var l1P1Y = _line1 == null ? 0 : _line1.P1.Y.Value;
+    var l1P2X = _line1 == null ? 0 : _line1.P2.X.Value;
+    var l1P2Y = _line1 == null ? 0 : _line1.P2.Y.Value;
+    var dx = l1P2X - l1P1X;
+    var dy = l1P2Y - l1P1Y;
 
     var m = dy / dx; // Slope
     var n = dx / dy; // 1/Slope
@@ -281,128 +281,128 @@ public sealed class PointOnLineConstraint : Constraint
     if (m <= 1 && m >= -1)
     {
       //Calculate the expected y point given the x coordinate of the point
-      var P1_x = Point1 == null ? 0 : Point1.X.Value;
-      var P1_y = Point1 == null ? 0 : Point1.Y.Value;
-      var Ey = L1_P1_y + m * (P1_x - L1_P1_x);
-      return (Ey - P1_y) * (Ey - P1_y);
+      var p1X = _point1 == null ? 0 : _point1.X.Value;
+      var p1Y = _point1 == null ? 0 : _point1.Y.Value;
+      var ey = l1P1Y + m * (p1X - l1P1X);
+      return (ey - p1Y) * (ey - p1Y);
     }
     else
     {
       //Calculate the expected x point given the y coordinate of the point
-      var P1_x = Point1 == null ? 0 : Point1.X.Value;
-      var P1_y = Point1 == null ? 0 : Point1.Y.Value;
-      var Ex = L1_P1_x + n * (P1_y - L1_P1_y);
-      return (Ex - P1_x) * (Ex - P1_x);
+      var p1X = _point1 == null ? 0 : _point1.X.Value;
+      var p1Y = _point1 == null ? 0 : _point1.Y.Value;
+      var ex = l1P1X + n * (p1Y - l1P1Y);
+      return (ex - p1X) * (ex - p1X);
     }
   }
 }
 
 public sealed class P2LDistanceConstraint : Constraint
 {
-  public Point Point1;
-  public Line Line1;
-  public Parameter Parameter;
+  private readonly Point _point1;
+  private readonly Line _line1;
+  private readonly Parameter _parameter;
 
   public P2LDistanceConstraint(Point point1, Line line1, Parameter parameter)
   {
-    Point1 = point1;
-    Line1 = line1;
-    Parameter = parameter;
+    _point1 = point1;
+    _line1 = line1;
+    _parameter = parameter;
   }
 
   public override double CalculateError()
   {
-    var L1_P1_x = Line1 == null ? 0 : Line1.P1.X.Value;
-    var L1_P1_y = Line1 == null ? 0 : Line1.P1.Y.Value;
-    var L1_P2_x = Line1 == null ? 0 : Line1.P2.X.Value;
-    var L1_P2_y = Line1 == null ? 0 : Line1.P2.Y.Value;
-    var dx = L1_P2_x - L1_P1_x;
-    var dy = L1_P2_y - L1_P1_y;
+    var l1P1X = _line1 == null ? 0 : _line1.P1.X.Value;
+    var l1P1Y = _line1 == null ? 0 : _line1.P1.Y.Value;
+    var l1P2X = _line1 == null ? 0 : _line1.P2.X.Value;
+    var l1P2Y = _line1 == null ? 0 : _line1.P2.Y.Value;
+    var dx = l1P2X - l1P1X;
+    var dy = l1P2Y - l1P1Y;
 
-    var P1_x = Point1 == null ? 0 : Point1.X.Value;
-    var P1_y = Point1 == null ? 0 : Point1.Y.Value;
-    var t = -(L1_P1_x * dx - P1_x * dx + L1_P1_y * dy - P1_y * dy) / (dx * dx + dy * dy);
-    var Xint = L1_P1_x + dx * t;
-    var Yint = L1_P1_y + dy * t;
-    var distance = Parameter == null ? 0 : Parameter.Value;
-    var temp = Hypot(P1_x - Xint, P1_y - Yint) - distance;
+    var p1X = _point1 == null ? 0 : _point1.X.Value;
+    var p1Y = _point1 == null ? 0 : _point1.Y.Value;
+    var t = -(l1P1X * dx - p1X * dx + l1P1Y * dy - p1Y * dy) / (dx * dx + dy * dy);
+    var xint = l1P1X + dx * t;
+    var yint = l1P1Y + dy * t;
+    var distance = _parameter == null ? 0 : _parameter.Value;
+    var temp = Hypot(p1X - xint, p1Y - yint) - distance;
     return temp * temp / 10;
   }
 }
 
 public sealed class P2LDistanceVertConstraint : Constraint
 {
-  public Point Point1;
-  public Line Line1;
-  public Parameter Parameter;
+  private readonly Point _point1;
+  private readonly Line _line1;
+  private readonly Parameter _parameter;
 
   public P2LDistanceVertConstraint(Point point1, Line line1, Parameter parameter)
   {
-    Point1 = point1;
-    Line1 = line1;
-    Parameter = parameter;
+    _point1 = point1;
+    _line1 = line1;
+    _parameter = parameter;
   }
 
   public override double CalculateError()
   {
-    var L1_P1_x = Line1 == null ? 0 : Line1.P1.X.Value;
-    var L1_P1_y = Line1 == null ? 0 : Line1.P1.Y.Value;
-    var L1_P2_x = Line1 == null ? 0 : Line1.P2.X.Value;
-    var L1_P2_y = Line1 == null ? 0 : Line1.P2.Y.Value;
-    var dx = L1_P2_x - L1_P1_x;
-    var dy = L1_P2_y - L1_P1_y;
+    var l1P1X = _line1 == null ? 0 : _line1.P1.X.Value;
+    var l1P1Y = _line1 == null ? 0 : _line1.P1.Y.Value;
+    var l1P2X = _line1 == null ? 0 : _line1.P2.X.Value;
+    var l1P2Y = _line1 == null ? 0 : _line1.P2.Y.Value;
+    var dx = l1P2X - l1P1X;
+    var dy = l1P2Y - l1P1Y;
 
-    var P1_x = Point1 == null ? 0 : Point1.X.Value;
-    var t = (P1_x - L1_P1_x) / dx;
-    var Yint = L1_P1_y + dy * t;
-    var distance = Parameter == null ? 0 : Parameter.Value;
-    var P1_y = Point1 == null ? 0 : Point1.Y.Value;
-    var temp = Math.Abs(P1_y - Yint) - distance;
+    var p1X = _point1 == null ? 0 : _point1.X.Value;
+    var t = (p1X - l1P1X) / dx;
+    var yint = l1P1Y + dy * t;
+    var distance = _parameter == null ? 0 : _parameter.Value;
+    var p1Y = _point1 == null ? 0 : _point1.Y.Value;
+    var temp = Math.Abs(p1Y - yint) - distance;
     return temp * temp;
   }
 }
 
 public sealed class P2LDistanceHorizConstraint : Constraint
 {
-  public Point Point1;
-  public Line Line1;
-  public Parameter Parameter;
+  private readonly Point _point1;
+  private readonly Line _line1;
+  private readonly Parameter _parameter;
 
   public P2LDistanceHorizConstraint(Point point1, Line line1, Parameter parameter)
   {
-    Point1 = point1;
-    Line1 = line1;
-    Parameter = parameter;
+    _point1 = point1;
+    _line1 = line1;
+    _parameter = parameter;
   }
 
   public override double CalculateError()
   {
-    var L1_P1_x = Line1 == null ? 0 : Line1.P1.X.Value;
-    var L1_P1_y = Line1 == null ? 0 : Line1.P1.Y.Value;
-    var L1_P2_x = Line1 == null ? 0 : Line1.P2.X.Value;
-    var L1_P2_y = Line1 == null ? 0 : Line1.P2.Y.Value;
-    var dx = L1_P2_x - L1_P1_x;
-    var dy = L1_P2_y - L1_P1_y;
+    var l1P1X = _line1 == null ? 0 : _line1.P1.X.Value;
+    var l1P1Y = _line1 == null ? 0 : _line1.P1.Y.Value;
+    var l1P2X = _line1 == null ? 0 : _line1.P2.X.Value;
+    var l1P2Y = _line1 == null ? 0 : _line1.P2.Y.Value;
+    var dx = l1P2X - l1P1X;
+    var dy = l1P2Y - l1P1Y;
 
-    var P1_x = Point1 == null ? 0 : Point1.X.Value;
-    var P1_y = Point1 == null ? 0 : Point1.Y.Value;
-    var t = (P1_y - L1_P1_y) / dy;
-    var Xint = L1_P1_x + dx * t;
-    var distance = Parameter == null ? 0 : Parameter.Value;
-    var temp = Math.Abs(P1_x - Xint) - distance;
+    var p1X = _point1 == null ? 0 : _point1.X.Value;
+    var p1Y = _point1 == null ? 0 : _point1.Y.Value;
+    var t = (p1Y - l1P1Y) / dy;
+    var xint = l1P1X + dx * t;
+    var distance = _parameter == null ? 0 : _parameter.Value;
+    var temp = Math.Abs(p1X - xint) - distance;
     return temp * temp / 10;
   }
 }
 
 public sealed class TangentToArcConstraint : Constraint
 {
-  public Line Line1;
-  public Arc Arc1;
+  private readonly Line _line1;
+  private readonly Arc _arc1;
 
   public TangentToArcConstraint(Line line1, Arc arc1)
   {
-    Line1 = line1;
-    Arc1 = arc1;
+    _line1 = line1;
+    _arc1 = arc1;
   }
 
   public override double CalculateError()
@@ -433,35 +433,35 @@ public sealed class TangentToArcConstraint : Constraint
     error += temp*temp*100;
     */
 
-    var L1_P1_x = Line1 == null ? 0 : Line1.P1.X.Value;
-    var L1_P1_y = Line1 == null ? 0 : Line1.P1.Y.Value;
-    var L1_P2_x = Line1 == null ? 0 : Line1.P2.X.Value;
-    var L1_P2_y = Line1 == null ? 0 : Line1.P2.Y.Value;
-    var dx = L1_P2_x - L1_P1_x;
-    var dy = L1_P2_y - L1_P1_y;
+    var l1P1X = _line1 == null ? 0 : _line1.P1.X.Value;
+    var l1P1Y = _line1 == null ? 0 : _line1.P1.Y.Value;
+    var l1P2X = _line1 == null ? 0 : _line1.P2.X.Value;
+    var l1P2Y = _line1 == null ? 0 : _line1.P2.Y.Value;
+    var dx = l1P2X - l1P1X;
+    var dy = l1P2Y - l1P1Y;
 
-    var A1_Center_x = Arc1 == null ? 0 : Arc1.Center.X.Value;
-    var A1_Center_y = Arc1 == null ? 0 : Arc1.Center.Y.Value;
-    var A1_radius = Arc1 == null ? 0 : Arc1.Rad.Value;
-    var A1_startA = Arc1 == null ? 0 : Arc1.StartAngle.Value;
-    var A1_Start_y = A1_Center_y + A1_radius * Math.Sin(A1_startA);
-    var A1_Start_x = A1_Center_x + A1_radius * Math.Cos(A1_startA);
-    var radsq = (A1_Center_x - A1_Start_x) * (A1_Center_x - A1_Start_x) + (A1_Center_y - A1_Start_y) * (A1_Center_y - A1_Start_y);
-    var t = -(L1_P1_x * dx - A1_Center_x * dx + L1_P1_y * dy - A1_Center_y * dy) / (dx * dx + dy * dy);
-    var Xint = L1_P1_x + dx * t;
-    var Yint = L1_P1_y + dy * t;
-    var temp = (A1_Center_x - Xint) * (A1_Center_x - Xint) + (A1_Center_y - Yint) * (A1_Center_y - Yint) - radsq;
+    var a1CenterX = _arc1 == null ? 0 : _arc1.Center.X.Value;
+    var a1CenterY = _arc1 == null ? 0 : _arc1.Center.Y.Value;
+    var a1Radius = _arc1 == null ? 0 : _arc1.Rad.Value;
+    var a1StartA = _arc1 == null ? 0 : _arc1.StartAngle.Value;
+    var a1StartY = a1CenterY + a1Radius * Math.Sin(a1StartA);
+    var a1StartX = a1CenterX + a1Radius * Math.Cos(a1StartA);
+    var radsq = (a1CenterX - a1StartX) * (a1CenterX - a1StartX) + (a1CenterY - a1StartY) * (a1CenterY - a1StartY);
+    var t = -(l1P1X * dx - a1CenterX * dx + l1P1Y * dy - a1CenterY * dy) / (dx * dx + dy * dy);
+    var xint = l1P1X + dx * t;
+    var yint = l1P1Y + dy * t;
+    var temp = (a1CenterX - xint) * (a1CenterX - xint) + (a1CenterY - yint) * (a1CenterY - yint) - radsq;
     return temp * temp;
   }
 }
 
 public sealed class ArcRulesConstraint : Constraint
 {
-  public Arc Arc1;
+  private readonly Arc _arc1;
 
   public ArcRulesConstraint(Arc arc1)
   {
-    Arc1 = arc1;
+    _arc1 = arc1;
   }
 
   public override double CalculateError()
@@ -481,42 +481,42 @@ public sealed class ArcRulesConstraint : Constraint
     //temp = Math.Sin(u - .5);
     //error+=temp*temp*temp*temp*100000;
     //error+=Math.Pow(-2*A1_Center_x*A1_End_y - 2*A1_Center_y*A1_End_y + A1_End_x*A1_End_y + Math.Pow(A1_End_y,2) + 2*A1_Center_x*A1_Start_x - 2*A1_Center_y*A1_Start_x - A1_End_x*A1_Start_x + 4*A1_End_y*A1_Start_x - 3*Math.Pow(A1_Start_x,2) +  2*A1_Center_y*A1_Start_y + A1_Start_x*A1_Start_y - Math.Pow(A1_Start_y,2),2)/(8*Math.Pow(A1_End_y,2) + 8*Math.Pow(A1_Start_x,2) - 8*A1_End_y*A1_Start_y -  8*A1_Start_x*A1_Start_y + 4*Math.Pow(A1_Start_y,2));
-    var A1_Center_x = Arc1 == null ? 0 : Arc1.Center.X.Value;
-    var A1_Center_y = Arc1 == null ? 0 : Arc1.Center.Y.Value;
-    var A1_radius = Arc1 == null ? 0 : Arc1.Rad.Value;
-    var A1_endA = Arc1 == null ? 0 : Arc1.EndAngle.Value;
-    var A1_End_x = A1_Center_x + A1_radius * Math.Cos(A1_endA);
-    var A1_End_y = A1_Center_y + A1_radius * Math.Sin(A1_endA);
-    var A1_startA = Arc1 == null ? 0 : Arc1.StartAngle.Value;
-    var A1_Start_y = A1_Center_y + A1_radius * Math.Sin(A1_startA);
-    var A1_Start_x = A1_Center_x + A1_radius * Math.Cos(A1_startA);
-    var a1endx2 = A1_End_x * A1_End_x;
-    var a1endy2 = A1_End_y * A1_End_y;
-    var a1startx2 = A1_Start_x * A1_Start_x;
-    var a1starty2 = A1_Start_y * A1_Start_y;
-    var num = -2 * A1_Center_x * A1_End_x + a1endx2 - 2 * A1_Center_y * A1_End_y + a1endy2 + 2 * A1_Center_x * A1_Start_x - a1startx2 + 2 * A1_Center_y * A1_Start_y - a1starty2;
-    return num * num / (4.0 * a1endx2 + a1endy2 - 2 * A1_End_x * A1_Start_x + a1startx2 - 2 * A1_End_y * A1_Start_y + a1starty2);
+    var a1CenterX = _arc1 == null ? 0 : _arc1.Center.X.Value;
+    var a1CenterY = _arc1 == null ? 0 : _arc1.Center.Y.Value;
+    var a1Radius = _arc1 == null ? 0 : _arc1.Rad.Value;
+    var a1EndA = _arc1 == null ? 0 : _arc1.EndAngle.Value;
+    var a1EndX = a1CenterX + a1Radius * Math.Cos(a1EndA);
+    var a1EndY = a1CenterY + a1Radius * Math.Sin(a1EndA);
+    var a1StartA = _arc1 == null ? 0 : _arc1.StartAngle.Value;
+    var a1StartY = a1CenterY + a1Radius * Math.Sin(a1StartA);
+    var a1StartX = a1CenterX + a1Radius * Math.Cos(a1StartA);
+    var a1Endx2 = a1EndX * a1EndX;
+    var a1Endy2 = a1EndY * a1EndY;
+    var a1Startx2 = a1StartX * a1StartX;
+    var a1Starty2 = a1StartY * a1StartY;
+    var num = -2 * a1CenterX * a1EndX + a1Endx2 - 2 * a1CenterY * a1EndY + a1Endy2 + 2 * a1CenterX * a1StartX - a1Startx2 + 2 * a1CenterY * a1StartY - a1Starty2;
+    return num * num / (4.0 * a1Endx2 + a1Endy2 - 2 * a1EndX * a1StartX + a1Startx2 - 2 * a1EndY * a1StartY + a1Starty2);
   }
 }
 
 public sealed class LineLengthConstraint : Constraint
 {
-  public Line Line1;
-  public Parameter Parameter;
+  private readonly Line _line1;
+  private readonly Parameter _parameter;
 
   public LineLengthConstraint(Line line1, Parameter parameter)
   {
-    Line1 = line1;
-    Parameter = parameter;
+    _line1 = line1;
+    _parameter = parameter;
   }
 
   public override double CalculateError()
   {
-    var L1_P1_x = Line1 == null ? 0 : Line1.P1.X.Value;
-    var L1_P1_y = Line1 == null ? 0 : Line1.P1.Y.Value;
-    var L1_P2_x = Line1 == null ? 0 : Line1.P2.X.Value;
-    var L1_P2_y = Line1 == null ? 0 : Line1.P2.Y.Value;
-    var temp = Math.Sqrt(Math.Pow(L1_P2_x - L1_P1_x, 2) + Math.Pow(L1_P2_y - L1_P1_y, 2)) - (Parameter == null ? 0 : Parameter.Value);
+    var l1P1X = _line1 == null ? 0 : _line1.P1.X.Value;
+    var l1P1Y = _line1 == null ? 0 : _line1.P1.Y.Value;
+    var l1P2X = _line1 == null ? 0 : _line1.P2.X.Value;
+    var l1P2Y = _line1 == null ? 0 : _line1.P2.Y.Value;
+    var temp = Math.Sqrt(Math.Pow(l1P2X - l1P1X, 2) + Math.Pow(l1P2Y - l1P1Y, 2)) - (_parameter == null ? 0 : _parameter.Value);
     //temp=Hypot(L1_P2_x - L1_P1_x , L1_P2_y - L1_P1_y) - length;
     return temp * temp * 100;
   }
@@ -524,55 +524,55 @@ public sealed class LineLengthConstraint : Constraint
 
 public sealed class EqualLengthConstraint : Constraint
 {
-  public Line Line1;
-  public Line Line2;
+  private readonly Line _line1;
+  private readonly Line _line2;
 
   public EqualLengthConstraint(Line line1, Line line2)
   {
-    Line1 = line1;
-    Line2 = line2;
+    _line1 = line1;
+    _line2 = line2;
   }
 
   public override double CalculateError()
   {
-    var L1_P1_x = Line1 == null ? 0 : Line1.P1.X.Value;
-    var L1_P1_y = Line1 == null ? 0 : Line1.P1.Y.Value;
-    var L1_P2_x = Line1 == null ? 0 : Line1.P2.X.Value;
-    var L1_P2_y = Line1 == null ? 0 : Line1.P2.Y.Value;
-    var L2_P1_x = Line2 == null ? 0 : Line2.P1.X.Value;
-    var L2_P1_y = Line2 == null ? 0 : Line2.P1.Y.Value;
-    var L2_P2_x = Line2 == null ? 0 : Line2.P2.X.Value;
-    var L2_P2_y = Line2 == null ? 0 : Line2.P2.Y.Value;
-    var temp = Hypot(L1_P2_x - L1_P1_x, L1_P2_y - L1_P1_y) - Hypot(L2_P2_x - L2_P1_x, L2_P2_y - L2_P1_y);
+    var l1P1X = _line1 == null ? 0 : _line1.P1.X.Value;
+    var l1P1Y = _line1 == null ? 0 : _line1.P1.Y.Value;
+    var l1P2X = _line1 == null ? 0 : _line1.P2.X.Value;
+    var l1P2Y = _line1 == null ? 0 : _line1.P2.Y.Value;
+    var l2P1X = _line2 == null ? 0 : _line2.P1.X.Value;
+    var l2P1Y = _line2 == null ? 0 : _line2.P1.Y.Value;
+    var l2P2X = _line2 == null ? 0 : _line2.P2.X.Value;
+    var l2P2Y = _line2 == null ? 0 : _line2.P2.Y.Value;
+    var temp = Hypot(l1P2X - l1P1X, l1P2Y - l1P1Y) - Hypot(l2P2X - l2P1X, l2P2Y - l2P1Y);
     return temp * temp;
   }
 }
 
 public sealed class ArcRadiusConstraint : Constraint
 {
-  public Arc Arc1;
-  public Parameter Parameter;
+  private readonly Arc _arc1;
+  private readonly Parameter _parameter;
 
   public ArcRadiusConstraint(Arc arc1, Parameter parameter)
   {
-    Arc1 = arc1;
-    Parameter = parameter;
+    _arc1 = arc1;
+    _parameter = parameter;
   }
 
   public override double CalculateError()
   {
-    var A1_Center_x = Arc1 == null ? 0 : Arc1.Center.X.Value;
-    var A1_Center_y = Arc1 == null ? 0 : Arc1.Center.Y.Value;
-    var A1_radius = Arc1 == null ? 0 : Arc1.Rad.Value;
-    var A1_endA = Arc1 == null ? 0 : Arc1.EndAngle.Value;
-    var A1_End_x = A1_Center_x + A1_radius * Math.Cos(A1_endA);
-    var A1_End_y = A1_Center_y + A1_radius * Math.Sin(A1_endA);
-    var A1_startA = Arc1 == null ? 0 : Arc1.StartAngle.Value;
-    var A1_Start_y = A1_Center_y + A1_radius * Math.Sin(A1_startA);
-    var A1_Start_x = A1_Center_x + A1_radius * Math.Cos(A1_startA);
-    var radius = Parameter == null ? 0 : Parameter.Value;
-    var rad1 = Hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
-    var rad2 = Hypot(A1_Center_x - A1_End_x, A1_Center_y - A1_End_y);
+    var a1CenterX = _arc1 == null ? 0 : _arc1.Center.X.Value;
+    var a1CenterY = _arc1 == null ? 0 : _arc1.Center.Y.Value;
+    var a1Radius = _arc1 == null ? 0 : _arc1.Rad.Value;
+    var a1EndA = _arc1 == null ? 0 : _arc1.EndAngle.Value;
+    var a1EndX = a1CenterX + a1Radius * Math.Cos(a1EndA);
+    var a1EndY = a1CenterY + a1Radius * Math.Sin(a1EndA);
+    var a1StartA = _arc1 == null ? 0 : _arc1.StartAngle.Value;
+    var a1StartY = a1CenterY + a1Radius * Math.Sin(a1StartA);
+    var a1StartX = a1CenterX + a1Radius * Math.Cos(a1StartA);
+    var radius = _parameter == null ? 0 : _parameter.Value;
+    var rad1 = Hypot(a1CenterX - a1StartX, a1CenterY - a1StartY);
+    var rad2 = Hypot(a1CenterX - a1EndX, a1CenterY - a1EndY);
     var temp = rad1 - radius;
     return temp * temp;
   }
@@ -580,31 +580,31 @@ public sealed class ArcRadiusConstraint : Constraint
 
 public sealed class EqualRadiusArcsConstraint : Constraint
 {
-  public Arc Arc1;
-  public Arc Arc2;
+  private readonly Arc _arc1;
+  private readonly Arc _arc2;
 
   public EqualRadiusArcsConstraint(Arc arc1, Arc arc2)
   {
-    Arc1 = arc1;
-    Arc2 = arc2;
+    _arc1 = arc1;
+    _arc2 = arc2;
   }
 
   public override double CalculateError()
   {
-    var A2_radius = Arc2 == null ? 0 : Arc2.Rad.Value;
-    var A2_startA = Arc2 == null ? 0 : Arc2.StartAngle.Value;
-    var A1_Center_x = Arc1 == null ? 0 : Arc1.Center.X.Value;
-    var A1_Center_y = Arc1 == null ? 0 : Arc1.Center.Y.Value;
-    var A2_Start_x = A1_Center_x + A2_radius * Math.Cos(A2_startA);
-    var A2_Start_y = A1_Center_y + A2_radius * Math.Sin(A2_startA);
-    var A1_radius = Arc1 == null ? 0 : Arc1.Rad.Value;
-    var A1_startA = Arc1 == null ? 0 : Arc1.StartAngle.Value;
-    var A1_Start_x = A1_Center_x + A1_radius * Math.Cos(A1_startA);
-    var A1_Start_y = A1_Center_y + A1_radius * Math.Sin(A1_startA);
-    var A2_Center_x = Arc2 == null ? 0 : Arc2.Center.X.Value;
-    var A2_Center_y = Arc2 == null ? 0 : Arc2.Center.Y.Value;
-    var rad1 = Hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
-    var rad2 = Hypot(A2_Center_x - A2_Start_x, A2_Center_y - A2_Start_y);
+    var a2Radius = _arc2 == null ? 0 : _arc2.Rad.Value;
+    var a2StartA = _arc2 == null ? 0 : _arc2.StartAngle.Value;
+    var a1CenterX = _arc1 == null ? 0 : _arc1.Center.X.Value;
+    var a1CenterY = _arc1 == null ? 0 : _arc1.Center.Y.Value;
+    var a2StartX = a1CenterX + a2Radius * Math.Cos(a2StartA);
+    var a2StartY = a1CenterY + a2Radius * Math.Sin(a2StartA);
+    var a1Radius = _arc1 == null ? 0 : _arc1.Rad.Value;
+    var a1StartA = _arc1 == null ? 0 : _arc1.StartAngle.Value;
+    var a1StartX = a1CenterX + a1Radius * Math.Cos(a1StartA);
+    var a1StartY = a1CenterY + a1Radius * Math.Sin(a1StartA);
+    var a2CenterX = _arc2 == null ? 0 : _arc2.Center.X.Value;
+    var a2CenterY = _arc2 == null ? 0 : _arc2.Center.Y.Value;
+    var rad1 = Hypot(a1CenterX - a1StartX, a1CenterY - a1StartY);
+    var rad2 = Hypot(a2CenterX - a2StartX, a2CenterY - a2StartY);
     var temp = rad1 - rad2;
     return temp * temp;
   }
@@ -612,160 +612,160 @@ public sealed class EqualRadiusArcsConstraint : Constraint
 
 public sealed class EqualRadiusCirclesConstraint : Constraint
 {
-  public Circle Circle1;
-  public Circle Circle2;
+  private readonly Circle _circle1;
+  private readonly Circle _circle2;
 
   public EqualRadiusCirclesConstraint(Circle circle1, Circle circle2)
   {
-    Circle1 = circle1;
-    Circle2 = circle2;
+    _circle1 = circle1;
+    _circle2 = circle2;
   }
 
   public override double CalculateError()
   {
-    var C1_rad = Circle1 == null ? 0 : Circle1.Rad.Value;
-    var C2_rad = Circle2 == null ? 0 : Circle2.Rad.Value;
-    var temp = C1_rad - C2_rad;
+    var c1Rad = _circle1 == null ? 0 : _circle1.Rad.Value;
+    var c2Rad = _circle2 == null ? 0 : _circle2.Rad.Value;
+    var temp = c1Rad - c2Rad;
     return temp * temp;
   }
 }
 
 public sealed class EqualRadiusCircArcConstraint : Constraint
 {
-  public Circle Circle1;
-  public Arc Arc1;
+  private readonly Circle _circle1;
+  private readonly Arc _arc1;
 
   public EqualRadiusCircArcConstraint(Circle circle1, Arc arc1)
   {
-    Circle1 = circle1;
-    Arc1 = arc1;
+    _circle1 = circle1;
+    _arc1 = arc1;
   }
 
   public override double CalculateError()
   {
-    var A1_Center_x = Arc1 == null ? 0 : Arc1.Center.X.Value;
-    var A1_Center_y = Arc1 == null ? 0 : Arc1.Center.Y.Value;
-    var A1_radius = Arc1 == null ? 0 : Arc1.Rad.Value;
-    var A1_startA = Arc1 == null ? 0 : Arc1.StartAngle.Value;
-    var A1_Start_x = A1_Center_x + A1_radius * Math.Cos(A1_startA);
-    var A1_Start_y = A1_Center_y + A1_radius * Math.Sin(A1_startA);
-    var C1_rad = Circle1 == null ? 0 : Circle1.Rad.Value;
-    var rad1 = Hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
-    var temp = rad1 - C1_rad;
+    var a1CenterX = _arc1 == null ? 0 : _arc1.Center.X.Value;
+    var a1CenterY = _arc1 == null ? 0 : _arc1.Center.Y.Value;
+    var a1Radius = _arc1 == null ? 0 : _arc1.Rad.Value;
+    var a1StartA = _arc1 == null ? 0 : _arc1.StartAngle.Value;
+    var a1StartX = a1CenterX + a1Radius * Math.Cos(a1StartA);
+    var a1StartY = a1CenterY + a1Radius * Math.Sin(a1StartA);
+    var c1Rad = _circle1 == null ? 0 : _circle1.Rad.Value;
+    var rad1 = Hypot(a1CenterX - a1StartX, a1CenterY - a1StartY);
+    var temp = rad1 - c1Rad;
     return temp * temp;
   }
 }
 
 public sealed class ConcentricArcsConstraint : Constraint
 {
-  public Arc Arc1;
-  public Arc Arc2;
+  private readonly Arc _arc1;
+  private readonly Arc _arc2;
 
   public ConcentricArcsConstraint(Arc arc1, Arc arc2)
   {
-    Arc1 = arc1;
-    Arc2 = arc2;
+    _arc1 = arc1;
+    _arc2 = arc2;
   }
 
   public override double CalculateError()
   {
-    var A1_Center_x = Arc1 == null ? 0 : Arc1.Center.X.Value;
-    var A2_Center_y = Arc2 == null ? 0 : Arc2.Center.Y.Value;
-    var A2_Center_x = Arc2 == null ? 0 : Arc2.Center.X.Value;
-    var A1_Center_y = Arc1 == null ? 0 : Arc1.Center.Y.Value;
-    var temp = Hypot(A1_Center_x - A2_Center_x, A1_Center_y - A2_Center_y);
+    var a1CenterX = _arc1 == null ? 0 : _arc1.Center.X.Value;
+    var a2CenterY = _arc2 == null ? 0 : _arc2.Center.Y.Value;
+    var a2CenterX = _arc2 == null ? 0 : _arc2.Center.X.Value;
+    var a1CenterY = _arc1 == null ? 0 : _arc1.Center.Y.Value;
+    var temp = Hypot(a1CenterX - a2CenterX, a1CenterY - a2CenterY);
     return temp * temp;
   }
 }
 
 public sealed class ConcentricCirclesConstraint : Constraint
 {
-  public Circle Circle1;
-  public Circle Circle2;
+  private readonly Circle _circle1;
+  private readonly Circle _circle2;
 
   public ConcentricCirclesConstraint(Circle circle1, Circle circle2)
   {
-    Circle1 = circle1;
-    Circle2 = circle2;
+    _circle1 = circle1;
+    _circle2 = circle2;
   }
 
   public override double CalculateError()
   {
-    var C1_Center_x = Circle1 == null ? 0 : Circle1.Center.X.Value;
-    var C1_Center_y = Circle1 == null ? 0 : Circle1.Center.Y.Value;
-    var C2_Center_x = Circle2 == null ? 0 : Circle2.Center.X.Value;
-    var C2_Center_y = Circle2 == null ? 0 : Circle2.Center.Y.Value;
-    var temp = Hypot(C1_Center_x - C2_Center_x, C1_Center_y - C2_Center_y);
+    var c1CenterX = _circle1 == null ? 0 : _circle1.Center.X.Value;
+    var c1CenterY = _circle1 == null ? 0 : _circle1.Center.Y.Value;
+    var c2CenterX = _circle2 == null ? 0 : _circle2.Center.X.Value;
+    var c2CenterY = _circle2 == null ? 0 : _circle2.Center.Y.Value;
+    var temp = Hypot(c1CenterX - c2CenterX, c1CenterY - c2CenterY);
     return temp * temp;
   }
 }
 
 public sealed class ConcentricCircArcConstraint : Constraint
 {
-  public Circle Circle1;
-  public Arc Arc1;
+  private readonly Circle _circle1;
+  private readonly Arc _arc1;
 
   public ConcentricCircArcConstraint(Circle circle1, Arc arc1)
   {
-    Circle1 = circle1;
-    Arc1 = arc1;
+    _circle1 = circle1;
+    _arc1 = arc1;
   }
 
   public override double CalculateError()
   {
-    var A1_Center_x = Arc1 == null ? 0 : Arc1.Center.X.Value;
-    var A1_Center_y = Arc1 == null ? 0 : Arc1.Center.Y.Value;
-    var C1_Center_x = Circle1 == null ? 0 : Circle1.Center.X.Value;
-    var C1_Center_y = Circle1 == null ? 0 : Circle1.Center.Y.Value;
-    var temp = Hypot(A1_Center_x - C1_Center_x, A1_Center_y - C1_Center_y);
+    var a1CenterX = _arc1 == null ? 0 : _arc1.Center.X.Value;
+    var a1CenterY = _arc1 == null ? 0 : _arc1.Center.Y.Value;
+    var c1CenterX = _circle1 == null ? 0 : _circle1.Center.X.Value;
+    var c1CenterY = _circle1 == null ? 0 : _circle1.Center.Y.Value;
+    var temp = Hypot(a1CenterX - c1CenterX, a1CenterY - c1CenterY);
     return temp * temp;
   }
 }
 
 public sealed class CircleRadiusConstraint : Constraint
 {
-  public Circle Circle1;
-  public Parameter Parameter;
+  private readonly Circle _circle1;
+  private readonly Parameter _parameter;
 
   public CircleRadiusConstraint(Circle circle1, Parameter parameter)
   {
-    Circle1 = circle1;
-    Parameter = parameter;
+    _circle1 = circle1;
+    _parameter = parameter;
   }
 
   public override double CalculateError()
   {
-    var C1_rad = Circle1 == null ? 0 : Circle1.Rad.Value;
-    var radius = Parameter == null ? 0 : Parameter.Value;
-    return (C1_rad - radius) * (C1_rad - radius);
+    var c1Rad = _circle1 == null ? 0 : _circle1.Rad.Value;
+    var radius = _parameter == null ? 0 : _parameter.Value;
+    return (c1Rad - radius) * (c1Rad - radius);
   }
 }
 
 public sealed class ParallelConstraint : Constraint
 {
-  public Line Line1;
-  public Line Line2;
+  private readonly Line _line1;
+  private readonly Line _line2;
 
   public ParallelConstraint(Line line1, Line line2)
   {
-    Line1 = line1;
-    Line2 = line2;
+    _line1 = line1;
+    _line2 = line2;
   }
 
   public override double CalculateError()
   {
-    var L1_P1_x = Line1 == null ? 0 : Line1.P1.X.Value;
-    var L1_P1_y = Line1 == null ? 0 : Line1.P1.Y.Value;
-    var L1_P2_x = Line1 == null ? 0 : Line1.P2.X.Value;
-    var L1_P2_y = Line1 == null ? 0 : Line1.P2.Y.Value;
-    var L2_P1_x = Line2 == null ? 0 : Line2.P1.X.Value;
-    var L2_P1_y = Line2 == null ? 0 : Line2.P1.Y.Value;
-    var L2_P2_x = Line2 == null ? 0 : Line2.P2.X.Value;
-    var L2_P2_y = Line2 == null ? 0 : Line2.P2.Y.Value;
-    var dx = L1_P2_x - L1_P1_x;
-    var dy = L1_P2_y - L1_P1_y;
-    var dx2 = L2_P2_x - L2_P1_x;
-    var dy2 = L2_P2_y - L2_P1_y;
+    var l1P1X = _line1 == null ? 0 : _line1.P1.X.Value;
+    var l1P1Y = _line1 == null ? 0 : _line1.P1.Y.Value;
+    var l1P2X = _line1 == null ? 0 : _line1.P2.X.Value;
+    var l1P2Y = _line1 == null ? 0 : _line1.P2.Y.Value;
+    var l2P1X = _line2 == null ? 0 : _line2.P1.X.Value;
+    var l2P1Y = _line2 == null ? 0 : _line2.P1.Y.Value;
+    var l2P2X = _line2 == null ? 0 : _line2.P2.X.Value;
+    var l2P2Y = _line2 == null ? 0 : _line2.P2.Y.Value;
+    var dx = l1P2X - l1P1X;
+    var dy = l1P2Y - l1P1Y;
+    var dx2 = l2P2X - l2P1X;
+    var dy2 = l2P2Y - l2P1Y;
 
     var hyp1 = Hypot(dx, dy);
     var hyp2 = Hypot(dx2, dy2);
@@ -782,25 +782,25 @@ public sealed class ParallelConstraint : Constraint
 
 public sealed class CollinearConstraint : Constraint
 {
-  public Line Line1;
-  public Line Line2;
+  private readonly Line _line1;
+  private readonly Line _line2;
 
   public CollinearConstraint(Line line1, Line line2)
   {
-    Line1 = line1;
-    Line2 = line2;
+    _line1 = line1;
+    _line2 = line2;
   }
 
   public override double CalculateError()
   {
     var error = 0d;
 
-    var L1_P1_x = Line1 == null ? 0 : Line1.P1.X.Value;
-    var L1_P1_y = Line1 == null ? 0 : Line1.P1.Y.Value;
-    var L1_P2_x = Line1 == null ? 0 : Line1.P2.X.Value;
-    var L1_P2_y = Line1 == null ? 0 : Line1.P2.Y.Value;
-    var dx = L1_P2_x - L1_P1_x;
-    var dy = L1_P2_y - L1_P1_y;
+    var l1P1X = _line1 == null ? 0 : _line1.P1.X.Value;
+    var l1P1Y = _line1 == null ? 0 : _line1.P1.Y.Value;
+    var l1P2X = _line1 == null ? 0 : _line1.P2.X.Value;
+    var l1P2Y = _line1 == null ? 0 : _line1.P2.Y.Value;
+    var dx = l1P2X - l1P1X;
+    var dy = l1P2Y - l1P1Y;
 
     var m = dy / dx;
     var n = dx / dy;
@@ -810,28 +810,28 @@ public sealed class CollinearConstraint : Constraint
     if (m <= 1 && m > -1)
     {
       //Calculate the expected y point given the x coordinate of the point
-      var L2_P1_x = Line2 == null ? 0 : Line2.P1.X.Value;
-      var L2_P1_y = Line2 == null ? 0 : Line2.P1.Y.Value;
-      var L2_P2_x = Line2 == null ? 0 : Line2.P2.X.Value;
-      var L2_P2_y = Line2 == null ? 0 : Line2.P2.Y.Value;
-      var Ey = L1_P1_y + m * (L2_P1_x - L1_P1_x);
-      error += (Ey - L2_P1_y) * (Ey - L2_P1_y);
+      var l2P1X = _line2 == null ? 0 : _line2.P1.X.Value;
+      var l2P1Y = _line2 == null ? 0 : _line2.P1.Y.Value;
+      var l2P2X = _line2 == null ? 0 : _line2.P2.X.Value;
+      var l2P2Y = _line2 == null ? 0 : _line2.P2.Y.Value;
+      var ey = l1P1Y + m * (l2P1X - l1P1X);
+      error += (ey - l2P1Y) * (ey - l2P1Y);
 
-      Ey = L1_P1_y + m * (L2_P2_x - L1_P1_x);
-      error += (Ey - L2_P2_y) * (Ey - L2_P2_y);
+      ey = l1P1Y + m * (l2P2X - l1P1X);
+      error += (ey - l2P2Y) * (ey - l2P2Y);
     }
     else
     {
       //Calculate the expected x point given the y coordinate of the point
-      var L2_P1_x = Line2 == null ? 0 : Line2.P1.X.Value;
-      var L2_P1_y = Line2 == null ? 0 : Line2.P1.Y.Value;
-      var L2_P2_x = Line2 == null ? 0 : Line2.P2.X.Value;
-      var L2_P2_y = Line2 == null ? 0 : Line2.P2.Y.Value;
-      var Ex = L1_P1_x + n * (L2_P1_y - L1_P1_y);
-      error += (Ex - L2_P1_x) * (Ex - L2_P1_x);
+      var l2P1X = _line2 == null ? 0 : _line2.P1.X.Value;
+      var l2P1Y = _line2 == null ? 0 : _line2.P1.Y.Value;
+      var l2P2X = _line2 == null ? 0 : _line2.P2.X.Value;
+      var l2P2Y = _line2 == null ? 0 : _line2.P2.Y.Value;
+      var ex = l1P1X + n * (l2P1Y - l1P1Y);
+      error += (ex - l2P1X) * (ex - l2P1X);
 
-      Ex = L1_P1_x + n * (L2_P2_y - L1_P1_y);
-      error += (Ex - L2_P2_x) * (Ex - L2_P2_x);
+      ex = l1P1X + n * (l2P2Y - l1P1Y);
+      error += (ex - l2P2X) * (ex - l2P2X);
     }
 
     return error;
@@ -840,54 +840,54 @@ public sealed class CollinearConstraint : Constraint
 
 public sealed class PointOnCircleConstraint : Constraint
 {
-  public Point Point1;
-  public Circle Circle1;
+  private readonly Point _point1;
+  private readonly Circle _circle1;
 
   public PointOnCircleConstraint(Point point1, Circle circle1)
   {
-    Point1 = point1;
-    Circle1 = circle1;
+    _point1 = point1;
+    _circle1 = circle1;
   }
 
   public override double CalculateError()
   {
     //see what the current radius to the point is
-    var C1_rad = Circle1 == null ? 0 : Circle1.Rad.Value;
-    var C1_Center_x = Circle1 == null ? 0 : Circle1.Center.X.Value;
-    var C1_Center_y = Circle1 == null ? 0 : Circle1.Center.Y.Value;
-    var P1_x = Point1 == null ? 0 : Point1.X.Value;
-    var P1_y = Point1 == null ? 0 : Point1.Y.Value;
-    var rad1 = Hypot(C1_Center_x - P1_x, C1_Center_y - P1_y);
+    var c1Rad = _circle1 == null ? 0 : _circle1.Rad.Value;
+    var c1CenterX = _circle1 == null ? 0 : _circle1.Center.X.Value;
+    var c1CenterY = _circle1 == null ? 0 : _circle1.Center.Y.Value;
+    var p1X = _point1 == null ? 0 : _point1.X.Value;
+    var p1Y = _point1 == null ? 0 : _point1.Y.Value;
+    var rad1 = Hypot(c1CenterX - p1X, c1CenterY - p1Y);
     //Compare this radius to the radius of the circle, return the error squared
-    var temp = rad1 - C1_rad;
+    var temp = rad1 - c1Rad;
     return temp * temp;
   }
 }
 
 public sealed class PointOnArcConstraint : Constraint
 {
-  public Point Point1;
-  public Arc Arc1;
+  private readonly Point _point1;
+  private readonly Arc _arc1;
 
   public PointOnArcConstraint(Point point1, Arc arc1)
   {
-    Point1 = point1;
-    Arc1 = arc1;
+    _point1 = point1;
+    _arc1 = arc1;
   }
 
   public override double CalculateError()
   {
     //see what the current radius to the point is
-    var A1_Center_x = Arc1 == null ? 0 : Arc1.Center.X.Value;
-    var A1_Center_y = Arc1 == null ? 0 : Arc1.Center.Y.Value;
-    var A1_radius = Arc1 == null ? 0 : Arc1.Rad.Value;
-    var A1_startA = Arc1 == null ? 0 : Arc1.StartAngle.Value;
-    var A1_Start_y = A1_Center_y + A1_radius * Math.Sin(A1_startA);
-    var A1_Start_x = A1_Center_x + A1_radius * Math.Cos(A1_startA);
-    var P1_x = Point1 == null ? 0 : Point1.X.Value;
-    var P1_y = Point1 == null ? 0 : Point1.Y.Value;
-    var rad1 = Hypot(A1_Center_x - P1_x, A1_Center_y - P1_y);
-    var rad2 = Hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
+    var a1CenterX = _arc1 == null ? 0 : _arc1.Center.X.Value;
+    var a1CenterY = _arc1 == null ? 0 : _arc1.Center.Y.Value;
+    var a1Radius = _arc1 == null ? 0 : _arc1.Rad.Value;
+    var a1StartA = _arc1 == null ? 0 : _arc1.StartAngle.Value;
+    var a1StartY = a1CenterY + a1Radius * Math.Sin(a1StartA);
+    var a1StartX = a1CenterX + a1Radius * Math.Cos(a1StartA);
+    var p1X = _point1 == null ? 0 : _point1.X.Value;
+    var p1Y = _point1 == null ? 0 : _point1.Y.Value;
+    var rad1 = Hypot(a1CenterX - p1X, a1CenterY - p1Y);
+    var rad2 = Hypot(a1CenterX - a1StartX, a1CenterY - a1StartY);
     //Compare this radius to the radius of the circle, return the error squared
     var temp = rad1 - rad2;
     return temp * temp;
@@ -896,187 +896,187 @@ public sealed class PointOnArcConstraint : Constraint
 
 public sealed class PointOnLineMidpointConstraint : Constraint
 {
-  public Point Point1;
-  public Line Line1;
+  private readonly Point _point1;
+  private readonly Line _line1;
 
   public PointOnLineMidpointConstraint(Point point1, Line line1)
   {
-    Point1 = point1;
-    Line1 = line1;
+    _point1 = point1;
+    _line1 = line1;
   }
 
   public override double CalculateError()
   {
-    var L1_P1_x = Line1 == null ? 0 : Line1.P1.X.Value;
-    var L1_P1_y = Line1 == null ? 0 : Line1.P1.Y.Value;
-    var L1_P2_x = Line1 == null ? 0 : Line1.P2.X.Value;
-    var L1_P2_y = Line1 == null ? 0 : Line1.P2.Y.Value;
-    var Ex = (L1_P1_x + L1_P2_x) / 2;
-    var Ey = (L1_P1_y + L1_P2_y) / 2;
-    var P1_x = Point1 == null ? 0 : Point1.X.Value;
-    var P1_y = Point1 == null ? 0 : Point1.Y.Value;
-    var tempX = Ex - P1_x;
-    var tempY = Ey - P1_y;
+    var l1P1X = _line1 == null ? 0 : _line1.P1.X.Value;
+    var l1P1Y = _line1 == null ? 0 : _line1.P1.Y.Value;
+    var l1P2X = _line1 == null ? 0 : _line1.P2.X.Value;
+    var l1P2Y = _line1 == null ? 0 : _line1.P2.Y.Value;
+    var ex = (l1P1X + l1P2X) / 2;
+    var ey = (l1P1Y + l1P2Y) / 2;
+    var p1X = _point1 == null ? 0 : _point1.X.Value;
+    var p1Y = _point1 == null ? 0 : _point1.Y.Value;
+    var tempX = ex - p1X;
+    var tempY = ey - p1Y;
     return tempX * tempX + tempY * tempY;
   }
 }
 
 public sealed class PointOnArcMidpointConstraint : Constraint
 {
-  public Point Point1;
-  public Arc Arc1;
+  private readonly Point _point1;
+  private readonly Arc _arc1;
 
   public PointOnArcMidpointConstraint(Point point1, Arc arc1)
   {
-    Point1 = point1;
-    Arc1 = arc1;
+    _point1 = point1;
+    _arc1 = arc1;
   }
 
   public override double CalculateError()
   {
-    var A1_Center_x = Arc1 == null ? 0 : Arc1.Center.X.Value;
-    var A1_Center_y = Arc1 == null ? 0 : Arc1.Center.Y.Value;
-    var A1_radius = Arc1 == null ? 0 : Arc1.Rad.Value;
-    var A1_endA = Arc1 == null ? 0 : Arc1.EndAngle.Value;
-    var A1_End_x = A1_Center_x + A1_radius * Math.Cos(A1_endA);
-    var A1_End_y = A1_Center_y + A1_radius * Math.Sin(A1_endA);
-    var A1_startA = Arc1 == null ? 0 : Arc1.StartAngle.Value;
-    var A1_Start_y = A1_Center_y + A1_radius * Math.Sin(A1_startA);
-    var A1_Start_x = A1_Center_x + A1_radius * Math.Cos(A1_startA);
-    var rad1 = Hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
-    var tempStart = Math.Atan2(A1_Start_y - A1_Center_y, A1_Start_x - A1_Center_x);
-    var tempEnd = Math.Atan2(A1_End_y - A1_Center_y, A1_End_x - A1_Center_x);
-    var Ex = A1_Center_x + rad1 * Math.Cos((tempEnd + tempStart) / 2);
-    var Ey = A1_Center_y + rad1 * Math.Sin((tempEnd + tempStart) / 2);
-    var P1_x = Point1 == null ? 0 : Point1.X.Value;
-    var P1_y = Point1 == null ? 0 : Point1.Y.Value;
-    var tempX = Ex - P1_x;
-    var tempY = Ey - P1_y;
+    var a1CenterX = _arc1 == null ? 0 : _arc1.Center.X.Value;
+    var a1CenterY = _arc1 == null ? 0 : _arc1.Center.Y.Value;
+    var a1Radius = _arc1 == null ? 0 : _arc1.Rad.Value;
+    var a1EndA = _arc1 == null ? 0 : _arc1.EndAngle.Value;
+    var a1EndX = a1CenterX + a1Radius * Math.Cos(a1EndA);
+    var a1EndY = a1CenterY + a1Radius * Math.Sin(a1EndA);
+    var a1StartA = _arc1 == null ? 0 : _arc1.StartAngle.Value;
+    var a1StartY = a1CenterY + a1Radius * Math.Sin(a1StartA);
+    var a1StartX = a1CenterX + a1Radius * Math.Cos(a1StartA);
+    var rad1 = Hypot(a1CenterX - a1StartX, a1CenterY - a1StartY);
+    var tempStart = Math.Atan2(a1StartY - a1CenterY, a1StartX - a1CenterX);
+    var tempEnd = Math.Atan2(a1EndY - a1CenterY, a1EndX - a1CenterX);
+    var ex = a1CenterX + rad1 * Math.Cos((tempEnd + tempStart) / 2);
+    var ey = a1CenterY + rad1 * Math.Sin((tempEnd + tempStart) / 2);
+    var p1X = _point1 == null ? 0 : _point1.X.Value;
+    var p1Y = _point1 == null ? 0 : _point1.Y.Value;
+    var tempX = ex - p1X;
+    var tempY = ey - p1Y;
     return tempX * tempX + tempY * tempY;
   }
 }
 
 public sealed class PointOnCircleQuadConstraint : Constraint
 {
-  public Point Point1;
-  public Circle Circle1;
-  public Parameter Parameter;
+  private readonly Point _point1;
+  private readonly Circle _circle1;
+  private readonly Parameter _parameter;
 
   public PointOnCircleQuadConstraint(Point point1, Circle circle1, Parameter parameter)
   {
-    Point1 = point1;
-    Circle1 = circle1;
-    Parameter = parameter;
+    _point1 = point1;
+    _circle1 = circle1;
+    _parameter = parameter;
   }
 
   public override double CalculateError()
   {
-    var C1_Center_x = Circle1 == null ? 0 : Circle1.Center.X.Value;
-    var C1_Center_y = Circle1 == null ? 0 : Circle1.Center.Y.Value;
-    var Ex = C1_Center_x;
-    var Ey = C1_Center_y;
-    var C1_rad = Circle1 == null ? 0 : Circle1.Rad.Value;
-    var quadIndex = Parameter == null ? 0 : Parameter.Value;
+    var c1CenterX = _circle1 == null ? 0 : _circle1.Center.X.Value;
+    var c1CenterY = _circle1 == null ? 0 : _circle1.Center.Y.Value;
+    var ex = c1CenterX;
+    var ey = c1CenterY;
+    var c1Rad = _circle1 == null ? 0 : _circle1.Rad.Value;
+    var quadIndex = _parameter == null ? 0 : _parameter.Value;
     switch ((int) quadIndex)
     {
       case 0:
-        Ex += C1_rad;
+        ex += c1Rad;
         break;
       case 1:
-        Ey += C1_rad;
+        ey += c1Rad;
         break;
       case 2:
-        Ex -= C1_rad;
+        ex -= c1Rad;
         break;
       case 3:
-        Ey -= C1_rad;
+        ey -= c1Rad;
         break;
     }
 
-    var P1_x = Point1 == null ? 0 : Point1.X.Value;
-    var P1_y = Point1 == null ? 0 : Point1.Y.Value;
-    var tempX = Ex - P1_x;
-    var tempY = Ey - P1_y;
+    var p1X = _point1 == null ? 0 : _point1.X.Value;
+    var p1Y = _point1 == null ? 0 : _point1.Y.Value;
+    var tempX = ex - p1X;
+    var tempY = ey - p1Y;
     return tempX * tempX + tempY * tempY;
   }
 }
 
 public sealed class SymmetricPointsConstraint : Constraint
 {
-  public Point Point1;
-  public Point Point2;
-  public Line SymLine;
+  private readonly Point _point1;
+  private readonly Point _point2;
+  private readonly Line _symLine;
 
   public SymmetricPointsConstraint(Point point1, Point point2, Line symLine)
   {
-    Point1 = point1;
-    Point2 = point2;
-    SymLine = symLine;
+    _point1 = point1;
+    _point2 = point2;
+    _symLine = symLine;
   }
 
   public override double CalculateError()
   {
-    var Sym_P1_x = SymLine == null ? 0 : SymLine.P1.X.Value;
-    var Sym_P1_y = SymLine == null ? 0 : SymLine.P1.Y.Value;
-    var Sym_P2_x = SymLine == null ? 0 : SymLine.P2.X.Value;
-    var Sym_P2_y = SymLine == null ? 0 : SymLine.P2.Y.Value;
-    var dx = Sym_P2_x - Sym_P1_x;
-    var dy = Sym_P2_y - Sym_P1_y;
-    var P1_x = Point1 == null ? 0 : Point1.X.Value;
-    var P1_y = Point1 == null ? 0 : Point1.Y.Value;
-    var t = -(dy * P1_x - dx * P1_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
-    var Ex = P1_x + dy * t * 2;
-    var Ey = P1_y - dx * t * 2;
-    var P2_x = Point2 == null ? 0 : Point2.X.Value;
-    var P2_y = Point2 == null ? 0 : Point2.Y.Value;
-    var tempX = Ex - P2_x;
-    var tempY = Ey - P2_y;
+    var symP1X = _symLine == null ? 0 : _symLine.P1.X.Value;
+    var symP1Y = _symLine == null ? 0 : _symLine.P1.Y.Value;
+    var symP2X = _symLine == null ? 0 : _symLine.P2.X.Value;
+    var symP2Y = _symLine == null ? 0 : _symLine.P2.Y.Value;
+    var dx = symP2X - symP1X;
+    var dy = symP2Y - symP1Y;
+    var p1X = _point1 == null ? 0 : _point1.X.Value;
+    var p1Y = _point1 == null ? 0 : _point1.Y.Value;
+    var t = -(dy * p1X - dx * p1Y - dy * symP1X + dx * symP1Y) / (dx * dx + dy * dy);
+    var ex = p1X + dy * t * 2;
+    var ey = p1Y - dx * t * 2;
+    var p2X = _point2 == null ? 0 : _point2.X.Value;
+    var p2Y = _point2 == null ? 0 : _point2.Y.Value;
+    var tempX = ex - p2X;
+    var tempY = ey - p2Y;
     return tempX * tempX + tempY * tempY;
   }
 }
 
 public sealed class SymmetricLinesConstraint : Constraint
 {
-  public Line Line1;
-  public Line Line2;
-  public Line SymLine;
+  private readonly Line _line1;
+  private readonly Line _line2;
+  private readonly Line _symLine;
 
   public SymmetricLinesConstraint(Line line1, Line line2, Line symLine)
   {
-    Line1 = line1;
-    Line2 = line2;
-    SymLine = symLine;
+    _line1 = line1;
+    _line2 = line2;
+    _symLine = symLine;
   }
 
   public override double CalculateError()
   {
     var error = 0d;
-    var Sym_P1_x = SymLine == null ? 0 : SymLine.P1.X.Value;
-    var Sym_P1_y = SymLine == null ? 0 : SymLine.P1.Y.Value;
-    var Sym_P2_x = SymLine == null ? 0 : SymLine.P2.X.Value;
-    var Sym_P2_y = SymLine == null ? 0 : SymLine.P2.Y.Value;
-    var dx = Sym_P2_x - Sym_P1_x;
-    var dy = Sym_P2_y - Sym_P1_y;
-    var L1_P1_x = Line1 == null ? 0 : Line1.P1.X.Value;
-    var L1_P1_y = Line1 == null ? 0 : Line1.P1.Y.Value;
-    var t = -(dy * L1_P1_x - dx * L1_P1_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
-    var Ex = L1_P1_x + dy * t * 2;
-    var Ey = L1_P1_y - dx * t * 2;
-    var L1_P2_x = Line1 == null ? 0 : Line1.P2.X.Value;
-    var L1_P2_y = Line1 == null ? 0 : Line1.P2.Y.Value;
-    var L2_P1_x = Line2 == null ? 0 : Line2.P1.X.Value;
-    var L2_P1_y = Line2 == null ? 0 : Line2.P1.Y.Value;
-    var L2_P2_x = Line2 == null ? 0 : Line2.P2.X.Value;
-    var L2_P2_y = Line2 == null ? 0 : Line2.P2.Y.Value;
-    var tempX = Ex - L2_P1_x;
-    var tempY = Ey - L2_P1_y;
+    var symP1X = _symLine == null ? 0 : _symLine.P1.X.Value;
+    var symP1Y = _symLine == null ? 0 : _symLine.P1.Y.Value;
+    var symP2X = _symLine == null ? 0 : _symLine.P2.X.Value;
+    var symP2Y = _symLine == null ? 0 : _symLine.P2.Y.Value;
+    var dx = symP2X - symP1X;
+    var dy = symP2Y - symP1Y;
+    var l1P1X = _line1 == null ? 0 : _line1.P1.X.Value;
+    var l1P1Y = _line1 == null ? 0 : _line1.P1.Y.Value;
+    var t = -(dy * l1P1X - dx * l1P1Y - dy * symP1X + dx * symP1Y) / (dx * dx + dy * dy);
+    var ex = l1P1X + dy * t * 2;
+    var ey = l1P1Y - dx * t * 2;
+    var l1P2X = _line1 == null ? 0 : _line1.P2.X.Value;
+    var l1P2Y = _line1 == null ? 0 : _line1.P2.Y.Value;
+    var l2P1X = _line2 == null ? 0 : _line2.P1.X.Value;
+    var l2P1Y = _line2 == null ? 0 : _line2.P1.Y.Value;
+    var l2P2X = _line2 == null ? 0 : _line2.P2.X.Value;
+    var l2P2Y = _line2 == null ? 0 : _line2.P2.Y.Value;
+    var tempX = ex - l2P1X;
+    var tempY = ey - l2P1Y;
     error += tempX * tempX + tempY * tempY;
 
-    t = -(dy * L1_P2_x - dx * L1_P2_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
-    Ex = L1_P2_x + dy * t * 2;
-    Ey = L1_P2_y - dx * t * 2;
-    tempX = Ex - L2_P2_x;
-    tempY = Ey - L2_P2_y;
+    t = -(dy * l1P2X - dx * l1P2Y - dy * symP1X + dx * symP1Y) / (dx * dx + dy * dy);
+    ex = l1P2X + dy * t * 2;
+    ey = l1P2Y - dx * t * 2;
+    tempX = ex - l2P2X;
+    tempY = ey - l2P2Y;
     error += tempX * tempX + tempY * tempY;
 
     return error;
@@ -1085,41 +1085,41 @@ public sealed class SymmetricLinesConstraint : Constraint
 
 public sealed class SymmetricCirclesConstraint : Constraint
 {
-  public Line SymLine;
-  public Circle Circle1;
-  public Circle Circle2;
+  private readonly Line _symLine;
+  private readonly Circle _circle1;
+  private readonly Circle _circle2;
 
   public SymmetricCirclesConstraint(Line symLine, Circle circle1, Circle circle2)
   {
-    SymLine = symLine;
-    Circle1 = circle1;
-    Circle2 = circle2;
+    _symLine = symLine;
+    _circle1 = circle1;
+    _circle2 = circle2;
   }
 
   public override double CalculateError()
   {
     var error = 0d;
 
-    var Sym_P1_x = SymLine == null ? 0 : SymLine.P1.X.Value;
-    var Sym_P1_y = SymLine == null ? 0 : SymLine.P1.Y.Value;
-    var Sym_P2_x = SymLine == null ? 0 : SymLine.P2.X.Value;
-    var Sym_P2_y = SymLine == null ? 0 : SymLine.P2.Y.Value;
-    var C1_Center_x = Circle1 == null ? 0 : Circle1.Center.X.Value;
-    var C1_Center_y = Circle1 == null ? 0 : Circle1.Center.Y.Value;
-    var dx = Sym_P2_x - Sym_P1_x;
-    var dy = Sym_P2_y - Sym_P1_y;
-    var t = -(dy * C1_Center_x - dx * C1_Center_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
-    var Ex = C1_Center_x + dy * t * 2;
-    var Ey = C1_Center_y - dx * t * 2;
-    var C2_Center_x = Circle2 == null ? 0 : Circle2.Center.X.Value;
-    var C2_Center_y = Circle2 == null ? 0 : Circle2.Center.Y.Value;
-    var tempX = Ex - C2_Center_x;
-    var tempY = Ey - C2_Center_y;
+    var symP1X = _symLine == null ? 0 : _symLine.P1.X.Value;
+    var symP1Y = _symLine == null ? 0 : _symLine.P1.Y.Value;
+    var symP2X = _symLine == null ? 0 : _symLine.P2.X.Value;
+    var symP2Y = _symLine == null ? 0 : _symLine.P2.Y.Value;
+    var c1CenterX = _circle1 == null ? 0 : _circle1.Center.X.Value;
+    var c1CenterY = _circle1 == null ? 0 : _circle1.Center.Y.Value;
+    var dx = symP2X - symP1X;
+    var dy = symP2Y - symP1Y;
+    var t = -(dy * c1CenterX - dx * c1CenterY - dy * symP1X + dx * symP1Y) / (dx * dx + dy * dy);
+    var ex = c1CenterX + dy * t * 2;
+    var ey = c1CenterY - dx * t * 2;
+    var c2CenterX = _circle2 == null ? 0 : _circle2.Center.X.Value;
+    var c2CenterY = _circle2 == null ? 0 : _circle2.Center.Y.Value;
+    var tempX = ex - c2CenterX;
+    var tempY = ey - c2CenterY;
     error += tempX * tempX + tempY * tempY;
 
-    var C1_rad = Circle1 == null ? 0 : Circle1.Rad.Value;
-    var C2_rad = Circle2 == null ? 0 : Circle2.Rad.Value;
-    var temp = C1_rad - C2_rad;
+    var c1Rad = _circle1 == null ? 0 : _circle1.Rad.Value;
+    var c2Rad = _circle2 == null ? 0 : _circle2.Rad.Value;
+    var temp = c1Rad - c2Rad;
     error += temp * temp;
 
     return error;
@@ -1128,65 +1128,65 @@ public sealed class SymmetricCirclesConstraint : Constraint
 
 public sealed class SymmetricArcsConstraint : Constraint
 {
-  public Line SymLine;
-  public Arc Arc1;
-  public Arc Arc2;
+  private readonly Line _symLine;
+  private readonly Arc _arc1;
+  private readonly Arc _arc2;
 
   public SymmetricArcsConstraint(Line symLine, Arc arc1, Arc arc2)
   {
-    SymLine = symLine;
-    Arc1 = arc1;
-    Arc2 = arc2;
+    _symLine = symLine;
+    _arc1 = arc1;
+    _arc2 = arc2;
   }
 
   public override double CalculateError()
   {
     var error = 0d;
 
-    var Sym_P1_x = SymLine == null ? 0 : SymLine.P1.X.Value;
-    var Sym_P1_y = SymLine == null ? 0 : SymLine.P1.Y.Value;
-    var Sym_P2_x = SymLine == null ? 0 : SymLine.P2.X.Value;
-    var Sym_P2_y = SymLine == null ? 0 : SymLine.P2.Y.Value;
-    var A1_Center_x = Arc1 == null ? 0 : Arc1.Center.X.Value;
-    var A1_Center_y = Arc1 == null ? 0 : Arc1.Center.Y.Value;
-    var A1_radius = Arc1 == null ? 0 : Arc1.Rad.Value;
-    var A1_startA = Arc1 == null ? 0 : Arc1.StartAngle.Value;
-    var A1_Start_x = A1_Center_x + A1_radius * Math.Cos(A1_startA);
-    var A1_Start_y = A1_Center_y + A1_radius * Math.Sin(A1_startA);
-    var dx = Sym_P2_x - Sym_P1_x;
-    var dy = Sym_P2_y - Sym_P1_y;
+    var symP1X = _symLine == null ? 0 : _symLine.P1.X.Value;
+    var symP1Y = _symLine == null ? 0 : _symLine.P1.Y.Value;
+    var symP2X = _symLine == null ? 0 : _symLine.P2.X.Value;
+    var symP2Y = _symLine == null ? 0 : _symLine.P2.Y.Value;
+    var a1CenterX = _arc1 == null ? 0 : _arc1.Center.X.Value;
+    var a1CenterY = _arc1 == null ? 0 : _arc1.Center.Y.Value;
+    var a1Radius = _arc1 == null ? 0 : _arc1.Rad.Value;
+    var a1StartA = _arc1 == null ? 0 : _arc1.StartAngle.Value;
+    var a1StartX = a1CenterX + a1Radius * Math.Cos(a1StartA);
+    var a1StartY = a1CenterY + a1Radius * Math.Sin(a1StartA);
+    var dx = symP2X - symP1X;
+    var dy = symP2Y - symP1Y;
 
-    var t = -(dy * A1_Start_x - dx * A1_Start_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
-    var Ex = A1_Start_x + dy * t * 2;
-    var Ey = A1_Start_y - dx * t * 2;
-    var A2_radius = Arc2 == null ? 0 : Arc2.Rad.Value;
-    var A2_startA = Arc2 == null ? 0 : Arc2.StartAngle.Value;
-    var A2_Start_x = A1_Center_x + A2_radius * Math.Cos(A2_startA);
-    var A2_Start_y = A1_Center_y + A2_radius * Math.Sin(A2_startA);
-    var tempX = Ex - A2_Start_x;
-    var tempY = Ey - A2_Start_y;
+    var t = -(dy * a1StartX - dx * a1StartY - dy * symP1X + dx * symP1Y) / (dx * dx + dy * dy);
+    var ex = a1StartX + dy * t * 2;
+    var ey = a1StartY - dx * t * 2;
+    var a2Radius = _arc2 == null ? 0 : _arc2.Rad.Value;
+    var a2StartA = _arc2 == null ? 0 : _arc2.StartAngle.Value;
+    var a2StartX = a1CenterX + a2Radius * Math.Cos(a2StartA);
+    var a2StartY = a1CenterY + a2Radius * Math.Sin(a2StartA);
+    var tempX = ex - a2StartX;
+    var tempY = ey - a2StartY;
     error += tempX * tempX + tempY * tempY;
 
-    var A1_endA = Arc1 == null ? 0 : Arc1.EndAngle.Value;
-    var A1_End_x = A1_Center_x + A1_radius * Math.Cos(A1_endA);
-    var A1_End_y = A1_Center_y + A1_radius * Math.Sin(A1_endA);
-    t = -(dy * A1_End_x - dx * A1_End_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
-    Ex = A1_End_x + dy * t * 2;
-    Ey = A1_End_y - dx * t * 2;
-    var A2_endA = Arc2 == null ? 0 : Arc2.EndAngle.Value;
-    var A2_End_x = A1_Center_x + A2_radius * Math.Cos(A2_endA);
-    var A2_End_y = A1_Center_y + A2_radius * Math.Sin(A2_endA);
-    tempX = Ex - A2_End_x;
-    tempY = Ey - A2_End_y;
+    var a1EndA = _arc1 == null ? 0 : _arc1.EndAngle.Value;
+    var a1EndX = a1CenterX + a1Radius * Math.Cos(a1EndA);
+    var a1EndY = a1CenterY + a1Radius * Math.Sin(a1EndA);
+    t = -(dy * a1EndX - dx * a1EndY - dy * symP1X + dx * symP1Y) / (dx * dx + dy * dy);
+    ex = a1EndX + dy * t * 2;
+    ey = a1EndY - dx * t * 2;
+    var a2EndA = _arc2 == null ? 0 : _arc2.EndAngle.Value;
+    var a2EndX = a1CenterX + a2Radius * Math.Cos(a2EndA);
+    var a2EndY = a1CenterY + a2Radius * Math.Sin(a2EndA);
+    tempX = ex - a2EndX;
+    tempY = ey - a2EndY;
     error += tempX * tempX + tempY * tempY;
 
-    t = -(dy * A1_Center_x - dx * A1_Center_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
-    Ex = A1_Center_x + dy * t * 2;
-    Ey = A1_Center_y - dx * t * 2;
-    var A2_Center_x = Arc2 == null ? 0 : Arc2.Center.X.Value;
-    var A2_Center_y = Arc2 == null ? 0 : Arc2.Center.Y.Value;
-    tempX = Ex - A2_Center_x;
-    tempY = Ey - A2_Center_y;
+    t = -(dy * a1CenterX - dx * a1CenterY - dy * symP1X + dx * symP1Y) / (dx * dx + dy * dy);
+    ex = a1CenterX + dy * t * 2;
+    ey = a1CenterY - dx * t * 2;
+    var a2CenterX = _arc2 == null ? 0 : _arc2.Center.X.Value;
+    var a2CenterY = _arc2 == null ? 0 : _arc2.Center.Y.Value;
+    tempX = ex - a2CenterX;
+    tempY = ey - a2CenterY;
     error += tempX * tempX + tempY * tempY;
 
     return error;
