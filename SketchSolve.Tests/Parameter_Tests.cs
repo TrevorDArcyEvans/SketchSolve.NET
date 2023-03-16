@@ -12,7 +12,7 @@ public class Parameter_Tests
   {
     var line = new Line(new Point(0, 0, false), new Point(1, 1, false, true));
 
-    var parameters = line.Where(p => p.free).ToArray();
+    var parameters = line.Where(p => p.Free).ToArray();
 
     using (new AssertionScope())
     {

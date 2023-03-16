@@ -7,11 +7,11 @@ public class Parameter
   public double Min = -1000;
 
   // true if the parameter is free to be adjusted by the solver
-  public readonly bool free;
+  public readonly bool Free;
 
   public Parameter(double v, bool free = true)
   {
     Value = v;
-    this.free = free;
+    Free = free;
   }
 }

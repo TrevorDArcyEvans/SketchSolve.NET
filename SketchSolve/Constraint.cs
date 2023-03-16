@@ -58,7 +58,7 @@ public class Constraint : IEnumerable<Parameter>
     return Math.Sqrt(a * a + b * b);
   }
 
-  public static double Calc(Constraint[] constraints)
+  public static double Calculate(Constraint[] constraints)
   {
     double error = 0;
     double dx, dy, m, n, Ex, Ey, rad1, rad2, t, Xint, Yint, dx2, dy2, hyp1, hyp2;
