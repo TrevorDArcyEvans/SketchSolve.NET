@@ -103,8 +103,6 @@ public class Constraint : IEnumerable<Parameter>
       var A1_End_y = A1_Center_y + A1_radius * Math.Sin(A1_endA);
       var A2_Start_x = A1_Center_x + A2_radius * Math.Cos(A2_startA);
       var A2_Start_y = A1_Center_y + A2_radius * Math.Sin(A2_startA);
-      var A2_End_x = A1_Center_x + A2_radius * Math.Cos(A2_endA);
-      var A2_End_y = A1_Center_y + A2_radius * Math.Sin(A2_endA);
 
       switch (constraint.ContraintType)
       {
@@ -594,6 +592,8 @@ public class Constraint : IEnumerable<Parameter>
           t = -(dy * A1_End_x - dx * A1_End_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
           Ex = A1_End_x + dy * t * 2;
           Ey = A1_End_y - dx * t * 2;
+          var A2_End_x = A1_Center_x + A2_radius * Math.Cos(A2_endA);
+          var A2_End_y = A1_Center_y + A2_radius * Math.Sin(A2_endA);
           tempX = Ex - A2_End_x;
           tempY = Ey - A2_End_y;
           error += tempX * tempX + tempY * tempY;
