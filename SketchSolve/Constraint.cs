@@ -4,17 +4,7 @@ using System.Collections;
 
 public abstract class Constraint : IEnumerable<Parameter>
 {
-  public Point Point1;
-  public Point Point2;
-  public Line Line1;
-  public Line Line2;
-  public Line SymLine;
-  public Circle Circle1;
-  public Circle Circle2;
-  public Arc Arc1;
-  public Arc Arc2;
 
-  public Parameter Parameter = null;
   //radius, length, angle etc...
 
   public abstract double CalculateError();
@@ -30,16 +20,16 @@ public abstract class Constraint : IEnumerable<Parameter>
   {
     var list = new List<IEnumerable<Parameter>>
     {
-      Point1,
-      Point2,
-      Line1,
-      Line2,
-      SymLine,
-      Circle1,
-      Circle2,
-      Arc1,
-      Arc2,
-      new[] {Parameter}
+      // Point1,
+      // Point2,
+      // Line1,
+      // Line2,
+      // SymLine,
+      // Circle1,
+      // Circle2,
+      // Arc1,
+      // Arc2,
+      // new[] {Parameter}
     };
     return list
       .Where(p => p != null)
@@ -62,6 +52,15 @@ public abstract class Constraint : IEnumerable<Parameter>
 
 public sealed class PointOnPointConstraint : Constraint
 {
+  public Point Point1;
+  public Point Point2;
+
+  public PointOnPointConstraint(Point point1, Point point2)
+  {
+    Point1 = point1;
+    Point2 = point2;
+  }
+
   public override double CalculateError()
   {
     //Hopefully avoid this constraint, make coincident points use the same parameters
@@ -72,6 +71,13 @@ public sealed class PointOnPointConstraint : Constraint
 
 public sealed class HorizontalConstraint : Constraint
 {
+  public Line Line1;
+
+  public HorizontalConstraint(Line line1)
+  {
+    Line1 = line1;
+  }
+
   public override double CalculateError()
   {
     var L1_P1_y = Line1 == null ? 0 : Line1.P1.Y.Value;
@@ -83,6 +89,13 @@ public sealed class HorizontalConstraint : Constraint
 
 public sealed class VerticalConstraint : Constraint
 {
+  public Line Line1;
+
+  public VerticalConstraint(Line line1)
+  {
+    Line1 = line1;
+  }
+
   public override double CalculateError()
   {
     var L1_P1_x = Line1 == null ? 0 : Line1.P1.X.Value;
@@ -94,6 +107,17 @@ public sealed class VerticalConstraint : Constraint
 
 public sealed class InternalAngleConstraint : Constraint
 {
+  public Line Line1;
+  public Line Line2;
+  public Parameter Parameter;
+
+  public InternalAngleConstraint(Line line1, Line line2, Parameter parameter)
+  {
+    Line1 = line1;
+    Line2 = line2;
+    Parameter = parameter;
+  }
+
   public override double CalculateError()
   {
     var angleP = Parameter == null ? 0 : Parameter.Value;
@@ -105,6 +129,17 @@ public sealed class InternalAngleConstraint : Constraint
 
 public sealed class ExternalAngleConstraint : Constraint
 {
+  public Line Line1;
+  public Line Line2;
+  public Parameter Parameter;
+
+  public ExternalAngleConstraint(Line line1, Line line2, Parameter parameter)
+  {
+    Line1 = line1;
+    Line2 = line2;
+    Parameter = parameter;
+  }
+
   public override double CalculateError()
   {
     var angleP = Parameter == null ? 0 : Parameter.Value;
@@ -116,6 +151,15 @@ public sealed class ExternalAngleConstraint : Constraint
 
 public sealed class PerpendicularConstraint : Constraint
 {
+  public Line Line1;
+  public Line Line2;
+
+  public PerpendicularConstraint(Line line1, Line line2)
+  {
+    Line1 = line1;
+    Line2 = line2;
+  }
+
   public override double CalculateError()
   {
     var temp = Line1.Vector.Dot(Line2.Vector);
@@ -125,6 +169,15 @@ public sealed class PerpendicularConstraint : Constraint
 
 public sealed class TangentToCircleConstraint : Constraint
 {
+  public Line Line1;
+  public Circle Circle1;
+
+  public TangentToCircleConstraint(Line line1, Circle circle1)
+  {
+    Line1 = line1;
+    Circle1 = circle1;
+  }
+
   public override double CalculateError()
   {
     var line = Line1;
@@ -136,6 +189,17 @@ public sealed class TangentToCircleConstraint : Constraint
 
 public sealed class P2PDistanceConstraint : Constraint
 {
+  public Point Point1;
+  public Point Point2;
+  public Parameter Parameter;
+
+  public P2PDistanceConstraint(Point point1, Point point2, Parameter parameter)
+  {
+    Point1 = point1;
+    Point2 = point2;
+    Parameter = parameter;
+  }
+
   public override double CalculateError()
   {
     var P1_x = Point1 == null ? 0 : Point1.X.Value;
@@ -149,6 +213,17 @@ public sealed class P2PDistanceConstraint : Constraint
 
 public sealed class P2PDistanceVertConstraint : Constraint
 {
+  public Point Point1;
+  public Point Point2;
+  public Parameter Parameter;
+
+  public P2PDistanceVertConstraint(Point point1, Point point2, Parameter parameter)
+  {
+    Point1 = point1;
+    Point2 = point2;
+    Parameter = parameter;
+  }
+
   public override double CalculateError()
   {
     var P1_y = Point1 == null ? 0 : Point1.Y.Value;
@@ -160,6 +235,17 @@ public sealed class P2PDistanceVertConstraint : Constraint
 
 public sealed class P2PDistanceHorizConstraint : Constraint
 {
+  public Point Point1;
+  public Point Point2;
+  public Parameter Parameter;
+
+  public P2PDistanceHorizConstraint(Point point1, Point point2, Parameter parameter)
+  {
+    Point1 = point1;
+    Point2 = point2;
+    Parameter = parameter;
+  }
+
   public override double CalculateError()
   {
     var P1_x = Point1 == null ? 0 : Point1.X.Value;
@@ -171,6 +257,15 @@ public sealed class P2PDistanceHorizConstraint : Constraint
 
 public sealed class PointOnLineConstraint : Constraint
 {
+  public Point Point1;
+  public Line Line1;
+
+  public PointOnLineConstraint(Point point1, Line line1)
+  {
+    Point1 = point1;
+    Line1 = line1;
+  }
+
   public override double CalculateError()
   {
     var L1_P1_x = Line1 == null ? 0 : Line1.P1.X.Value;
@@ -204,6 +299,17 @@ public sealed class PointOnLineConstraint : Constraint
 
 public sealed class P2LDistanceConstraint : Constraint
 {
+  public Point Point1;
+  public Line Line1;
+  public Parameter Parameter;
+
+  public P2LDistanceConstraint(Point point1, Line line1, Parameter parameter)
+  {
+    Point1 = point1;
+    Line1 = line1;
+    Parameter = parameter;
+  }
+
   public override double CalculateError()
   {
     var L1_P1_x = Line1 == null ? 0 : Line1.P1.X.Value;
@@ -226,6 +332,17 @@ public sealed class P2LDistanceConstraint : Constraint
 
 public sealed class P2LDistanceVertConstraint : Constraint
 {
+  public Point Point1;
+  public Line Line1;
+  public Parameter Parameter;
+
+  public P2LDistanceVertConstraint(Point point1, Line line1, Parameter parameter)
+  {
+    Point1 = point1;
+    Line1 = line1;
+    Parameter = parameter;
+  }
+
   public override double CalculateError()
   {
     var L1_P1_x = Line1 == null ? 0 : Line1.P1.X.Value;
@@ -247,6 +364,17 @@ public sealed class P2LDistanceVertConstraint : Constraint
 
 public sealed class P2LDistanceHorizConstraint : Constraint
 {
+  public Point Point1;
+  public Line Line1;
+  public Parameter Parameter;
+
+  public P2LDistanceHorizConstraint(Point point1, Line line1, Parameter parameter)
+  {
+    Point1 = point1;
+    Line1 = line1;
+    Parameter = parameter;
+  }
+
   public override double CalculateError()
   {
     var L1_P1_x = Line1 == null ? 0 : Line1.P1.X.Value;
@@ -268,6 +396,15 @@ public sealed class P2LDistanceHorizConstraint : Constraint
 
 public sealed class TangentToArcConstraint : Constraint
 {
+  public Line Line1;
+  public Arc Arc1;
+
+  public TangentToArcConstraint(Line line1, Arc arc1)
+  {
+    Line1 = line1;
+    Arc1 = arc1;
+  }
+
   public override double CalculateError()
   {
     /*
@@ -320,6 +457,13 @@ public sealed class TangentToArcConstraint : Constraint
 
 public sealed class ArcRulesConstraint : Constraint
 {
+  public Arc Arc1;
+
+  public ArcRulesConstraint(Arc arc1)
+  {
+    Arc1 = arc1;
+  }
+
   public override double CalculateError()
   {
     //rad1=Hypot(A1_Center_x - A1_Start_x , A1_Center_y - A1_Start_y);
@@ -357,6 +501,15 @@ public sealed class ArcRulesConstraint : Constraint
 
 public sealed class LineLengthConstraint : Constraint
 {
+  public Line Line1;
+  public Parameter Parameter;
+
+  public LineLengthConstraint(Line line1, Parameter parameter)
+  {
+    Line1 = line1;
+    Parameter = parameter;
+  }
+
   public override double CalculateError()
   {
     var L1_P1_x = Line1 == null ? 0 : Line1.P1.X.Value;
@@ -371,6 +524,15 @@ public sealed class LineLengthConstraint : Constraint
 
 public sealed class EqualLengthConstraint : Constraint
 {
+  public Line Line1;
+  public Line Line2;
+
+  public EqualLengthConstraint(Line line1, Line line2)
+  {
+    Line1 = line1;
+    Line2 = line2;
+  }
+
   public override double CalculateError()
   {
     var L1_P1_x = Line1 == null ? 0 : Line1.P1.X.Value;
@@ -388,6 +550,15 @@ public sealed class EqualLengthConstraint : Constraint
 
 public sealed class ArcRadiusConstraint : Constraint
 {
+  public Arc Arc1;
+  public Parameter Parameter;
+
+  public ArcRadiusConstraint(Arc arc1, Parameter parameter)
+  {
+    Arc1 = arc1;
+    Parameter = parameter;
+  }
+
   public override double CalculateError()
   {
     var A1_Center_x = Arc1 == null ? 0 : Arc1.Center.X.Value;
@@ -409,6 +580,15 @@ public sealed class ArcRadiusConstraint : Constraint
 
 public sealed class EqualRadiusArcsConstraint : Constraint
 {
+  public Arc Arc1;
+  public Arc Arc2;
+
+  public EqualRadiusArcsConstraint(Arc arc1, Arc arc2)
+  {
+    Arc1 = arc1;
+    Arc2 = arc2;
+  }
+
   public override double CalculateError()
   {
     var A2_radius = Arc2 == null ? 0 : Arc2.Rad.Value;
@@ -432,6 +612,15 @@ public sealed class EqualRadiusArcsConstraint : Constraint
 
 public sealed class EqualRadiusCirclesConstraint : Constraint
 {
+  public Circle Circle1;
+  public Circle Circle2;
+
+  public EqualRadiusCirclesConstraint(Circle circle1, Circle circle2)
+  {
+    Circle1 = circle1;
+    Circle2 = circle2;
+  }
+
   public override double CalculateError()
   {
     var C1_rad = Circle1 == null ? 0 : Circle1.Rad.Value;
@@ -443,6 +632,15 @@ public sealed class EqualRadiusCirclesConstraint : Constraint
 
 public sealed class EqualRadiusCircArcConstraint : Constraint
 {
+  public Circle Circle1;
+  public Arc Arc1;
+
+  public EqualRadiusCircArcConstraint(Circle circle1, Arc arc1)
+  {
+    Circle1 = circle1;
+    Arc1 = arc1;
+  }
+
   public override double CalculateError()
   {
     var A1_Center_x = Arc1 == null ? 0 : Arc1.Center.X.Value;
@@ -460,6 +658,15 @@ public sealed class EqualRadiusCircArcConstraint : Constraint
 
 public sealed class ConcentricArcsConstraint : Constraint
 {
+  public Arc Arc1;
+  public Arc Arc2;
+
+  public ConcentricArcsConstraint(Arc arc1, Arc arc2)
+  {
+    Arc1 = arc1;
+    Arc2 = arc2;
+  }
+
   public override double CalculateError()
   {
     var A1_Center_x = Arc1 == null ? 0 : Arc1.Center.X.Value;
@@ -473,6 +680,15 @@ public sealed class ConcentricArcsConstraint : Constraint
 
 public sealed class ConcentricCirclesConstraint : Constraint
 {
+  public Circle Circle1;
+  public Circle Circle2;
+
+  public ConcentricCirclesConstraint(Circle circle1, Circle circle2)
+  {
+    Circle1 = circle1;
+    Circle2 = circle2;
+  }
+
   public override double CalculateError()
   {
     var C1_Center_x = Circle1 == null ? 0 : Circle1.Center.X.Value;
@@ -486,6 +702,15 @@ public sealed class ConcentricCirclesConstraint : Constraint
 
 public sealed class ConcentricCircArcConstraint : Constraint
 {
+  public Circle Circle1;
+  public Arc Arc1;
+
+  public ConcentricCircArcConstraint(Circle circle1, Arc arc1)
+  {
+    Circle1 = circle1;
+    Arc1 = arc1;
+  }
+
   public override double CalculateError()
   {
     var A1_Center_x = Arc1 == null ? 0 : Arc1.Center.X.Value;
@@ -499,6 +724,15 @@ public sealed class ConcentricCircArcConstraint : Constraint
 
 public sealed class CircleRadiusConstraint : Constraint
 {
+  public Circle Circle1;
+  public Parameter Parameter;
+
+  public CircleRadiusConstraint(Circle circle1, Parameter parameter)
+  {
+    Circle1 = circle1;
+    Parameter = parameter;
+  }
+
   public override double CalculateError()
   {
     var C1_rad = Circle1 == null ? 0 : Circle1.Rad.Value;
@@ -509,6 +743,15 @@ public sealed class CircleRadiusConstraint : Constraint
 
 public sealed class ParallelConstraint : Constraint
 {
+  public Line Line1;
+  public Line Line2;
+
+  public ParallelConstraint(Line line1, Line line2)
+  {
+    Line1 = line1;
+    Line2 = line2;
+  }
+
   public override double CalculateError()
   {
     var L1_P1_x = Line1 == null ? 0 : Line1.P1.X.Value;
@@ -539,6 +782,15 @@ public sealed class ParallelConstraint : Constraint
 
 public sealed class CollinearConstraint : Constraint
 {
+  public Line Line1;
+  public Line Line2;
+
+  public CollinearConstraint(Line line1, Line line2)
+  {
+    Line1 = line1;
+    Line2 = line2;
+  }
+
   public override double CalculateError()
   {
     var error = 0d;
@@ -588,6 +840,15 @@ public sealed class CollinearConstraint : Constraint
 
 public sealed class PointOnCircleConstraint : Constraint
 {
+  public Point Point1;
+  public Circle Circle1;
+
+  public PointOnCircleConstraint(Point point1, Circle circle1)
+  {
+    Point1 = point1;
+    Circle1 = circle1;
+  }
+
   public override double CalculateError()
   {
     //see what the current radius to the point is
@@ -605,6 +866,15 @@ public sealed class PointOnCircleConstraint : Constraint
 
 public sealed class PointOnArcConstraint : Constraint
 {
+  public Point Point1;
+  public Arc Arc1;
+
+  public PointOnArcConstraint(Point point1, Arc arc1)
+  {
+    Point1 = point1;
+    Arc1 = arc1;
+  }
+
   public override double CalculateError()
   {
     //see what the current radius to the point is
@@ -626,6 +896,15 @@ public sealed class PointOnArcConstraint : Constraint
 
 public sealed class PointOnLineMidpointConstraint : Constraint
 {
+  public Point Point1;
+  public Line Line1;
+
+  public PointOnLineMidpointConstraint(Point point1, Line line1)
+  {
+    Point1 = point1;
+    Line1 = line1;
+  }
+
   public override double CalculateError()
   {
     var L1_P1_x = Line1 == null ? 0 : Line1.P1.X.Value;
@@ -644,6 +923,15 @@ public sealed class PointOnLineMidpointConstraint : Constraint
 
 public sealed class PointOnArcMidpointConstraint : Constraint
 {
+  public Point Point1;
+  public Arc Arc1;
+
+  public PointOnArcMidpointConstraint(Point point1, Arc arc1)
+  {
+    Point1 = point1;
+    Arc1 = arc1;
+  }
+
   public override double CalculateError()
   {
     var A1_Center_x = Arc1 == null ? 0 : Arc1.Center.X.Value;
@@ -670,6 +958,17 @@ public sealed class PointOnArcMidpointConstraint : Constraint
 
 public sealed class PointOnCircleQuadConstraint : Constraint
 {
+  public Point Point1;
+  public Circle Circle1;
+  public Parameter Parameter;
+
+  public PointOnCircleQuadConstraint(Point point1, Circle circle1, Parameter parameter)
+  {
+    Point1 = point1;
+    Circle1 = circle1;
+    Parameter = parameter;
+  }
+
   public override double CalculateError()
   {
     var C1_Center_x = Circle1 == null ? 0 : Circle1.Center.X.Value;
@@ -704,6 +1003,17 @@ public sealed class PointOnCircleQuadConstraint : Constraint
 
 public sealed class SymmetricPointsConstraint : Constraint
 {
+  public Point Point1;
+  public Point Point2;
+  public Line SymLine;
+
+  public SymmetricPointsConstraint(Point point1, Point point2, Line symLine)
+  {
+    Point1 = point1;
+    Point2 = point2;
+    SymLine = symLine;
+  }
+
   public override double CalculateError()
   {
     var Sym_P1_x = SymLine == null ? 0 : SymLine.P1.X.Value;
@@ -727,6 +1037,17 @@ public sealed class SymmetricPointsConstraint : Constraint
 
 public sealed class SymmetricLinesConstraint : Constraint
 {
+  public Line Line1;
+  public Line Line2;
+  public Line SymLine;
+
+  public SymmetricLinesConstraint(Line line1, Line line2, Line symLine)
+  {
+    Line1 = line1;
+    Line2 = line2;
+    SymLine = symLine;
+  }
+
   public override double CalculateError()
   {
     var error = 0d;
@@ -764,6 +1085,17 @@ public sealed class SymmetricLinesConstraint : Constraint
 
 public sealed class SymmetricCirclesConstraint : Constraint
 {
+  public Line SymLine;
+  public Circle Circle1;
+  public Circle Circle2;
+
+  public SymmetricCirclesConstraint(Line symLine, Circle circle1, Circle circle2)
+  {
+    SymLine = symLine;
+    Circle1 = circle1;
+    Circle2 = circle2;
+  }
+
   public override double CalculateError()
   {
     var error = 0d;
@@ -796,6 +1128,17 @@ public sealed class SymmetricCirclesConstraint : Constraint
 
 public sealed class SymmetricArcsConstraint : Constraint
 {
+  public Line SymLine;
+  public Arc Arc1;
+  public Arc Arc2;
+
+  public SymmetricArcsConstraint(Line symLine, Arc arc1, Arc arc2)
+  {
+    SymLine = symLine;
+    Arc1 = arc1;
+    Arc2 = arc2;
+  }
+
   public override double CalculateError()
   {
     var error = 0d;
