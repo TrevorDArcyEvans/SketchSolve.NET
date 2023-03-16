@@ -14,8 +14,11 @@ public class Solver_Tests
 
     var error = Solver.Solve(true, line.IsHorizontal());
 
-    error.Should().BeApproximately(0, 0.0001);
-    line.p1.y.Value.Should().BeApproximately(line.p2.y.Value, 0.001);
+    using (new AssertionScope())
+    {
+      error.Should().BeApproximately(0, 0.0001);
+      line.p1.y.Value.Should().BeApproximately(line.p2.y.Value, 0.001);
+    }
   }
 
   [Test]
@@ -23,10 +26,14 @@ public class Solver_Tests
   {
     var line = new Line(new Point(0, 1, false), new Point(2, 3, true, false));
 
-    Solver.Solve(true, line.IsVertical());
+    var r = Solver.Solve(true, line.IsVertical());
 
     Console.WriteLine(line);
-    line.p1.x.Value.Should().BeApproximately(line.p2.x.Value, 0.001);
+    using (new AssertionScope())
+    {
+      r.Should().BeApproximately(0, 0.0001);
+      line.p1.x.Value.Should().BeApproximately(line.p2.x.Value, 0.001);
+    }
   }
 
   [Test]
@@ -35,10 +42,11 @@ public class Solver_Tests
     var line1 = new Line(new Point(0, 1), new Point(2, 3, false));
     var line2 = new Line(new Point(10, 100, false), new Point(200, 300, false));
 
-    Solver.Solve(true, line1.p1.IsColocated(line2.p1));
+    var error = Solver.Solve(true, line1.p1.IsColocated(line2.p1));
 
     using (new AssertionScope())
     {
+      error.Should().BeApproximately(0, 0.0001);
       line1.p1.x.Value.Should().BeApproximately(line2.p1.x.Value, 0.001);
       line1.p1.y.Value.Should().BeApproximately(line2.p1.y.Value, 0.001);
     }
@@ -53,14 +61,18 @@ public class Solver_Tests
       var line2 = new Line(new Point(0, 0, false), new Point(10, -1, false));
 
       Console.WriteLine(i);
-      const double a = Math.PI / 2 / 3;
+      const double angle = Math.PI / 2 / 3;   // 30 deg
 
-      Solver.Solve(true, line1.HasInternalAngle(line2, new Parameter(a, false)));
+      var error = Solver.Solve(true, line1.HasInternalAngle(line2, new Parameter(angle, false)));
 
-      line1
-        .Vector
-        .Cosine(line2.Vector)
-        .Should().BeApproximately(Math.Cos(a), 0.001);
+      using (new AssertionScope())
+      {
+        error.Should().BeApproximately(0, 0.0001);
+        line1
+          .Vector
+          .Cosine(line2.Vector)
+          .Should().BeApproximately(Math.Cos(angle), 0.001);
+      }
     }
   }
 
@@ -73,14 +85,18 @@ public class Solver_Tests
       var line2 = new Line(new Point(0, 0, false), new Point(10, -1, false));
 
       Console.WriteLine(i);
-      const double a = Math.PI / 2 / 3;
+      const double angle = Math.PI / 2 / 3;   // 30 deg
 
-      Solver.Solve(true, line1.HasExternalAngle(line2, new Parameter(a, false)));
+      var error = Solver.Solve(true, line1.HasExternalAngle(line2, new Parameter(angle, false)));
 
-      line1
-        .Vector
-        .Cosine(line2.Vector)
-        .Should().BeApproximately(Math.Cos(Math.PI - a), 0.001);
+      using (new AssertionScope())
+      {
+        error.Should().BeApproximately(0, 0.0001);
+        line1
+          .Vector
+          .Cosine(line2.Vector)
+          .Should().BeApproximately(Math.Cos(Math.PI - angle), 0.001);
+      }
     }
   }
 
@@ -92,15 +108,19 @@ public class Solver_Tests
       var line1 = new Line(new Point(0, 0, false), new Point(10, 0, false, true));
       var line2 = new Line(new Point(0, 0, false), new Point(10, 10, true, false));
 
-      Solver.Solve(true, line1.IsPerpendicularTo(line2));
+      var error = Solver.Solve(true, line1.IsPerpendicularTo(line2));
 
       Console.WriteLine(line1);
       Console.WriteLine(line2);
 
-      line1
-        .Vector
-        .Dot(line2.Vector)
-        .Should().BeApproximately(0, 0.001);
+      using (new AssertionScope())
+      {
+        error.Should().BeApproximately(0, 0.0001);
+        line1
+          .Vector
+          .Dot(line2.Vector)
+          .Should().BeApproximately(0, 0.001);
+      }
     }
   }
 
@@ -114,15 +134,15 @@ public class Solver_Tests
       rad = new Parameter(1, false)
     };
 
-    var v = 1 / Math.Sin(Math.PI / 4);
+    var v = 1 / Math.Sin(Math.PI / 4);  // sqrt(2)
 
     var line = new Line(new Point(0, -v, false, false), new Point(35, 0, true, false));
 
-    var r = Solver.Solve(true, line.IsTangentTo(circle));
+    var error = Solver.Solve(true, line.IsTangentTo(circle));
 
     using (new AssertionScope())
     {
-      r.Should().BeApproximately(0, 0.0001);
+      error.Should().BeApproximately(0, 0.0001);
       line.p2.x.Value.Should().BeApproximately(v, 0.001);
     }
   }
@@ -141,16 +161,16 @@ public class Solver_Tests
       rad = new Parameter(1, false)
     };
 
-    var v = 1 / Math.Sin(Math.PI / 4);
+    var v = 1 / Math.Sin(Math.PI / 4);  // sqrt(2)
 
     var line = new Line(new Point(0, -v, false, false), new Point(0, v, true, false));
 
-    var r = Solver.Solve(true, line.IsTangentTo(circle));
+    var error = Solver.Solve(true, line.IsTangentTo(circle));
 
     Console.WriteLine(line);
     using (new AssertionScope())
     {
-      r.Should().BeApproximately(0, 0.0001);
+      error.Should().BeApproximately(0, 0.0001);
       (circle.CenterTo(line).Vector.LengthSquared - 1).Should().BeApproximately(0, 0.001);
     }
   }
@@ -169,16 +189,16 @@ public class Solver_Tests
       rad = new Parameter(1, false)
     };
 
-    var v = 1 / Math.Sin(Math.PI / 4);
+    var v = 1 / Math.Sin(Math.PI / 4);  // sqrt(2)
 
     var line = new Line(new Point(0, -v, false, false), new Point(10, -v, true, false));
 
-    var r = Solver.Solve(true, line.IsTangentTo(circle));
+    var error = Solver.Solve(true, line.IsTangentTo(circle));
 
     Console.WriteLine(line);
     using (new AssertionScope())
     {
-      r.Should().BeApproximately(0, 0.0001);
+      error.Should().BeApproximately(0, 0.0001);
       (circle.CenterTo(line).Vector.LengthSquared - 1).Should().BeApproximately(0, 0.001);
     }
   }
@@ -201,13 +221,17 @@ public class Solver_Tests
 
     var line = new Line(new Point(-100, -v, false, true), new Point(100, -v * 2.1, false, true));
 
-    var r = Solver.Solve(true, line.IsTangentTo(circle), line.IsHorizontal());
+    var error = Solver.Solve(true, line.IsTangentTo(circle), line.IsHorizontal());
 
     Console.WriteLine(line);
     Console.WriteLine(circle);
 
-    (circle.CenterTo(line).Vector.LengthSquared - circle.rad.Value * circle.rad.Value)
-      .Should().BeApproximately(0, 0.001);
+    using (new AssertionScope())
+    {
+      error.Should().BeApproximately(0, 0.0001);
+      (circle.CenterTo(line).Vector.LengthSquared - circle.rad.Value * circle.rad.Value)
+        .Should().BeApproximately(0, 0.001);
+    }
   }
 
   [Test]
@@ -230,22 +254,21 @@ public class Solver_Tests
 
     var angle = new Parameter(Math.PI / 2, false);
 
-    var r = Solver.Solve
-    (true
-      , line0.IsTangentTo(circle)
-      , line1.IsTangentTo(circle)
-      , line2.IsTangentTo(circle)
-      , line3.IsTangentTo(circle)
-      , line0.HasInternalAngle(line1, angle)
-      , line1.HasInternalAngle(line2, angle)
-      , line2.HasInternalAngle(line3, angle)
-      , line3.HasInternalAngle(line0, angle)
-      , line0.p2.IsColocated(line1.p1)
-      , line1.p2.IsColocated(line2.p1)
-      , line2.p2.IsColocated(line3.p1)
-      , line3.p2.IsColocated(line0.p1)
-      , line0.IsVertical()
-    );
+    var error = Solver.Solve(
+      true,
+      line0.IsTangentTo(circle),
+      line1.IsTangentTo(circle),
+      line2.IsTangentTo(circle),
+      line3.IsTangentTo(circle),
+      line0.HasInternalAngle(line1, angle),
+      line1.HasInternalAngle(line2, angle),
+      line2.HasInternalAngle(line3, angle),
+      line3.HasInternalAngle(line0, angle),
+      line0.p2.IsColocated(line1.p1),
+      line1.p2.IsColocated(line2.p1),
+      line2.p2.IsColocated(line3.p1),
+      line3.p2.IsColocated(line0.p1),
+      line0.IsVertical());
 
     Console.WriteLine(line0);
     Console.WriteLine(line1);
@@ -254,6 +277,6 @@ public class Solver_Tests
 
     Console.WriteLine(circle.CenterTo(line0));
 
-    r.Should().BeApproximately(0, 0.0001);
+    error.Should().BeApproximately(0, 0.0001);
   }
 }
