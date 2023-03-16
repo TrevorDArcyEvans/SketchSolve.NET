@@ -2,49 +2,53 @@
 
 public enum ConstraintEnum
 {
-  // Done
   PointOnPoint,
   PointOnLine,
 
-  // Done
   Horizontal,
-
-  // Done
   Vertical,
 
-  // Done 
   InternalAngle,
-
-  // Done 
   ExternalAngle,
+
   RadiusValue,
+
   TangentToArc,
   TangentToCircle,
+
   ArcRules,
+
   P2PDistance,
   P2PDistanceVert,
-  P2PDistanceHorz,
+  P2PDistanceHoriz,
   P2LDistance,
   P2LDistanceVert,
-  P2LDistanceHorz,
+  P2LDistanceHoriz,
+
   LineLength,
-  EqualLegnth,
+  EqualLength,
+
   ArcRadius,
   EqualRadiusArcs,
   EqualRadiusCircles,
   EqualRadiusCircArc,
+
   ConcentricArcs,
   ConcentricCircles,
   ConcentricCircArc,
+
   CircleRadius,
+
   Parallel,
   Perpendicular,
-  Colinear,
+  Collinear,
+
   PointOnCircle,
   PointOnArc,
   PointOnLineMidpoint,
   PointOnArcMidpoint,
   PointOnCircleQuad,
+
   SymmetricPoints,
   SymmetricLines,
   SymmetricCircles,

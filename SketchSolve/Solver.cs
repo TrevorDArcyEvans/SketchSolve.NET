@@ -41,12 +41,12 @@ public static class Solver
     var constraints = cons.ToArray();
 
     // Get the parameters that need solving by selecting "free" ones
-    var x = constraints.SelectMany(p => p)
+    var freeConstraints = constraints.SelectMany(p => p)
       .Distinct()
       .Where(p => p.free == true)
       .ToArray();
 
-    Console.WriteLine("Number of free vars is " + x.Length);
+    Console.WriteLine("Number of free vars is " + freeConstraints.Length);
 
     // Wrap our constraint error function for Accord.NET
     Func<double[], double> objective = args =>
@@ -54,25 +54,25 @@ public static class Solver
       var i = 0;
       foreach (var arg in args)
       {
-        x[i].Value = arg;
+        freeConstraints[i].Value = arg;
         i++;
       }
 
-      return Constraint.calc(constraints);
+      return Constraint.Calc(constraints);
     };
 
 
     var nlConstraints = new List<NonlinearConstraint>();
 
     // Finally, we create the non-linear programming solver 
-    var solver = new AugmentedLagrangian(x.Length, nlConstraints)
+    var solver = new AugmentedLagrangian(freeConstraints.Length, nlConstraints)
     {
       Function = LogWrap(objective),
-      Gradient = LogWrap(Grad(x.Length, objective))
+      Gradient = LogWrap(Grad(freeConstraints.Length, objective))
     };
 
     // Copy in the initial conditions
-    x.Select(v => v.Value).ToArray().CopyTo(solver.Solution, 0);
+    freeConstraints.Select(v => v.Value).ToArray().CopyTo(solver.Solution, 0);
 
     // And attempt to solve the problem 
     _ = solver.Minimize();

@@ -6,8 +6,8 @@ public static class ConstraintBuilderMixins
   {
     return new Constraint
     {
-      type = ConstraintEnum.Horizontal,
-      line1 = This
+      ContraintType = ConstraintEnum.Horizontal,
+      Line1 = This
     };
   }
 
@@ -15,8 +15,8 @@ public static class ConstraintBuilderMixins
   {
     return new Constraint
     {
-      type = ConstraintEnum.Vertical,
-      line1 = This
+      ContraintType = ConstraintEnum.Vertical,
+      Line1 = This
     };
   }
 
@@ -24,9 +24,9 @@ public static class ConstraintBuilderMixins
   {
     return new Constraint
     {
-      type = ConstraintEnum.PointOnPoint,
-      point1 = This,
-      point2 = other
+      ContraintType = ConstraintEnum.PointOnPoint,
+      Point1 = This,
+      Point2 = other
     };
   }
 
@@ -34,10 +34,10 @@ public static class ConstraintBuilderMixins
   {
     return new Constraint
     {
-      type = ConstraintEnum.InternalAngle,
-      line1 = This,
-      line2 = other,
-      parameter = angle
+      ContraintType = ConstraintEnum.InternalAngle,
+      Line1 = This,
+      Line2 = other,
+      Parameter = angle
     };
   }
 
@@ -45,10 +45,10 @@ public static class ConstraintBuilderMixins
   {
     return new Constraint
     {
-      type = ConstraintEnum.ExternalAngle,
-      line1 = This,
-      line2 = other,
-      parameter = angle
+      ContraintType = ConstraintEnum.ExternalAngle,
+      Line1 = This,
+      Line2 = other,
+      Parameter = angle
     };
   }
 
@@ -56,9 +56,9 @@ public static class ConstraintBuilderMixins
   {
     return new Constraint
     {
-      type = ConstraintEnum.Perpendicular,
-      line1 = This,
-      line2 = other,
+      ContraintType = ConstraintEnum.Perpendicular,
+      Line1 = This,
+      Line2 = other,
     };
   }
 
@@ -66,9 +66,9 @@ public static class ConstraintBuilderMixins
   {
     return new Constraint
     {
-      type = ConstraintEnum.TangentToCircle,
-      line1 = This,
-      circle1 = other,
+      ContraintType = ConstraintEnum.TangentToCircle,
+      Line1 = This,
+      Circle1 = other,
     };
   }
 }
