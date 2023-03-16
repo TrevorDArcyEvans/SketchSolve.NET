@@ -69,16 +69,7 @@ public class Constraint : IEnumerable<Parameter>
       var P1_y = constraint.Point1 == null ? 0 : constraint.Point1.Y.Value;
       var P2_x = constraint.Point2 == null ? 0 : constraint.Point2.X.Value;
       var P2_y = constraint.Point2 == null ? 0 : constraint.Point2.Y.Value;
-
-      var L1_P1_x = constraint.Line1 == null ? 0 : constraint.Line1.P1.X.Value;
-      var L1_P1_y = constraint.Line1 == null ? 0 : constraint.Line1.P1.Y.Value;
-      var L1_P2_x = constraint.Line1 == null ? 0 : constraint.Line1.P2.X.Value;
-      var L1_P2_y = constraint.Line1 == null ? 0 : constraint.Line1.P2.Y.Value;
-      var L2_P1_x = constraint.Line2 == null ? 0 : constraint.Line2.P1.X.Value;
-      var L2_P1_y = constraint.Line2 == null ? 0 : constraint.Line2.P1.Y.Value;
-      var L2_P2_x = constraint.Line2 == null ? 0 : constraint.Line2.P2.X.Value;
-      var L2_P2_y = constraint.Line2 == null ? 0 : constraint.Line2.P2.Y.Value;
-
+      
       switch (constraint.ContraintType)
       {
         case ConstraintEnum.PointOnPoint:
@@ -112,6 +103,10 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.PointOnLine:
         {
+          var L1_P1_x = constraint.Line1 == null ? 0 : constraint.Line1.P1.X.Value;
+          var L1_P1_y = constraint.Line1 == null ? 0 : constraint.Line1.P1.Y.Value;
+          var L1_P2_x = constraint.Line1 == null ? 0 : constraint.Line1.P2.X.Value;
+          var L1_P2_y = constraint.Line1 == null ? 0 : constraint.Line1.P2.Y.Value;
           var dx = L1_P2_x - L1_P1_x;
           var dy = L1_P2_y - L1_P1_y;
 
@@ -135,6 +130,10 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.P2LDistance:
         {
+          var L1_P1_x = constraint.Line1 == null ? 0 : constraint.Line1.P1.X.Value;
+          var L1_P1_y = constraint.Line1 == null ? 0 : constraint.Line1.P1.Y.Value;
+          var L1_P2_x = constraint.Line1 == null ? 0 : constraint.Line1.P2.X.Value;
+          var L1_P2_y = constraint.Line1 == null ? 0 : constraint.Line1.P2.Y.Value;
           var dx = L1_P2_x - L1_P1_x;
           var dy = L1_P2_y - L1_P1_y;
 
@@ -149,6 +148,10 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.P2LDistanceVert:
         {
+          var L1_P1_x = constraint.Line1 == null ? 0 : constraint.Line1.P1.X.Value;
+          var L1_P1_y = constraint.Line1 == null ? 0 : constraint.Line1.P1.Y.Value;
+          var L1_P2_x = constraint.Line1 == null ? 0 : constraint.Line1.P2.X.Value;
+          var L1_P2_y = constraint.Line1 == null ? 0 : constraint.Line1.P2.Y.Value;
           var dx = L1_P2_x - L1_P1_x;
           var dy = L1_P2_y - L1_P1_y;
 
@@ -162,6 +165,10 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.P2LDistanceHoriz:
         {
+          var L1_P1_x = constraint.Line1 == null ? 0 : constraint.Line1.P1.X.Value;
+          var L1_P1_y = constraint.Line1 == null ? 0 : constraint.Line1.P1.Y.Value;
+          var L1_P2_x = constraint.Line1 == null ? 0 : constraint.Line1.P2.X.Value;
+          var L1_P2_y = constraint.Line1 == null ? 0 : constraint.Line1.P2.Y.Value;
           var dx = L1_P2_x - L1_P1_x;
           var dy = L1_P2_y - L1_P1_y;
 
@@ -175,6 +182,8 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.Vertical:
         {
+          var L1_P1_x = constraint.Line1 == null ? 0 : constraint.Line1.P1.X.Value;
+          var L1_P2_x = constraint.Line1 == null ? 0 : constraint.Line1.P2.X.Value;
           var odx = L1_P2_x - L1_P1_x;
           error += odx * odx;
         }
@@ -182,6 +191,8 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.Horizontal:
         {
+          var L1_P1_y = constraint.Line1 == null ? 0 : constraint.Line1.P1.Y.Value;
+          var L1_P2_y = constraint.Line1 == null ? 0 : constraint.Line1.P2.Y.Value;
           var ody = L1_P2_y - L1_P1_y;
           error += ody * ody;
         }
@@ -224,6 +235,10 @@ public class Constraint : IEnumerable<Parameter>
           error += temp*temp*100;
           */
 
+          var L1_P1_x = constraint.Line1 == null ? 0 : constraint.Line1.P1.X.Value;
+          var L1_P1_y = constraint.Line1 == null ? 0 : constraint.Line1.P1.Y.Value;
+          var L1_P2_x = constraint.Line1 == null ? 0 : constraint.Line1.P2.X.Value;
+          var L1_P2_y = constraint.Line1 == null ? 0 : constraint.Line1.P2.Y.Value;
           var dx = L1_P2_x - L1_P1_x;
           var dy = L1_P2_y - L1_P1_y;
 
@@ -279,6 +294,10 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.LineLength:
         {
+          var L1_P1_x = constraint.Line1 == null ? 0 : constraint.Line1.P1.X.Value;
+          var L1_P1_y = constraint.Line1 == null ? 0 : constraint.Line1.P1.Y.Value;
+          var L1_P2_x = constraint.Line1 == null ? 0 : constraint.Line1.P2.X.Value;
+          var L1_P2_y = constraint.Line1 == null ? 0 : constraint.Line1.P2.Y.Value;
           var temp = Math.Sqrt(Math.Pow(L1_P2_x - L1_P1_x, 2) + Math.Pow(L1_P2_y - L1_P1_y, 2)) - (constraint.Parameter == null ? 0 : constraint.Parameter.Value);
           //temp=Hypot(L1_P2_x - L1_P1_x , L1_P2_y - L1_P1_y) - length;
           error += temp * temp * 100;
@@ -287,6 +306,14 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.EqualLength:
         {
+          var L1_P1_x = constraint.Line1 == null ? 0 : constraint.Line1.P1.X.Value;
+          var L1_P1_y = constraint.Line1 == null ? 0 : constraint.Line1.P1.Y.Value;
+          var L1_P2_x = constraint.Line1 == null ? 0 : constraint.Line1.P2.X.Value;
+          var L1_P2_y = constraint.Line1 == null ? 0 : constraint.Line1.P2.Y.Value;
+          var L2_P1_x = constraint.Line2 == null ? 0 : constraint.Line2.P1.X.Value;
+          var L2_P1_y = constraint.Line2 == null ? 0 : constraint.Line2.P1.Y.Value;
+          var L2_P2_x = constraint.Line2 == null ? 0 : constraint.Line2.P2.X.Value;
+          var L2_P2_y = constraint.Line2 == null ? 0 : constraint.Line2.P2.Y.Value;
           var temp = Hypot(L1_P2_x - L1_P1_x, L1_P2_y - L1_P1_y) - Hypot(L2_P2_x - L2_P1_x, L2_P2_y - L2_P1_y);
           error += temp * temp;
         }
@@ -424,6 +451,14 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.Parallel:
         {
+          var L1_P1_x = constraint.Line1 == null ? 0 : constraint.Line1.P1.X.Value;
+          var L1_P1_y = constraint.Line1 == null ? 0 : constraint.Line1.P1.Y.Value;
+          var L1_P2_x = constraint.Line1 == null ? 0 : constraint.Line1.P2.X.Value;
+          var L1_P2_y = constraint.Line1 == null ? 0 : constraint.Line1.P2.Y.Value;
+          var L2_P1_x = constraint.Line2 == null ? 0 : constraint.Line2.P1.X.Value;
+          var L2_P1_y = constraint.Line2 == null ? 0 : constraint.Line2.P1.Y.Value;
+          var L2_P2_x = constraint.Line2 == null ? 0 : constraint.Line2.P2.X.Value;
+          var L2_P2_y = constraint.Line2 == null ? 0 : constraint.Line2.P2.Y.Value;
           var dx = L1_P2_x - L1_P1_x;
           var dy = L1_P2_y - L1_P1_y;
           var dx2 = L2_P2_x - L2_P1_x;
@@ -444,6 +479,10 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.Collinear:
         {
+          var L1_P1_x = constraint.Line1 == null ? 0 : constraint.Line1.P1.X.Value;
+          var L1_P1_y = constraint.Line1 == null ? 0 : constraint.Line1.P1.Y.Value;
+          var L1_P2_x = constraint.Line1 == null ? 0 : constraint.Line1.P2.X.Value;
+          var L1_P2_y = constraint.Line1 == null ? 0 : constraint.Line1.P2.Y.Value;
           var dx = L1_P2_x - L1_P1_x;
           var dy = L1_P2_y - L1_P1_y;
 
@@ -455,6 +494,10 @@ public class Constraint : IEnumerable<Parameter>
           if (m <= 1 && m > -1)
           {
             //Calculate the expected y point given the x coordinate of the point
+            var L2_P1_x = constraint.Line2 == null ? 0 : constraint.Line2.P1.X.Value;
+            var L2_P1_y = constraint.Line2 == null ? 0 : constraint.Line2.P1.Y.Value;
+            var L2_P2_x = constraint.Line2 == null ? 0 : constraint.Line2.P2.X.Value;
+            var L2_P2_y = constraint.Line2 == null ? 0 : constraint.Line2.P2.Y.Value;
             var Ey = L1_P1_y + m * (L2_P1_x - L1_P1_x);
             error += (Ey - L2_P1_y) * (Ey - L2_P1_y);
 
@@ -464,6 +507,10 @@ public class Constraint : IEnumerable<Parameter>
           else
           {
             //Calculate the expected x point given the y coordinate of the point
+            var L2_P1_x = constraint.Line2 == null ? 0 : constraint.Line2.P1.X.Value;
+            var L2_P1_y = constraint.Line2 == null ? 0 : constraint.Line2.P1.Y.Value;
+            var L2_P2_x = constraint.Line2 == null ? 0 : constraint.Line2.P2.X.Value;
+            var L2_P2_y = constraint.Line2 == null ? 0 : constraint.Line2.P2.Y.Value;
             var Ex = L1_P1_x + n * (L2_P1_y - L1_P1_y);
             error += (Ex - L2_P1_x) * (Ex - L2_P1_x);
 
@@ -505,6 +552,10 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.PointOnLineMidpoint:
         {
+          var L1_P1_x = constraint.Line1 == null ? 0 : constraint.Line1.P1.X.Value;
+          var L1_P1_y = constraint.Line1 == null ? 0 : constraint.Line1.P1.Y.Value;
+          var L1_P2_x = constraint.Line1 == null ? 0 : constraint.Line1.P2.X.Value;
+          var L1_P2_y = constraint.Line1 == null ? 0 : constraint.Line1.P2.Y.Value;
           var Ex = (L1_P1_x + L1_P2_x) / 2;
           var Ey = (L1_P1_y + L1_P2_y) / 2;
           var tempX = Ex - P1_x;
@@ -591,9 +642,17 @@ public class Constraint : IEnumerable<Parameter>
           var Sym_P2_y = constraint.SymLine == null ? 0 : constraint.SymLine.P2.Y.Value;
           var dx = Sym_P2_x - Sym_P1_x;
           var dy = Sym_P2_y - Sym_P1_y;
+          var L1_P1_x = constraint.Line1 == null ? 0 : constraint.Line1.P1.X.Value;
+          var L1_P1_y = constraint.Line1 == null ? 0 : constraint.Line1.P1.Y.Value;
           var t = -(dy * L1_P1_x - dx * L1_P1_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
           var Ex = L1_P1_x + dy * t * 2;
           var Ey = L1_P1_y - dx * t * 2;
+          var L1_P2_x = constraint.Line1 == null ? 0 : constraint.Line1.P2.X.Value;
+          var L1_P2_y = constraint.Line1 == null ? 0 : constraint.Line1.P2.Y.Value;
+          var L2_P1_x = constraint.Line2 == null ? 0 : constraint.Line2.P1.X.Value;
+          var L2_P1_y = constraint.Line2 == null ? 0 : constraint.Line2.P1.Y.Value;
+          var L2_P2_x = constraint.Line2 == null ? 0 : constraint.Line2.P2.X.Value;
+          var L2_P2_y = constraint.Line2 == null ? 0 : constraint.Line2.P2.Y.Value;
           var tempX = Ex - L2_P1_x;
           var tempY = Ey - L2_P1_y;
           error += tempX * tempX + tempY * tempY;
