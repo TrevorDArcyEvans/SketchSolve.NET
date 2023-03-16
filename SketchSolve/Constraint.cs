@@ -107,8 +107,6 @@ public class Constraint : IEnumerable<Parameter>
       var A2_End_y = A1_Center_y + A2_radius * Math.Sin(A2_endA);
 
 
-      var length = constraint.Parameter == null ? 0 : constraint.Parameter.Value;
-
       var Sym_P1_x = constraint.SymLine == null ? 0 : constraint.SymLine.P1.X.Value;
       var Sym_P1_y = constraint.SymLine == null ? 0 : constraint.SymLine.P1.Y.Value;
 
@@ -128,21 +126,21 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.P2PDistance:
         {
-          var distance = length;
+          var distance = constraint.Parameter == null ? 0 : constraint.Parameter.Value;
           error += (P1_x - P2_x) * (P1_x - P2_x) + (P1_y - P2_y) * (P1_y - P2_y) - distance * distance;
         }
           break;
 
         case ConstraintEnum.P2PDistanceVert:
         {
-          var distance = length;
+          var distance = constraint.Parameter == null ? 0 : constraint.Parameter.Value;
           error += (P1_y - P2_y) * (P1_y - P2_y) - distance * distance;
         }
           break;
 
         case ConstraintEnum.P2PDistanceHoriz:
         {
-          var distance = length;
+          var distance = constraint.Parameter == null ? 0 : constraint.Parameter.Value;
           error += (P1_x - P2_x) * (P1_x - P2_x) - distance * distance;
         }
           break;
@@ -178,7 +176,7 @@ public class Constraint : IEnumerable<Parameter>
           var t = -(L1_P1_x * dx - P1_x * dx + L1_P1_y * dy - P1_y * dy) / (dx * dx + dy * dy);
           var Xint = L1_P1_x + dx * t;
           var Yint = L1_P1_y + dy * t;
-          var distance = length;
+          var distance = constraint.Parameter == null ? 0 : constraint.Parameter.Value;
           var temp = Hypot(P1_x - Xint, P1_y - Yint) - distance;
           error += temp * temp / 10;
         }
@@ -191,7 +189,7 @@ public class Constraint : IEnumerable<Parameter>
 
           var t = (P1_x - L1_P1_x) / dx;
           var Yint = L1_P1_y + dy * t;
-          var distance = length;
+          var distance = constraint.Parameter == null ? 0 : constraint.Parameter.Value;
           var temp = Math.Abs(P1_y - Yint) - distance;
           error += temp * temp;
         }
@@ -204,7 +202,7 @@ public class Constraint : IEnumerable<Parameter>
 
           var t = (P1_y - L1_P1_y) / dy;
           var Xint = L1_P1_x + dx * t;
-          var distance = length;
+          var distance = constraint.Parameter == null ? 0 : constraint.Parameter.Value;
           var temp = Math.Abs(P1_x - Xint) - distance;
           error += temp * temp / 10;
         }
@@ -301,7 +299,7 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.LineLength:
         {
-          var temp = Math.Sqrt(Math.Pow(L1_P2_x - L1_P1_x, 2) + Math.Pow(L1_P2_y - L1_P1_y, 2)) - length;
+          var temp = Math.Sqrt(Math.Pow(L1_P2_x - L1_P1_x, 2) + Math.Pow(L1_P2_y - L1_P1_y, 2)) - (constraint.Parameter == null ? 0 : constraint.Parameter.Value);
           //temp=Hypot(L1_P2_x - L1_P1_x , L1_P2_y - L1_P1_y) - length;
           error += temp * temp * 100;
         }
@@ -316,7 +314,7 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.ArcRadius:
         {
-          var radius = length;
+          var radius = constraint.Parameter == null ? 0 : constraint.Parameter.Value;
           var rad1 = Hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
           var rad2 = Hypot(A1_Center_x - A1_End_x, A1_Center_y - A1_End_y);
           var temp = rad1 - radius;
@@ -371,14 +369,14 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.CircleRadius:
         {
-          var radius = length;
+          var radius = constraint.Parameter == null ? 0 : constraint.Parameter.Value;
           error += (C1_rad - radius) * (C1_rad - radius);
         }
           break;
 
         case ConstraintEnum.InternalAngle:
         {
-          var angleP = length;
+          var angleP = constraint.Parameter == null ? 0 : constraint.Parameter.Value;
           var temp = constraint.Line1.Vector.Cosine(constraint.Line2.Vector);
           var temp2 = Math.Cos(angleP);
           error += (temp - temp2) * (temp - temp2);
@@ -387,7 +385,7 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.ExternalAngle:
         {
-          var angleP = length;
+          var angleP = constraint.Parameter == null ? 0 : constraint.Parameter.Value;
           var temp = constraint.Line1.Vector.Cosine(constraint.Line2.Vector);
           var temp2 = Math.Cos(Math.PI - angleP);
           error += (temp - temp2) * (temp - temp2);
@@ -500,7 +498,7 @@ public class Constraint : IEnumerable<Parameter>
         {
           var Ex = C1_Center_x;
           var Ey = C1_Center_y;
-          var quadIndex = length;
+          var quadIndex = constraint.Parameter == null ? 0 : constraint.Parameter.Value;
           switch ((int)quadIndex)
           {
             case 0:
