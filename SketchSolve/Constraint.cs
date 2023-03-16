@@ -86,10 +86,6 @@ public class Constraint : IEnumerable<Parameter>
       var C2_Center_y = constraint.Circle2 == null ? 0 : constraint.Circle2.Center.Y.Value;
       var C2_rad = constraint.Circle2 == null ? 0 : constraint.Circle2.Rad.Value;
 
-      var A1_startA = constraint.Arc1 == null ? 0 : constraint.Arc1.StartAngle.Value;
-      var A1_endA = constraint.Arc1 == null ? 0 : constraint.Arc1.EndAngle.Value;
-      var A1_radius = constraint.Arc1 == null ? 0 : constraint.Arc1.Rad.Value;
-
       switch (constraint.ContraintType)
       {
         case ConstraintEnum.PointOnPoint:
@@ -240,6 +236,8 @@ public class Constraint : IEnumerable<Parameter>
 
           var A1_Center_x = constraint.Arc1 == null ? 0 : constraint.Arc1.Center.X.Value;
           var A1_Center_y = constraint.Arc1 == null ? 0 : constraint.Arc1.Center.Y.Value;
+          var A1_radius = constraint.Arc1 == null ? 0 : constraint.Arc1.Rad.Value;
+          var A1_startA = constraint.Arc1 == null ? 0 : constraint.Arc1.StartAngle.Value;
           var A1_Start_y = A1_Center_y + A1_radius * Math.Sin(A1_startA);
           var A1_Start_x = A1_Center_x + A1_radius * Math.Cos(A1_startA);
           var radsq = (A1_Center_x - A1_Start_x) * (A1_Center_x - A1_Start_x) + (A1_Center_y - A1_Start_y) * (A1_Center_y - A1_Start_y);
@@ -270,8 +268,11 @@ public class Constraint : IEnumerable<Parameter>
           //error+=Math.Pow(-2*A1_Center_x*A1_End_y - 2*A1_Center_y*A1_End_y + A1_End_x*A1_End_y + Math.Pow(A1_End_y,2) + 2*A1_Center_x*A1_Start_x - 2*A1_Center_y*A1_Start_x - A1_End_x*A1_Start_x + 4*A1_End_y*A1_Start_x - 3*Math.Pow(A1_Start_x,2) +  2*A1_Center_y*A1_Start_y + A1_Start_x*A1_Start_y - Math.Pow(A1_Start_y,2),2)/(8*Math.Pow(A1_End_y,2) + 8*Math.Pow(A1_Start_x,2) - 8*A1_End_y*A1_Start_y -  8*A1_Start_x*A1_Start_y + 4*Math.Pow(A1_Start_y,2));
           var A1_Center_x = constraint.Arc1 == null ? 0 : constraint.Arc1.Center.X.Value;
           var A1_Center_y = constraint.Arc1 == null ? 0 : constraint.Arc1.Center.Y.Value;
+          var A1_radius = constraint.Arc1 == null ? 0 : constraint.Arc1.Rad.Value;
+          var A1_endA = constraint.Arc1 == null ? 0 : constraint.Arc1.EndAngle.Value;
           var A1_End_x = A1_Center_x + A1_radius * Math.Cos(A1_endA);
           var A1_End_y = A1_Center_y + A1_radius * Math.Sin(A1_endA);
+          var A1_startA = constraint.Arc1 == null ? 0 : constraint.Arc1.StartAngle.Value;
           var A1_Start_y = A1_Center_y + A1_radius * Math.Sin(A1_startA);
           var A1_Start_x = A1_Center_x + A1_radius * Math.Cos(A1_startA);
           var a1endx2 = A1_End_x * A1_End_x;
@@ -302,8 +303,11 @@ public class Constraint : IEnumerable<Parameter>
         {
           var A1_Center_x = constraint.Arc1 == null ? 0 : constraint.Arc1.Center.X.Value;
           var A1_Center_y = constraint.Arc1 == null ? 0 : constraint.Arc1.Center.Y.Value;
+          var A1_radius = constraint.Arc1 == null ? 0 : constraint.Arc1.Rad.Value;
+          var A1_endA = constraint.Arc1 == null ? 0 : constraint.Arc1.EndAngle.Value;
           var A1_End_x = A1_Center_x + A1_radius * Math.Cos(A1_endA);
           var A1_End_y = A1_Center_y + A1_radius * Math.Sin(A1_endA);
+          var A1_startA = constraint.Arc1 == null ? 0 : constraint.Arc1.StartAngle.Value;
           var A1_Start_y = A1_Center_y + A1_radius * Math.Sin(A1_startA);
           var A1_Start_x = A1_Center_x + A1_radius * Math.Cos(A1_startA);
           var radius = constraint.Parameter == null ? 0 : constraint.Parameter.Value;
@@ -322,6 +326,8 @@ public class Constraint : IEnumerable<Parameter>
           var A1_Center_y = constraint.Arc1 == null ? 0 : constraint.Arc1.Center.Y.Value;
           var A2_Start_x = A1_Center_x + A2_radius * Math.Cos(A2_startA);
           var A2_Start_y = A1_Center_y + A2_radius * Math.Sin(A2_startA);
+          var A1_radius = constraint.Arc1 == null ? 0 : constraint.Arc1.Rad.Value;
+          var A1_startA = constraint.Arc1 == null ? 0 : constraint.Arc1.StartAngle.Value;
           var A1_Start_x = A1_Center_x + A1_radius * Math.Cos(A1_startA);
           var A1_Start_y = A1_Center_y + A1_radius * Math.Sin(A1_startA);
           var A2_Center_x = constraint.Arc2 == null ? 0 : constraint.Arc2.Center.X.Value;
@@ -344,6 +350,8 @@ public class Constraint : IEnumerable<Parameter>
         {
           var A1_Center_x = constraint.Arc1 == null ? 0 : constraint.Arc1.Center.X.Value;
           var A1_Center_y = constraint.Arc1 == null ? 0 : constraint.Arc1.Center.Y.Value;
+          var A1_radius = constraint.Arc1 == null ? 0 : constraint.Arc1.Rad.Value;
+          var A1_startA = constraint.Arc1 == null ? 0 : constraint.Arc1.StartAngle.Value;
           var A1_Start_x = A1_Center_x + A1_radius * Math.Cos(A1_startA);
           var A1_Start_y = A1_Center_y + A1_radius * Math.Sin(A1_startA);
           var rad1 = Hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
@@ -477,6 +485,8 @@ public class Constraint : IEnumerable<Parameter>
           //see what the current radius to the point is
           var A1_Center_x = constraint.Arc1 == null ? 0 : constraint.Arc1.Center.X.Value;
           var A1_Center_y = constraint.Arc1 == null ? 0 : constraint.Arc1.Center.Y.Value;
+          var A1_radius = constraint.Arc1 == null ? 0 : constraint.Arc1.Rad.Value;
+          var A1_startA = constraint.Arc1 == null ? 0 : constraint.Arc1.StartAngle.Value;
           var A1_Start_y = A1_Center_y + A1_radius * Math.Sin(A1_startA);
           var A1_Start_x = A1_Center_x + A1_radius * Math.Cos(A1_startA);
           var rad1 = Hypot(A1_Center_x - P1_x, A1_Center_y - P1_y);
@@ -501,8 +511,11 @@ public class Constraint : IEnumerable<Parameter>
         {
           var A1_Center_x = constraint.Arc1 == null ? 0 : constraint.Arc1.Center.X.Value;
           var A1_Center_y = constraint.Arc1 == null ? 0 : constraint.Arc1.Center.Y.Value;
+          var A1_radius = constraint.Arc1 == null ? 0 : constraint.Arc1.Rad.Value;
+          var A1_endA = constraint.Arc1 == null ? 0 : constraint.Arc1.EndAngle.Value;
           var A1_End_x = A1_Center_x + A1_radius * Math.Cos(A1_endA);
           var A1_End_y = A1_Center_y + A1_radius * Math.Sin(A1_endA);
+          var A1_startA = constraint.Arc1 == null ? 0 : constraint.Arc1.StartAngle.Value;
           var A1_Start_y = A1_Center_y + A1_radius * Math.Sin(A1_startA);
           var A1_Start_x = A1_Center_x + A1_radius * Math.Cos(A1_startA);
           var rad1 = Hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
@@ -613,6 +626,8 @@ public class Constraint : IEnumerable<Parameter>
           var Sym_P2_y = constraint.SymLine == null ? 0 : constraint.SymLine.P2.Y.Value;
           var A1_Center_x = constraint.Arc1 == null ? 0 : constraint.Arc1.Center.X.Value;
           var A1_Center_y = constraint.Arc1 == null ? 0 : constraint.Arc1.Center.Y.Value;
+          var A1_radius = constraint.Arc1 == null ? 0 : constraint.Arc1.Rad.Value;
+          var A1_startA = constraint.Arc1 == null ? 0 : constraint.Arc1.StartAngle.Value;
           var A1_Start_x = A1_Center_x + A1_radius * Math.Cos(A1_startA);
           var A1_Start_y = A1_Center_y + A1_radius * Math.Sin(A1_startA);
           var dx = Sym_P2_x - Sym_P1_x;
@@ -629,6 +644,7 @@ public class Constraint : IEnumerable<Parameter>
           var tempY = Ey - A2_Start_y;
           error += tempX * tempX + tempY * tempY;
 
+          var A1_endA = constraint.Arc1 == null ? 0 : constraint.Arc1.EndAngle.Value;
           var A1_End_x = A1_Center_x + A1_radius * Math.Cos(A1_endA);
           var A1_End_y = A1_Center_y + A1_radius * Math.Sin(A1_endA);
           t = -(dy * A1_End_x - dx * A1_End_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
