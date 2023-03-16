@@ -79,13 +79,6 @@ public class Constraint : IEnumerable<Parameter>
       var L2_P2_x = constraint.Line2 == null ? 0 : constraint.Line2.P2.X.Value;
       var L2_P2_y = constraint.Line2 == null ? 0 : constraint.Line2.P2.Y.Value;
 
-      var C1_Center_x = constraint.Circle1 == null ? 0 : constraint.Circle1.Center.X.Value;
-      var C1_Center_y = constraint.Circle1 == null ? 0 : constraint.Circle1.Center.Y.Value;
-      var C1_rad = constraint.Circle1 == null ? 0 : constraint.Circle1.Rad.Value;
-      var C2_Center_x = constraint.Circle2 == null ? 0 : constraint.Circle2.Center.X.Value;
-      var C2_Center_y = constraint.Circle2 == null ? 0 : constraint.Circle2.Center.Y.Value;
-      var C2_rad = constraint.Circle2 == null ? 0 : constraint.Circle2.Rad.Value;
-
       switch (constraint.ContraintType)
       {
         case ConstraintEnum.PointOnPoint:
@@ -341,6 +334,8 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.EqualRadiusCircles:
         {
+          var C1_rad = constraint.Circle1 == null ? 0 : constraint.Circle1.Rad.Value;
+          var C2_rad = constraint.Circle2 == null ? 0 : constraint.Circle2.Rad.Value;
           var temp = C1_rad - C2_rad;
           error += temp * temp;
         }
@@ -354,6 +349,7 @@ public class Constraint : IEnumerable<Parameter>
           var A1_startA = constraint.Arc1 == null ? 0 : constraint.Arc1.StartAngle.Value;
           var A1_Start_x = A1_Center_x + A1_radius * Math.Cos(A1_startA);
           var A1_Start_y = A1_Center_y + A1_radius * Math.Sin(A1_startA);
+          var C1_rad = constraint.Circle1 == null ? 0 : constraint.Circle1.Rad.Value;
           var rad1 = Hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
           var temp = rad1 - C1_rad;
           error += temp * temp;
@@ -373,6 +369,10 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.ConcentricCircles:
         {
+          var C1_Center_x = constraint.Circle1 == null ? 0 : constraint.Circle1.Center.X.Value;
+          var C1_Center_y = constraint.Circle1 == null ? 0 : constraint.Circle1.Center.Y.Value;
+          var C2_Center_x = constraint.Circle2 == null ? 0 : constraint.Circle2.Center.X.Value;
+          var C2_Center_y = constraint.Circle2 == null ? 0 : constraint.Circle2.Center.Y.Value;
           var temp = Hypot(C1_Center_x - C2_Center_x, C1_Center_y - C2_Center_y);
           error += temp * temp;
         }
@@ -382,6 +382,8 @@ public class Constraint : IEnumerable<Parameter>
         {
           var A1_Center_x = constraint.Arc1 == null ? 0 : constraint.Arc1.Center.X.Value;
           var A1_Center_y = constraint.Arc1 == null ? 0 : constraint.Arc1.Center.Y.Value;
+          var C1_Center_x = constraint.Circle1 == null ? 0 : constraint.Circle1.Center.X.Value;
+          var C1_Center_y = constraint.Circle1 == null ? 0 : constraint.Circle1.Center.Y.Value;
           var temp = Hypot(A1_Center_x - C1_Center_x, A1_Center_y - C1_Center_y);
           error += temp * temp;
         }
@@ -389,6 +391,7 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.CircleRadius:
         {
+          var C1_rad = constraint.Circle1 == null ? 0 : constraint.Circle1.Rad.Value;
           var radius = constraint.Parameter == null ? 0 : constraint.Parameter.Value;
           error += (C1_rad - radius) * (C1_rad - radius);
         }
@@ -473,6 +476,9 @@ public class Constraint : IEnumerable<Parameter>
         case ConstraintEnum.PointOnCircle:
         {
           //see what the current radius to the point is
+          var C1_rad = constraint.Circle1 == null ? 0 : constraint.Circle1.Rad.Value;
+          var C1_Center_x = constraint.Circle1 == null ? 0 : constraint.Circle1.Center.X.Value;
+          var C1_Center_y = constraint.Circle1 == null ? 0 : constraint.Circle1.Center.Y.Value;
           var rad1 = Hypot(C1_Center_x - P1_x, C1_Center_y - P1_y);
           //Compare this radius to the radius of the circle, return the error squared
           var temp = rad1 - C1_rad;
@@ -531,8 +537,11 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.PointOnCircleQuad:
         {
+          var C1_Center_x = constraint.Circle1 == null ? 0 : constraint.Circle1.Center.X.Value;
+          var C1_Center_y = constraint.Circle1 == null ? 0 : constraint.Circle1.Center.Y.Value;
           var Ex = C1_Center_x;
           var Ey = C1_Center_y;
+          var C1_rad = constraint.Circle1 == null ? 0 : constraint.Circle1.Rad.Value;
           var quadIndex = constraint.Parameter == null ? 0 : constraint.Parameter.Value;
           switch ((int)quadIndex)
           {
@@ -604,15 +613,21 @@ public class Constraint : IEnumerable<Parameter>
           var Sym_P1_y = constraint.SymLine == null ? 0 : constraint.SymLine.P1.Y.Value;
           var Sym_P2_x = constraint.SymLine == null ? 0 : constraint.SymLine.P2.X.Value;
           var Sym_P2_y = constraint.SymLine == null ? 0 : constraint.SymLine.P2.Y.Value;
+          var C1_Center_x = constraint.Circle1 == null ? 0 : constraint.Circle1.Center.X.Value;
+          var C1_Center_y = constraint.Circle1 == null ? 0 : constraint.Circle1.Center.Y.Value;
           var dx = Sym_P2_x - Sym_P1_x;
           var dy = Sym_P2_y - Sym_P1_y;
           var t = -(dy * C1_Center_x - dx * C1_Center_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
           var Ex = C1_Center_x + dy * t * 2;
           var Ey = C1_Center_y - dx * t * 2;
+          var C2_Center_x = constraint.Circle2 == null ? 0 : constraint.Circle2.Center.X.Value;
+          var C2_Center_y = constraint.Circle2 == null ? 0 : constraint.Circle2.Center.Y.Value;
           var tempX = Ex - C2_Center_x;
           var tempY = Ey - C2_Center_y;
           error += tempX * tempX + tempY * tempY;
 
+          var C1_rad = constraint.Circle1 == null ? 0 : constraint.Circle1.Rad.Value;
+          var C2_rad = constraint.Circle2 == null ? 0 : constraint.Circle2.Rad.Value;
           var temp = C1_rad - C2_rad;
           error += temp * temp;
         }
