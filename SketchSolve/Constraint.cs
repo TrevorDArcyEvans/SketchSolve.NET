@@ -110,7 +110,6 @@ public class Constraint : IEnumerable<Parameter>
       var length = constraint.Parameter == null ? 0 : constraint.Parameter.Value;
       var distance = length;
       var radius = length;
-      var angleP = length;
 
       var Sym_P1_x = constraint.SymLine == null ? 0 : constraint.SymLine.P1.X.Value;
       var Sym_P1_y = constraint.SymLine == null ? 0 : constraint.SymLine.P1.Y.Value;
@@ -373,6 +372,7 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.InternalAngle:
         {
+          var angleP = length;
           var temp = constraint.Line1.Vector.Cosine(constraint.Line2.Vector);
           var temp2 = Math.Cos(angleP);
           error += (temp - temp2) * (temp - temp2);
@@ -381,6 +381,7 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.ExternalAngle:
         {
+          var angleP = length;
           var temp = constraint.Line1.Vector.Cosine(constraint.Line2.Vector);
           var temp2 = Math.Cos(Math.PI - angleP);
           error += (temp - temp2) * (temp - temp2);
