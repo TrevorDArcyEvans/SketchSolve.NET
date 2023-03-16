@@ -109,7 +109,6 @@ public class Constraint : IEnumerable<Parameter>
 
       var length = constraint.Parameter == null ? 0 : constraint.Parameter.Value;
       var distance = length;
-      var radius = length;
 
       var Sym_P1_x = constraint.SymLine == null ? 0 : constraint.SymLine.P1.X.Value;
       var Sym_P1_y = constraint.SymLine == null ? 0 : constraint.SymLine.P1.Y.Value;
@@ -312,6 +311,7 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.ArcRadius:
         {
+          var radius = length;
           var rad1 = Hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
           var rad2 = Hypot(A1_Center_x - A1_End_x, A1_Center_y - A1_End_y);
           var temp = rad1 - radius;
@@ -366,6 +366,7 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.CircleRadius:
         {
+          var radius = length;
           error += (C1_rad - radius) * (C1_rad - radius);
         }
           break;
