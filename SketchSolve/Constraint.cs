@@ -11,41 +11,21 @@ public abstract class Constraint : IEnumerable<Parameter>
     return Math.Sqrt(a * a + b * b);
   }
 
-  #region IEnumerable implementation
+  protected abstract IEnumerable<IEnumerable<Parameter>> GetParameters();
 
-  // TODO   GetEnumerator
   public IEnumerator<Parameter> GetEnumerator()
   {
-    var list = new List<IEnumerable<Parameter>>
-    {
-      // Point1,
-      // Point2,
-      // Line1,
-      // Line2,
-      // SymLine,
-      // Circle1,
-      // Circle2,
-      // Arc1,
-      // Arc2,
-      // new[] {Parameter}
-    };
-    return list
+    return GetParameters()
       .Where(p => p != null)
       .SelectMany(p => p)
       .Where(p => p != null)
       .GetEnumerator();
   }
 
-  #endregion
-
-  #region IEnumerable implementation
-
   IEnumerator IEnumerable.GetEnumerator()
   {
     return GetEnumerator();
   }
-
-  #endregion
 }
 
 public sealed class PointOnPointConstraint : Constraint
@@ -65,6 +45,15 @@ public sealed class PointOnPointConstraint : Constraint
     var lengthSquared = (_point1 - _point2).LengthSquared;
     return lengthSquared;
   }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _point1,
+      _point2
+    };
+  }
 }
 
 public sealed class HorizontalConstraint : Constraint
@@ -83,6 +72,14 @@ public sealed class HorizontalConstraint : Constraint
     var ody = l1P2Y - l1P1Y;
     return ody * ody;
   }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _line1
+    };
+  }
 }
 
 public sealed class VerticalConstraint : Constraint
@@ -100,6 +97,14 @@ public sealed class VerticalConstraint : Constraint
     var l1P2X = _line1.P2.X.Value;
     var odx = l1P2X - l1P1X;
     return odx * odx;
+  }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _line1
+    };
   }
 }
 
@@ -123,6 +128,16 @@ public sealed class InternalAngleConstraint : Constraint
     var temp2 = Math.Cos(angleP);
     return (temp - temp2) * (temp - temp2);
   }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _line1,
+      _line2,
+      new[] {_parameter}
+    };
+  }
 }
 
 public sealed class ExternalAngleConstraint : Constraint
@@ -145,6 +160,16 @@ public sealed class ExternalAngleConstraint : Constraint
     var temp2 = Math.Cos(Math.PI - angleP);
     return (temp - temp2) * (temp - temp2);
   }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _line1,
+      _line2,
+      new[] {_parameter}
+    };
+  }
 }
 
 public sealed class PerpendicularConstraint : Constraint
@@ -163,6 +188,15 @@ public sealed class PerpendicularConstraint : Constraint
     var temp = _line1.Vector.Dot(_line2.Vector);
     return temp * temp;
   }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _line1,
+      _line2
+    };
+  }
 }
 
 public sealed class TangentToCircleConstraint : Constraint
@@ -180,6 +214,15 @@ public sealed class TangentToCircleConstraint : Constraint
   {
     var temp = _circle1.CenterTo(_line1).Vector.Length - _circle1.Rad.Value;
     return temp * temp;
+  }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _line1,
+      _circle1
+    };
   }
 }
 
@@ -205,6 +248,16 @@ public sealed class P2PDistanceConstraint : Constraint
     var distance = _parameter.Value;
     return (p1X - p2X) * (p1X - p2X) + (p1Y - p2Y) * (p1Y - p2Y) - distance * distance;
   }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _point1,
+      _point2,
+      new[] {_parameter}
+    };
+  }
 }
 
 public sealed class P2PDistanceVertConstraint : Constraint
@@ -227,6 +280,16 @@ public sealed class P2PDistanceVertConstraint : Constraint
     var distance = _parameter.Value;
     return (p1Y - p2Y) * (p1Y - p2Y) - distance * distance;
   }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _point1,
+      _point2,
+      new[] {_parameter}
+    };
+  }
 }
 
 public sealed class P2PDistanceHorizConstraint : Constraint
@@ -248,6 +311,16 @@ public sealed class P2PDistanceHorizConstraint : Constraint
     var p2X = _point2.X.Value;
     var distance = _parameter.Value;
     return (p1X - p2X) * (p1X - p2X) - distance * distance;
+  }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _point1,
+      _point2,
+      new[] {_parameter}
+    };
   }
 }
 
@@ -291,6 +364,15 @@ public sealed class PointOnLineConstraint : Constraint
       return (ex - p1X) * (ex - p1X);
     }
   }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _point1,
+      _line1
+    };
+  }
 }
 
 public sealed class P2LDistanceConstraint : Constraint
@@ -324,6 +406,16 @@ public sealed class P2LDistanceConstraint : Constraint
     var temp = Hypot(p1X - xint, p1Y - yint) - distance;
     return temp * temp / 10;
   }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _point1,
+      _line1,
+      new[] {_parameter}
+    };
+  }
 }
 
 public sealed class P2LDistanceVertConstraint : Constraint
@@ -356,6 +448,16 @@ public sealed class P2LDistanceVertConstraint : Constraint
     var temp = Math.Abs(p1Y - yint) - distance;
     return temp * temp;
   }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _point1,
+      _line1,
+      new[] {_parameter}
+    };
+  }
 }
 
 public sealed class P2LDistanceHorizConstraint : Constraint
@@ -387,6 +489,16 @@ public sealed class P2LDistanceHorizConstraint : Constraint
     var distance = _parameter.Value;
     var temp = Math.Abs(p1X - xint) - distance;
     return temp * temp / 10;
+  }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _point1,
+      _line1,
+      new[] {_parameter}
+    };
   }
 }
 
@@ -449,6 +561,15 @@ public sealed class TangentToArcConstraint : Constraint
     var temp = (a1CenterX - xint) * (a1CenterX - xint) + (a1CenterY - yint) * (a1CenterY - yint) - radsq;
     return temp * temp;
   }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _line1,
+      _arc1
+    };
+  }
 }
 
 public sealed class ArcRulesConstraint : Constraint
@@ -493,6 +614,14 @@ public sealed class ArcRulesConstraint : Constraint
     var num = -2 * a1CenterX * a1EndX + a1Endx2 - 2 * a1CenterY * a1EndY + a1Endy2 + 2 * a1CenterX * a1StartX - a1Startx2 + 2 * a1CenterY * a1StartY - a1Starty2;
     return num * num / (4.0 * a1Endx2 + a1Endy2 - 2 * a1EndX * a1StartX + a1Startx2 - 2 * a1EndY * a1StartY + a1Starty2);
   }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _arc1
+    };
+  }
 }
 
 public sealed class LineLengthConstraint : Constraint
@@ -514,6 +643,15 @@ public sealed class LineLengthConstraint : Constraint
     var l1P2Y = _line1.P2.Y.Value;
     var temp = Math.Sqrt(Math.Pow(l1P2X - l1P1X, 2) + Math.Pow(l1P2Y - l1P1Y, 2)) - _parameter.Value;
     return temp * temp * 100;
+  }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _line1,
+      new[] {_parameter}
+    };
   }
 }
 
@@ -540,6 +678,15 @@ public sealed class EqualLengthConstraint : Constraint
     var l2P2Y = _line2.P2.Y.Value;
     var temp = Hypot(l1P2X - l1P1X, l1P2Y - l1P1Y) - Hypot(l2P2X - l2P1X, l2P2Y - l2P1Y);
     return temp * temp;
+  }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _line1,
+      _line2
+    };
   }
 }
 
@@ -570,6 +717,15 @@ public sealed class ArcRadiusConstraint : Constraint
     var rad2 = Hypot(a1CenterX - a1EndX, a1CenterY - a1EndY);
     var temp = rad1 - radius;
     return temp * temp;
+  }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _arc1,
+      new[] {_parameter}
+    };
   }
 }
 
@@ -603,6 +759,15 @@ public sealed class EqualRadiusArcsConstraint : Constraint
     var temp = rad1 - rad2;
     return temp * temp;
   }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _arc1,
+      _arc2
+    };
+  }
 }
 
 public sealed class EqualRadiusCirclesConstraint : Constraint
@@ -622,6 +787,15 @@ public sealed class EqualRadiusCirclesConstraint : Constraint
     var c2Rad = _circle2.Rad.Value;
     var temp = c1Rad - c2Rad;
     return temp * temp;
+  }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _circle1,
+      _circle2
+    };
   }
 }
 
@@ -649,6 +823,15 @@ public sealed class EqualRadiusCircArcConstraint : Constraint
     var temp = rad1 - c1Rad;
     return temp * temp;
   }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _circle1,
+      _arc1
+    };
+  }
 }
 
 public sealed class ConcentricArcsConstraint : Constraint
@@ -670,6 +853,15 @@ public sealed class ConcentricArcsConstraint : Constraint
     var a1CenterY = _arc1.Center.Y.Value;
     var temp = Hypot(a1CenterX - a2CenterX, a1CenterY - a2CenterY);
     return temp * temp;
+  }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _arc1,
+      _arc2
+    };
   }
 }
 
@@ -693,6 +885,15 @@ public sealed class ConcentricCirclesConstraint : Constraint
     var temp = Hypot(c1CenterX - c2CenterX, c1CenterY - c2CenterY);
     return temp * temp;
   }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _circle1,
+      _circle2
+    };
+  }
 }
 
 public sealed class ConcentricCircArcConstraint : Constraint
@@ -715,6 +916,15 @@ public sealed class ConcentricCircArcConstraint : Constraint
     var temp = Hypot(a1CenterX - c1CenterX, a1CenterY - c1CenterY);
     return temp * temp;
   }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _circle1,
+      _arc1
+    };
+  }
 }
 
 public sealed class CircleRadiusConstraint : Constraint
@@ -733,6 +943,15 @@ public sealed class CircleRadiusConstraint : Constraint
     var c1Rad = _circle1.Rad.Value;
     var radius = _parameter.Value;
     return (c1Rad - radius) * (c1Rad - radius);
+  }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _circle1,
+      new[] {_parameter}
+    };
   }
 }
 
@@ -772,6 +991,15 @@ public sealed class ParallelConstraint : Constraint
 
     var temp = dy * dx2 - dx * dy2;
     return temp * temp;
+  }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _line1,
+      _line2
+    };
   }
 }
 
@@ -831,6 +1059,15 @@ public sealed class CollinearConstraint : Constraint
 
     return error;
   }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _line1,
+      _line2
+    };
+  }
 }
 
 public sealed class PointOnCircleConstraint : Constraint
@@ -856,6 +1093,15 @@ public sealed class PointOnCircleConstraint : Constraint
     //Compare this radius to the radius of the circle, return the error squared
     var temp = rad1 - c1Rad;
     return temp * temp;
+  }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _point1,
+      _circle1
+    };
   }
 }
 
@@ -887,6 +1133,15 @@ public sealed class PointOnArcConstraint : Constraint
     var temp = rad1 - rad2;
     return temp * temp;
   }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _point1,
+      _arc1
+    };
+  }
 }
 
 public sealed class PointOnLineMidpointConstraint : Constraint
@@ -913,6 +1168,15 @@ public sealed class PointOnLineMidpointConstraint : Constraint
     var tempX = ex - p1X;
     var tempY = ey - p1Y;
     return tempX * tempX + tempY * tempY;
+  }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _point1,
+      _line1
+    };
   }
 }
 
@@ -948,6 +1212,15 @@ public sealed class PointOnArcMidpointConstraint : Constraint
     var tempX = ex - p1X;
     var tempY = ey - p1Y;
     return tempX * tempX + tempY * tempY;
+  }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _point1,
+      _arc1
+    };
   }
 }
 
@@ -994,6 +1267,16 @@ public sealed class PointOnCircleQuadConstraint : Constraint
     var tempY = ey - p1Y;
     return tempX * tempX + tempY * tempY;
   }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _point1,
+      _circle1,
+      new[] {_parameter}
+    };
+  }
 }
 
 public sealed class SymmetricPointsConstraint : Constraint
@@ -1028,6 +1311,16 @@ public sealed class SymmetricPointsConstraint : Constraint
     var tempY = ey - p2Y;
     return tempX * tempX + tempY * tempY;
   }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _point1,
+      _point2,
+      _symLine
+    };
+  }
 }
 
 public sealed class SymmetricLinesConstraint : Constraint
@@ -1046,7 +1339,7 @@ public sealed class SymmetricLinesConstraint : Constraint
   public override double CalculateError()
   {
     var error = 0d;
-    
+
     var symP1X = _symLine.P1.X.Value;
     var symP1Y = _symLine.P1.Y.Value;
     var symP2X = _symLine.P2.X.Value;
@@ -1076,6 +1369,16 @@ public sealed class SymmetricLinesConstraint : Constraint
     error += tempX * tempX + tempY * tempY;
 
     return error;
+  }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _line1,
+      _line2,
+      _symLine
+    };
   }
 }
 
@@ -1119,6 +1422,16 @@ public sealed class SymmetricCirclesConstraint : Constraint
     error += temp * temp;
 
     return error;
+  }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _symLine,
+      _circle1,
+      _circle2
+    };
   }
 }
 
@@ -1187,11 +1500,26 @@ public sealed class SymmetricArcsConstraint : Constraint
 
     return error;
   }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
+  {
+    return new List<IEnumerable<Parameter>>
+    {
+      _symLine,
+      _arc1,
+      _arc2
+    };
+  }
 }
 
 public sealed class RadiusValueConstraint : Constraint
 {
   public override double CalculateError()
+  {
+    throw new NotImplementedException();
+  }
+
+  protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
   {
     throw new NotImplementedException();
   }
