@@ -105,10 +105,6 @@ public class Constraint : IEnumerable<Parameter>
       var A2_Start_y = A1_Center_y + A2_radius * Math.Sin(A2_startA);
       var A2_End_x = A1_Center_x + A2_radius * Math.Cos(A2_endA);
       var A2_End_y = A1_Center_y + A2_radius * Math.Sin(A2_endA);
-      
-      var Sym_P2_x = constraint.SymLine == null ? 0 : constraint.SymLine.P2.X.Value;
-      var Sym_P2_y = constraint.SymLine == null ? 0 : constraint.SymLine.P2.Y.Value;
-
 
       switch (constraint.ContraintType)
       {
@@ -522,6 +518,8 @@ public class Constraint : IEnumerable<Parameter>
         {
           var Sym_P1_x = constraint.SymLine == null ? 0 : constraint.SymLine.P1.X.Value;
           var Sym_P1_y = constraint.SymLine == null ? 0 : constraint.SymLine.P1.Y.Value;
+          var Sym_P2_x = constraint.SymLine == null ? 0 : constraint.SymLine.P2.X.Value;
+          var Sym_P2_y = constraint.SymLine == null ? 0 : constraint.SymLine.P2.Y.Value;
           var dx = Sym_P2_x - Sym_P1_x;
           var dy = Sym_P2_y - Sym_P1_y;
           var t = -(dy * P1_x - dx * P1_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
@@ -537,6 +535,8 @@ public class Constraint : IEnumerable<Parameter>
         {
           var Sym_P1_x = constraint.SymLine == null ? 0 : constraint.SymLine.P1.X.Value;
           var Sym_P1_y = constraint.SymLine == null ? 0 : constraint.SymLine.P1.Y.Value;
+          var Sym_P2_x = constraint.SymLine == null ? 0 : constraint.SymLine.P2.X.Value;
+          var Sym_P2_y = constraint.SymLine == null ? 0 : constraint.SymLine.P2.Y.Value;
           var dx = Sym_P2_x - Sym_P1_x;
           var dy = Sym_P2_y - Sym_P1_y;
           var t = -(dy * L1_P1_x - dx * L1_P1_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
@@ -559,6 +559,8 @@ public class Constraint : IEnumerable<Parameter>
         {
           var Sym_P1_x = constraint.SymLine == null ? 0 : constraint.SymLine.P1.X.Value;
           var Sym_P1_y = constraint.SymLine == null ? 0 : constraint.SymLine.P1.Y.Value;
+          var Sym_P2_x = constraint.SymLine == null ? 0 : constraint.SymLine.P2.X.Value;
+          var Sym_P2_y = constraint.SymLine == null ? 0 : constraint.SymLine.P2.Y.Value;
           var dx = Sym_P2_x - Sym_P1_x;
           var dy = Sym_P2_y - Sym_P1_y;
           var t = -(dy * C1_Center_x - dx * C1_Center_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
@@ -577,6 +579,8 @@ public class Constraint : IEnumerable<Parameter>
         {
           var Sym_P1_x = constraint.SymLine == null ? 0 : constraint.SymLine.P1.X.Value;
           var Sym_P1_y = constraint.SymLine == null ? 0 : constraint.SymLine.P1.Y.Value;
+          var Sym_P2_x = constraint.SymLine == null ? 0 : constraint.SymLine.P2.X.Value;
+          var Sym_P2_y = constraint.SymLine == null ? 0 : constraint.SymLine.P2.Y.Value;
           var dx = Sym_P2_x - Sym_P1_x;
           var dy = Sym_P2_y - Sym_P1_y;
 
