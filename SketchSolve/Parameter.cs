@@ -6,8 +6,7 @@ public class Parameter
   public double Max = 1000;
   public double Min = -1000;
 
-  // true if the parameter is free to be adjusted by the
-  // solver
+  // true if the parameter is free to be adjusted by the solver
   public bool free;
 
   public Parameter(double v, bool free = true)

@@ -56,7 +56,6 @@ public class Line : IEnumerable<Parameter>
     }
   }
 
-
   #region IEnumerable implementation
 
   public IEnumerator<Parameter> GetEnumerator()

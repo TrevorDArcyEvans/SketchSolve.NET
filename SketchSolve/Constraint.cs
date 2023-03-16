@@ -22,7 +22,7 @@ public class Constraint : IEnumerable<Parameter>
 
   public IEnumerator<Parameter> GetEnumerator()
   {
-    var list = new List<IEnumerable<Parameter>>()
+    var list = new List<IEnumerable<Parameter>>
     {
       point1,
       point2,
