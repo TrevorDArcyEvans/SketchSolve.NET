@@ -21,7 +21,7 @@ The solution method used is actually a optimization method. The sum of the const
 objective of the optimization problem. The optimization routine used is a BFGS update Newtons method.
 An Optimization routine was selected because there are often more or fewer constraint equations than unknowns.
 
-## Suppoerted constraints
+## Supported constraints
 
 The constraints that are currently supported are the following:
 * pointOnPoint
@@ -72,6 +72,18 @@ The constraints that will be implemented soon are the following:
 Let me know if there are constraints that you use that are not on these lists !!!!
 
 Thanks!
+
+## Prerequisites
+* .NET Core 6
+
+## Getting started
+```bash
+$ git clone https://github.com/TrevorDArcyEvans/SketchSolve.NET.git
+$ cd SketchSolve.NET
+$ dotnet restore
+$ dotnet build
+$ dotnet test
+```
 
 ## Acknowledgements
 
