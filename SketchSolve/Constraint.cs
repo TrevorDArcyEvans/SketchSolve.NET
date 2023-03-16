@@ -61,7 +61,7 @@ public class Constraint : IEnumerable<Parameter>
   public static double Calculate(IEnumerable<Constraint> constraints)
   {
     double error = 0;
-    double dx, dy, m, n, Ex, Ey, rad1, rad2, t, hyp1, hyp2;
+    double dx, dy, m, n, Ex, Ey, rad1, rad2, t;
 
     foreach (var constraint in constraints)
     {
@@ -403,8 +403,8 @@ public class Constraint : IEnumerable<Parameter>
           var dx2 = L2_P2_x - L2_P1_x;
           var dy2 = L2_P2_y - L2_P1_y;
 
-          hyp1 = Hypot(dx, dy);
-          hyp2 = Hypot(dx2, dy2);
+          var hyp1 = Hypot(dx, dy);
+          var hyp2 = Hypot(dx2, dy2);
 
           dx = dx / hyp1;
           dy = dy / hyp1;
