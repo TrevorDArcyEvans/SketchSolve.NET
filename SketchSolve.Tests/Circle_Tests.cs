@@ -5,7 +5,7 @@ using FluentAssertions.Execution;
 using NUnit.Framework;
 
 [TestFixture]
-public class CircleTest
+public class Circle_Tests
 {
   [Test]
   public static void CenterToTest()
