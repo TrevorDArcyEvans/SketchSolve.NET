@@ -101,8 +101,6 @@ public class Constraint : IEnumerable<Parameter>
       var A1_Start_y = A1_Center_y + A1_radius * Math.Sin(A1_startA);
       var A1_End_x = A1_Center_x + A1_radius * Math.Cos(A1_endA);
       var A1_End_y = A1_Center_y + A1_radius * Math.Sin(A1_endA);
-      var A2_Start_x = A1_Center_x + A2_radius * Math.Cos(A2_startA);
-      var A2_Start_y = A1_Center_y + A2_radius * Math.Sin(A2_startA);
 
       switch (constraint.ContraintType)
       {
@@ -314,6 +312,8 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.EqualRadiusArcs:
         {
+          var A2_Start_x = A1_Center_x + A2_radius * Math.Cos(A2_startA);
+          var A2_Start_y = A1_Center_y + A2_radius * Math.Sin(A2_startA);
           var rad1 = Hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
           var rad2 = Hypot(A2_Center_x - A2_Start_x, A2_Center_y - A2_Start_y);
           var temp = rad1 - rad2;
@@ -585,6 +585,8 @@ public class Constraint : IEnumerable<Parameter>
           var t = -(dy * A1_Start_x - dx * A1_Start_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
           var Ex = A1_Start_x + dy * t * 2;
           var Ey = A1_Start_y - dx * t * 2;
+          var A2_Start_x = A1_Center_x + A2_radius * Math.Cos(A2_startA);
+          var A2_Start_y = A1_Center_y + A2_radius * Math.Sin(A2_startA);
           var tempX = Ex - A2_Start_x;
           var tempY = Ey - A2_Start_y;
           error += tempX * tempX + tempY * tempY;
