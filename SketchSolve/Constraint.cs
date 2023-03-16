@@ -768,6 +768,7 @@ public class Constraint : IEnumerable<Parameter>
         }
           break;
 
+        case ConstraintEnum.RadiusValue:
         default:
           throw new ArgumentOutOfRangeException($"Unknown constraint type: {constraint.ContraintType}");
       }
