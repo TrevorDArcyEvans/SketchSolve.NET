@@ -62,10 +62,8 @@ public static class Solver
     };
 
 
-    var nlConstraints = new List<NonlinearConstraint>();
-
     // Finally, we create the non-linear programming solver 
-    var solver = new AugmentedLagrangian(freeParameters.Length, nlConstraints)
+    var solver = new AugmentedLagrangian(freeParameters.Length, Enumerable.Empty<IConstraint>())
     {
       Function = LogWrap(objective),
       Gradient = LogWrap(Grad(freeParameters.Length, objective))

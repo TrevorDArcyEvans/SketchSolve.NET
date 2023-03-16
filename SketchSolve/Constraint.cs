@@ -58,7 +58,7 @@ public class Constraint : IEnumerable<Parameter>
     return Math.Sqrt(a * a + b * b);
   }
 
-  public static double Calculate(Constraint[] constraints)
+  public static double Calculate(IEnumerable<Constraint> constraints)
   {
     double error = 0;
     double dx, dy, m, n, Ex, Ey, rad1, rad2, t, Xint, Yint, dx2, dy2, hyp1, hyp2;
@@ -70,6 +70,7 @@ public class Constraint : IEnumerable<Parameter>
       var P1_y = constraint.Point1 == null ? 0 : constraint.Point1.Y.Value;
       var P2_x = constraint.Point2 == null ? 0 : constraint.Point2.X.Value;
       var P2_y = constraint.Point2 == null ? 0 : constraint.Point2.Y.Value;
+
       var L1_P1_x = constraint.Line1 == null ? 0 : constraint.Line1.P1.X.Value;
       var L1_P1_y = constraint.Line1 == null ? 0 : constraint.Line1.P1.Y.Value;
       var L1_P2_x = constraint.Line1 == null ? 0 : constraint.Line1.P2.X.Value;
@@ -78,6 +79,7 @@ public class Constraint : IEnumerable<Parameter>
       var L2_P1_y = constraint.Line2 == null ? 0 : constraint.Line2.P1.Y.Value;
       var L2_P2_x = constraint.Line2 == null ? 0 : constraint.Line2.P2.X.Value;
       var L2_P2_y = constraint.Line2 == null ? 0 : constraint.Line2.P2.Y.Value;
+
       var C1_Center_x = constraint.Circle1 == null ? 0 : constraint.Circle1.Center.X.Value;
       var C1_Center_y = constraint.Circle1 == null ? 0 : constraint.Circle1.Center.Y.Value;
       var C1_rad = constraint.Circle1 == null ? 0 : constraint.Circle1.Rad.Value;
@@ -223,9 +225,9 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.TangentToCircle:
         {
-          var l = constraint.Line1;
-          var c = constraint.Circle1;
-          var temp = c.CenterTo(l).Vector.Length - c.Rad.Value;
+          var line = constraint.Line1;
+          var circle = constraint.Circle1;
+          var temp = circle.CenterTo(line).Vector.Length - circle.Rad.Value;
           error += temp * temp;
         }
           break;
@@ -260,7 +262,6 @@ public class Constraint : IEnumerable<Parameter>
 
           dx = L1_P2_x - L1_P1_x;
           dy = L1_P2_y - L1_P1_y;
-
 
           var radsq = (A1_Center_x - A1_Start_x) * (A1_Center_x - A1_Start_x) + (A1_Center_y - A1_Start_y) * (A1_Center_y - A1_Start_y);
           t = -(L1_P1_x * dx - A1_Center_x * dx + L1_P1_y * dy - A1_Center_y * dy) / (dx * dx + dy * dy);
@@ -453,7 +454,6 @@ public class Constraint : IEnumerable<Parameter>
           //Compare this radius to the radius of the circle, return the error squared
           var temp = rad1 - C1_rad;
           error += temp * temp;
-          //cout<<"Point On circle error"<<temp*temp<<endl;
         }
           break;
 
@@ -465,7 +465,6 @@ public class Constraint : IEnumerable<Parameter>
           //Compare this radius to the radius of the circle, return the error squared
           var temp = rad1 - rad2;
           error += temp * temp;
-          //cout<<"Point On circle error"<<temp*temp<<endl;
         }
           break;
 
@@ -473,22 +472,22 @@ public class Constraint : IEnumerable<Parameter>
         {
           Ex = (L1_P1_x + L1_P2_x) / 2;
           Ey = (L1_P1_y + L1_P2_y) / 2;
-          var temp = Ex - P1_x;
-          var temp2 = Ey - P1_y;
-          error += temp * temp + temp2 * temp2;
+          var tempX = Ex - P1_x;
+          var tempY = Ey - P1_y;
+          error += tempX * tempX + tempY * tempY;
         }
           break;
 
         case ConstraintEnum.PointOnArcMidpoint:
         {
           rad1 = Hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
-          var temp = Math.Atan2(A1_Start_y - A1_Center_y, A1_Start_x - A1_Center_x);
-          var temp2 = Math.Atan2(A1_End_y - A1_Center_y, A1_End_x - A1_Center_x);
-          Ex = A1_Center_x + rad1 * Math.Cos((temp2 + temp) / 2);
-          Ey = A1_Center_y + rad1 * Math.Sin((temp2 + temp) / 2);
-          temp = Ex - P1_x;
-          temp2 = Ey - P1_y;
-          error += temp * temp + temp2 * temp2;
+          var tempStart = Math.Atan2(A1_Start_y - A1_Center_y, A1_Start_x - A1_Center_x);
+          var tempEnd = Math.Atan2(A1_End_y - A1_Center_y, A1_End_x - A1_Center_x);
+          Ex = A1_Center_x + rad1 * Math.Cos((tempEnd + tempStart) / 2);
+          Ey = A1_Center_y + rad1 * Math.Sin((tempEnd + tempStart) / 2);
+          var tempX= Ex - P1_x;
+          var tempY = Ey - P1_y;
+          error += tempX * tempX + tempY * tempY;
         }
           break;
 
@@ -512,9 +511,9 @@ public class Constraint : IEnumerable<Parameter>
               break;
           }
 
-          var temp = Ex - P1_x;
-          var temp2 = Ey - P1_y;
-          error += temp * temp + temp2 * temp2;
+          var tempX = Ex - P1_x;
+          var tempY = Ey - P1_y;
+          error += tempX * tempX + tempY * tempY;
         }
 
           break;
@@ -526,9 +525,9 @@ public class Constraint : IEnumerable<Parameter>
           t = -(dy * P1_x - dx * P1_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
           Ex = P1_x + dy * t * 2;
           Ey = P1_y - dx * t * 2;
-          var temp = Ex - P2_x;
-          var temp2 = Ey - P2_y;
-          error += temp * temp + temp2 * temp2;
+          var tempX = Ex - P2_x;
+          var tempY = Ey - P2_y;
+          error += tempX * tempX + tempY * tempY;
         }
           break;
 
@@ -539,15 +538,16 @@ public class Constraint : IEnumerable<Parameter>
           t = -(dy * L1_P1_x - dx * L1_P1_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
           Ex = L1_P1_x + dy * t * 2;
           Ey = L1_P1_y - dx * t * 2;
-          var temp = Ex - L2_P1_x;
-          var temp2 = Ey - L2_P1_y;
-          error += temp * temp + temp2 * temp2;
+          var tempX = Ex - L2_P1_x;
+          var tempY = Ey - L2_P1_y;
+          error += tempX * tempX + tempY * tempY;
+
           t = -(dy * L1_P2_x - dx * L1_P2_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
           Ex = L1_P2_x + dy * t * 2;
           Ey = L1_P2_y - dx * t * 2;
-          temp = Ex - L2_P2_x;
-          temp2 = Ey - L2_P2_y;
-          error += temp * temp + temp2 * temp2;
+          tempX = Ex - L2_P2_x;
+          tempY = Ey - L2_P2_y;
+          error += tempX * tempX + tempY * tempY;
         }
           break;
 
@@ -558,10 +558,11 @@ public class Constraint : IEnumerable<Parameter>
           t = -(dy * C1_Center_x - dx * C1_Center_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
           Ex = C1_Center_x + dy * t * 2;
           Ey = C1_Center_y - dx * t * 2;
-          var temp = Ex - C2_Center_x;
-          var temp2 = Ey - C2_Center_y;
-          error += temp * temp + temp2 * temp2;
-          temp = C1_rad - C2_rad;
+          var tempX = Ex - C2_Center_x;
+          var tempY = Ey - C2_Center_y;
+          error += tempX * tempX + tempY * tempY;
+
+          var temp = C1_rad - C2_rad;
           error += temp * temp;
         }
           break;
@@ -573,21 +574,23 @@ public class Constraint : IEnumerable<Parameter>
           t = -(dy * A1_Start_x - dx * A1_Start_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
           Ex = A1_Start_x + dy * t * 2;
           Ey = A1_Start_y - dx * t * 2;
-          var temp = Ex - A2_Start_x;
-          var temp2 = Ey - A2_Start_y;
-          error += temp * temp + temp2 * temp2;
+          var tempX = Ex - A2_Start_x;
+          var tempY = Ey - A2_Start_y;
+          error += tempX * tempX + tempY * tempY;
+
           t = -(dy * A1_End_x - dx * A1_End_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
           Ex = A1_End_x + dy * t * 2;
           Ey = A1_End_y - dx * t * 2;
-          temp = Ex - A2_End_x;
-          temp2 = Ey - A2_End_y;
-          error += temp * temp + temp2 * temp2;
+          tempX = Ex - A2_End_x;
+          tempY = Ey - A2_End_y;
+          error += tempX * tempX + tempY * tempY;
+
           t = -(dy * A1_Center_x - dx * A1_Center_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
           Ex = A1_Center_x + dy * t * 2;
           Ey = A1_Center_y - dx * t * 2;
-          temp = Ex - A2_Center_x;
-          temp2 = Ey - A2_Center_y;
-          error += temp * temp + temp2 * temp2;
+          tempX = Ex - A2_Center_x;
+          tempY = Ey - A2_Center_y;
+          error += tempX * tempX + tempY * tempY;
         }
           break;
 
