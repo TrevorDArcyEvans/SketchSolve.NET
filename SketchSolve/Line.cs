@@ -1,66 +1,54 @@
-﻿using System.Collections;
+﻿namespace SketchSolve;
 
-namespace SketchSolve;
+using System.Collections;
 
 public class Line : IEnumerable<Parameter>
 {
-  public Point p1 = null;
-  public Point p2 = null;
-  public Vector v1 = null;
+  public Point P1 = null;
+  public Point P2 = null;
+  public Vector V1 = null;
 
   public Line(Point p1, Point p2)
   {
-    this.p1 = p1;
-    this.p2 = p2;
+    P1 = p1;
+    P2 = p2;
   }
 
   public Line(Point p1, Vector v)
   {
-    this.p1 = p1;
-    v1 = v;
+    P1 = p1;
+    V1 = v;
   }
 
   public override string ToString()
   {
-    return "l " + p1 + " : " + p2;
+    return "l " + P1 + " : " + P2;
   }
 
   public Vector Vector
   {
     get
     {
-      if (v1 == null)
+      if (V1 == null)
       {
         return new Vector(dx, dy, false, false);
       }
       else
       {
-        return v1;
+        return V1;
       }
     }
   }
 
-  private double dx
-  {
-    get
-    {
-      return p2.x.Value - p1.x.Value;
-    }
-  }
+  private double dx => P2.X.Value - P1.X.Value;
 
-  private double dy
-  {
-    get
-    {
-      return p2.y.Value - p1.y.Value;
-    }
-  }
+  private double dy => P2.Y.Value - P1.Y.Value;
 
   #region IEnumerable implementation
 
   public IEnumerator<Parameter> GetEnumerator()
   {
-    return new[] { p1, p2 }.SelectMany(p => p).GetEnumerator();
+    return new[] { P1, P2 }.SelectMany(p => p).GetEnumerator();
   }
 
   #endregion

@@ -17,7 +17,7 @@ public class Solver_Tests
     using (new AssertionScope())
     {
       error.Should().BeApproximately(0, 0.0001);
-      line.p1.y.Value.Should().BeApproximately(line.p2.y.Value, 0.001);
+      line.P1.Y.Value.Should().BeApproximately(line.P2.Y.Value, 0.001);
     }
   }
 
@@ -32,7 +32,7 @@ public class Solver_Tests
     using (new AssertionScope())
     {
       r.Should().BeApproximately(0, 0.0001);
-      line.p1.x.Value.Should().BeApproximately(line.p2.x.Value, 0.001);
+      line.P1.X.Value.Should().BeApproximately(line.P2.X.Value, 0.001);
     }
   }
 
@@ -42,13 +42,13 @@ public class Solver_Tests
     var line1 = new Line(new Point(0, 1), new Point(2, 3, false));
     var line2 = new Line(new Point(10, 100, false), new Point(200, 300, false));
 
-    var error = Solver.Solve(true, line1.p1.IsColocated(line2.p1));
+    var error = Solver.Solve(true, line1.P1.IsColocated(line2.P1));
 
     using (new AssertionScope())
     {
       error.Should().BeApproximately(0, 0.0001);
-      line1.p1.x.Value.Should().BeApproximately(line2.p1.x.Value, 0.001);
-      line1.p1.y.Value.Should().BeApproximately(line2.p1.y.Value, 0.001);
+      line1.P1.X.Value.Should().BeApproximately(line2.P1.X.Value, 0.001);
+      line1.P1.Y.Value.Should().BeApproximately(line2.P1.Y.Value, 0.001);
     }
   }
 
@@ -130,8 +130,8 @@ public class Solver_Tests
     // Create a fully constrained circle at 0,0 with radius 1
     var circle = new Circle
     {
-      center = new Point(0, 0, false),
-      rad = new Parameter(1, false)
+      Center = new Point(0, 0, false),
+      Rad = new Parameter(1, false)
     };
 
     var v = 1 / Math.Sin(Math.PI / 4);  // sqrt(2)
@@ -143,7 +143,7 @@ public class Solver_Tests
     using (new AssertionScope())
     {
       error.Should().BeApproximately(0, 0.0001);
-      line.p2.x.Value.Should().BeApproximately(v, 0.001);
+      line.P2.X.Value.Should().BeApproximately(v, 0.001);
     }
   }
 
@@ -157,8 +157,8 @@ public class Solver_Tests
     // Create a fully constrained circle at 0,0 with radius 1
     var circle = new Circle
     {
-      center = new Point(0, 0, false),
-      rad = new Parameter(1, false)
+      Center = new Point(0, 0, false),
+      Rad = new Parameter(1, false)
     };
 
     var v = 1 / Math.Sin(Math.PI / 4);  // sqrt(2)
@@ -185,8 +185,8 @@ public class Solver_Tests
     // Create a fully constrained circle at 0,0 with radius 1
     var circle = new Circle
     {
-      center = new Point(0, 0, false),
-      rad = new Parameter(1, false)
+      Center = new Point(0, 0, false),
+      Rad = new Parameter(1, false)
     };
 
     var v = 1 / Math.Sin(Math.PI / 4);  // sqrt(2)
@@ -213,8 +213,8 @@ public class Solver_Tests
     // Create a fully constrained circle at 0,0 with radius 1
     var circle = new Circle
     {
-      center = new Point(0, 0, false),
-      rad = new Parameter(10, false)
+      Center = new Point(0, 0, false),
+      Rad = new Parameter(10, false)
     };
 
     const int v = -15;
@@ -229,7 +229,7 @@ public class Solver_Tests
     using (new AssertionScope())
     {
       error.Should().BeApproximately(0, 0.0001);
-      (circle.CenterTo(line).Vector.LengthSquared - circle.rad.Value * circle.rad.Value)
+      (circle.CenterTo(line).Vector.LengthSquared - circle.Rad.Value * circle.Rad.Value)
         .Should().BeApproximately(0, 0.001);
     }
   }
@@ -239,8 +239,8 @@ public class Solver_Tests
   {
     var circle = new Circle
     {
-      center = new Point(0, 0, false),
-      rad = new Parameter(10, false)
+      Center = new Point(0, 0, false),
+      Rad = new Parameter(10, false)
     };
 
     // We want a box around the circle where all lines touch the 
@@ -264,10 +264,10 @@ public class Solver_Tests
       line1.HasInternalAngle(line2, angle),
       line2.HasInternalAngle(line3, angle),
       line3.HasInternalAngle(line0, angle),
-      line0.p2.IsColocated(line1.p1),
-      line1.p2.IsColocated(line2.p1),
-      line2.p2.IsColocated(line3.p1),
-      line3.p2.IsColocated(line0.p1),
+      line0.P2.IsColocated(line1.P1),
+      line1.P2.IsColocated(line2.P1),
+      line2.P2.IsColocated(line3.P1),
+      line3.P2.IsColocated(line0.P1),
       line0.IsVertical());
 
     Console.WriteLine(line0);

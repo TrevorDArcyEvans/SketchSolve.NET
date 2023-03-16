@@ -67,35 +67,35 @@ public class Constraint : IEnumerable<Parameter>
     for (var i = 0; i < consLength; i++)
     {
       // Crappy hack but it will get us going
-      var P1_x = cons[i].point1 == null ? 0 : cons[i].point1.x.Value;
-      var P1_y = cons[i].point1 == null ? 0 : cons[i].point1.y.Value;
-      var P2_x = cons[i].point2 == null ? 0 : cons[i].point2.x.Value;
-      var P2_y = cons[i].point2 == null ? 0 : cons[i].point2.y.Value;
-      var L1_P1_x = cons[i].line1 == null ? 0 : cons[i].line1.p1.x.Value;
-      var L1_P1_y = cons[i].line1 == null ? 0 : cons[i].line1.p1.y.Value;
-      var L1_P2_x = cons[i].line1 == null ? 0 : cons[i].line1.p2.x.Value;
-      var L1_P2_y = cons[i].line1 == null ? 0 : cons[i].line1.p2.y.Value;
-      var L2_P1_x = cons[i].line2 == null ? 0 : cons[i].line2.p1.x.Value;
-      var L2_P1_y = cons[i].line2 == null ? 0 : cons[i].line2.p1.y.Value;
-      var L2_P2_x = cons[i].line2 == null ? 0 : cons[i].line2.p2.x.Value;
-      var L2_P2_y = cons[i].line2 == null ? 0 : cons[i].line2.p2.y.Value;
-      var C1_Center_x = cons[i].circle1 == null ? 0 : cons[i].circle1.center.x.Value;
-      var C1_Center_y = cons[i].circle1 == null ? 0 : cons[i].circle1.center.y.Value;
-      var C1_rad = cons[i].circle1 == null ? 0 : cons[i].circle1.rad.Value;
-      var C2_Center_x = cons[i].circle2 == null ? 0 : cons[i].circle2.center.x.Value;
-      var C2_Center_y = cons[i].circle2 == null ? 0 : cons[i].circle2.center.y.Value;
-      var C2_rad = cons[i].circle2 == null ? 0 : cons[i].circle2.rad.Value;
+      var P1_x = cons[i].point1 == null ? 0 : cons[i].point1.X.Value;
+      var P1_y = cons[i].point1 == null ? 0 : cons[i].point1.Y.Value;
+      var P2_x = cons[i].point2 == null ? 0 : cons[i].point2.X.Value;
+      var P2_y = cons[i].point2 == null ? 0 : cons[i].point2.Y.Value;
+      var L1_P1_x = cons[i].line1 == null ? 0 : cons[i].line1.P1.X.Value;
+      var L1_P1_y = cons[i].line1 == null ? 0 : cons[i].line1.P1.Y.Value;
+      var L1_P2_x = cons[i].line1 == null ? 0 : cons[i].line1.P2.X.Value;
+      var L1_P2_y = cons[i].line1 == null ? 0 : cons[i].line1.P2.Y.Value;
+      var L2_P1_x = cons[i].line2 == null ? 0 : cons[i].line2.P1.X.Value;
+      var L2_P1_y = cons[i].line2 == null ? 0 : cons[i].line2.P1.Y.Value;
+      var L2_P2_x = cons[i].line2 == null ? 0 : cons[i].line2.P2.X.Value;
+      var L2_P2_y = cons[i].line2 == null ? 0 : cons[i].line2.P2.Y.Value;
+      var C1_Center_x = cons[i].circle1 == null ? 0 : cons[i].circle1.Center.X.Value;
+      var C1_Center_y = cons[i].circle1 == null ? 0 : cons[i].circle1.Center.Y.Value;
+      var C1_rad = cons[i].circle1 == null ? 0 : cons[i].circle1.Rad.Value;
+      var C2_Center_x = cons[i].circle2 == null ? 0 : cons[i].circle2.Center.X.Value;
+      var C2_Center_y = cons[i].circle2 == null ? 0 : cons[i].circle2.Center.Y.Value;
+      var C2_rad = cons[i].circle2 == null ? 0 : cons[i].circle2.Rad.Value;
 
-      var A1_startA = cons[i].arc1 == null ? 0 : cons[i].arc1.startAngle.Value;
-      var A1_endA = cons[i].arc1 == null ? 0 : cons[i].arc1.endAngle.Value;
-      var A1_radius = cons[i].arc1 == null ? 0 : cons[i].arc1.rad.Value;
-      var A1_Center_x = cons[i].arc1 == null ? 0 : cons[i].arc1.center.x.Value;
-      var A1_Center_y = cons[i].arc1 == null ? 0 : cons[i].arc1.center.y.Value;
-      var A2_startA = cons[i].arc2 == null ? 0 : cons[i].arc2.startAngle.Value;
-      var A2_endA = cons[i].arc2 == null ? 0 : cons[i].arc2.endAngle.Value;
-      var A2_radius = cons[i].arc2 == null ? 0 : cons[i].arc2.rad.Value;
-      var A2_Center_x = cons[i].arc2 == null ? 0 : cons[i].arc2.center.x.Value;
-      var A2_Center_y = cons[i].arc2 == null ? 0 : cons[i].arc2.center.y.Value;
+      var A1_startA = cons[i].arc1 == null ? 0 : cons[i].arc1.StartAngle.Value;
+      var A1_endA = cons[i].arc1 == null ? 0 : cons[i].arc1.EndAngle.Value;
+      var A1_radius = cons[i].arc1 == null ? 0 : cons[i].arc1.Rad.Value;
+      var A1_Center_x = cons[i].arc1 == null ? 0 : cons[i].arc1.Center.X.Value;
+      var A1_Center_y = cons[i].arc1 == null ? 0 : cons[i].arc1.Center.Y.Value;
+      var A2_startA = cons[i].arc2 == null ? 0 : cons[i].arc2.StartAngle.Value;
+      var A2_endA = cons[i].arc2 == null ? 0 : cons[i].arc2.EndAngle.Value;
+      var A2_radius = cons[i].arc2 == null ? 0 : cons[i].arc2.Rad.Value;
+      var A2_Center_x = cons[i].arc2 == null ? 0 : cons[i].arc2.Center.X.Value;
+      var A2_Center_y = cons[i].arc2 == null ? 0 : cons[i].arc2.Center.Y.Value;
 
       var A1_Start_x = (A1_Center_x + A1_radius * Math.Cos(A1_startA));
       var A1_Start_y = (A1_Center_y + A1_radius * Math.Sin(A1_startA));
@@ -113,14 +113,14 @@ public class Constraint : IEnumerable<Parameter>
       var angleP = length;
       var quadIndex = length;
 
-      var Sym_P1_x = cons[i].SymLine == null ? 0 : cons[i].SymLine.p1.x.Value;
-      var Sym_P1_y = cons[i].SymLine == null ? 0 : cons[i].SymLine.p1.y.Value;
+      var Sym_P1_x = cons[i].SymLine == null ? 0 : cons[i].SymLine.P1.X.Value;
+      var Sym_P1_y = cons[i].SymLine == null ? 0 : cons[i].SymLine.P1.Y.Value;
 
-      var Sym_P2_x = cons[i].SymLine == null ? 0 : cons[i].SymLine.p2.x.Value;
-      var Sym_P2_y = cons[i].SymLine == null ? 0 : cons[i].SymLine.p2.y.Value;
+      var Sym_P2_x = cons[i].SymLine == null ? 0 : cons[i].SymLine.P2.X.Value;
+      var Sym_P2_y = cons[i].SymLine == null ? 0 : cons[i].SymLine.P2.Y.Value;
 
 
-      if ((cons[i]).type == ConstraintEnum.pointOnPoint)
+      if ((cons[i]).type == ConstraintEnum.PointOnPoint)
       {
         //Hopefully avoid this constraint, make coincident points use the same parameters
         var l2 = (cons[i].point1 - cons[i].point2).LengthSquared;
@@ -144,7 +144,7 @@ public class Constraint : IEnumerable<Parameter>
       }
 
 
-      if ((cons[i]).type == ConstraintEnum.pointOnLine)
+      if ((cons[i]).type == ConstraintEnum.PointOnLine)
       {
         dx = L1_P2_x - L1_P1_x;
         dy = L1_P2_y - L1_P1_y;
@@ -201,27 +201,27 @@ public class Constraint : IEnumerable<Parameter>
       }
 
 
-      if (cons[i].type == ConstraintEnum.vertical)
+      if (cons[i].type == ConstraintEnum.Vertical)
       {
         var odx = L1_P2_x - L1_P1_x;
         error += odx * odx;
       }
 
-      if (cons[i].type == ConstraintEnum.horizontal)
+      if (cons[i].type == ConstraintEnum.Horizontal)
       {
         var ody = L1_P2_y - L1_P1_y;
         error += ody * ody;
       }
 
-      if (cons[i].type == ConstraintEnum.tangentToCircle)
+      if (cons[i].type == ConstraintEnum.TangentToCircle)
       {
         var l = cons[i].line1;
         var c = cons[i].circle1;
-        temp = c.CenterTo(l).Vector.Length - c.rad.Value;
+        temp = c.CenterTo(l).Vector.Length - c.Rad.Value;
         error += temp * temp;
       }
 
-      if (cons[i].type == ConstraintEnum.tangentToArc)
+      if (cons[i].type == ConstraintEnum.TangentToArc)
       {
         /*
    double dx,dy,Rpx,Rpy,RpxN,RpyN,hyp,error1,error2,rad;
@@ -262,7 +262,7 @@ error += temp*temp*100;
         error += temp * temp;
       }
 
-      if (cons[i].type == ConstraintEnum.arcRules)
+      if (cons[i].type == ConstraintEnum.ArcRules)
       {
         //rad1=_hypot(A1_Center_x - A1_Start_x , A1_Center_y - A1_Start_y);
         //rad2=_hypot(A1_Center_x - A1_End_x , A1_Center_y - A1_End_y);
@@ -287,20 +287,20 @@ error += temp*temp*100;
         error += num * num / (4.0 * a1endx2 + a1endy2 - 2 * A1_End_x * A1_Start_x + a1startx2 - 2 * A1_End_y * A1_Start_y + a1starty2);
       }
 
-      if (cons[i].type == ConstraintEnum.lineLength)
+      if (cons[i].type == ConstraintEnum.LineLength)
       {
         temp = Math.Sqrt(Math.Pow(L1_P2_x - L1_P1_x, 2) + Math.Pow(L1_P2_y - L1_P1_y, 2)) - length;
         //temp=_hypot(L1_P2_x - L1_P1_x , L1_P2_y - L1_P1_y) - length;
         error += temp * temp * 100;
       }
 
-      if (cons[i].type == ConstraintEnum.equalLegnth)
+      if (cons[i].type == ConstraintEnum.EqualLegnth)
       {
         temp = _hypot(L1_P2_x - L1_P1_x, L1_P2_y - L1_P1_y) - _hypot(L2_P2_x - L2_P1_x, L2_P2_y - L2_P1_y);
         error += temp * temp;
       }
 
-      if (cons[i].type == ConstraintEnum.arcRadius)
+      if (cons[i].type == ConstraintEnum.ArcRadius)
       {
         rad1 = _hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
         rad2 = _hypot(A1_Center_x - A1_End_x, A1_Center_y - A1_End_y);
@@ -308,7 +308,7 @@ error += temp*temp*100;
         error += temp * temp;
       }
 
-      if (cons[i].type == ConstraintEnum.equalRadiusArcs)
+      if (cons[i].type == ConstraintEnum.EqualRadiusArcs)
       {
         rad1 = _hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
         rad2 = _hypot(A2_Center_x - A2_Start_x, A2_Center_y - A2_Start_y);
@@ -316,43 +316,43 @@ error += temp*temp*100;
         error += temp * temp;
       }
 
-      if (cons[i].type == ConstraintEnum.equalRadiusCircles)
+      if (cons[i].type == ConstraintEnum.EqualRadiusCircles)
       {
         temp = C1_rad - C2_rad;
         error += temp * temp;
       }
 
-      if (cons[i].type == ConstraintEnum.equalRadiusCircArc)
+      if (cons[i].type == ConstraintEnum.EqualRadiusCircArc)
       {
         rad1 = _hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
         temp = rad1 - C1_rad;
         error += temp * temp;
       }
 
-      if (cons[i].type == ConstraintEnum.concentricArcs)
+      if (cons[i].type == ConstraintEnum.ConcentricArcs)
       {
         temp = _hypot(A1_Center_x - A2_Center_x, A1_Center_y - A2_Center_y);
         error += temp * temp;
       }
 
-      if (cons[i].type == ConstraintEnum.concentricCircles)
+      if (cons[i].type == ConstraintEnum.ConcentricCircles)
       {
         temp = _hypot(C1_Center_x - C2_Center_x, C1_Center_y - C2_Center_y);
         error += temp * temp;
       }
 
-      if (cons[i].type == ConstraintEnum.concentricCircArc)
+      if (cons[i].type == ConstraintEnum.ConcentricCircArc)
       {
         temp = _hypot(A1_Center_x - C1_Center_x, A1_Center_y - C1_Center_y);
         error += temp * temp;
       }
 
-      if (cons[i].type == ConstraintEnum.circleRadius)
+      if (cons[i].type == ConstraintEnum.CircleRadius)
       {
         error += (C1_rad - radius) * (C1_rad - radius);
       }
 
-      if (cons[i].type == ConstraintEnum.internalAngle)
+      if (cons[i].type == ConstraintEnum.InternalAngle)
       {
         temp = cons[i].line1.Vector.Cosine(cons[i].line2.Vector);
 
@@ -360,20 +360,20 @@ error += temp*temp*100;
         error += (temp - temp2) * (temp - temp2);
       }
 
-      if (cons[i].type == ConstraintEnum.externalAngle)
+      if (cons[i].type == ConstraintEnum.ExternalAngle)
       {
         temp = cons[i].line1.Vector.Cosine(cons[i].line2.Vector);
         temp2 = Math.Cos(Math.PI - angleP);
         error += (temp - temp2) * (temp - temp2);
       }
 
-      if (cons[i].type == ConstraintEnum.perpendicular)
+      if (cons[i].type == ConstraintEnum.Perpendicular)
       {
         temp = cons[i].line1.Vector.Dot(cons[i].line2.Vector);
         error += temp * temp;
       }
 
-      if (cons[i].type == ConstraintEnum.parallel)
+      if (cons[i].type == ConstraintEnum.Parallel)
       {
         dx = L1_P2_x - L1_P1_x;
         dy = L1_P2_y - L1_P1_y;
@@ -393,7 +393,7 @@ error += temp*temp*100;
       }
 
       // Colinear constraint
-      if (cons[i].type == ConstraintEnum.colinear)
+      if (cons[i].type == ConstraintEnum.Colinear)
       {
         dx = L1_P2_x - L1_P1_x;
         dy = L1_P2_y - L1_P1_y;
@@ -424,7 +424,7 @@ error += temp*temp*100;
       }
 
       // Point on a circle
-      if (cons[i].type == ConstraintEnum.pointOnCircle)
+      if (cons[i].type == ConstraintEnum.PointOnCircle)
       {
         //see what the current radius to the point is
         rad1 = _hypot(C1_Center_x - P1_x, C1_Center_y - P1_y);
@@ -434,7 +434,7 @@ error += temp*temp*100;
         //cout<<"Point On circle error"<<temp*temp<<endl;
       }
 
-      if (cons[i].type == ConstraintEnum.pointOnArc)
+      if (cons[i].type == ConstraintEnum.PointOnArc)
       {
         //see what the current radius to the point is
         rad1 = _hypot(A1_Center_x - P1_x, A1_Center_y - P1_y);
@@ -445,7 +445,7 @@ error += temp*temp*100;
         //cout<<"Point On circle error"<<temp*temp<<endl;
       }
 
-      if (cons[i].type == ConstraintEnum.pointOnLineMidpoint)
+      if (cons[i].type == ConstraintEnum.PointOnLineMidpoint)
       {
         Ex = (L1_P1_x + L1_P2_x) / 2;
         Ey = (L1_P1_y + L1_P2_y) / 2;
@@ -454,7 +454,7 @@ error += temp*temp*100;
         error += temp * temp + temp2 * temp2;
       }
 
-      if (cons[i].type == ConstraintEnum.pointOnArcMidpoint)
+      if (cons[i].type == ConstraintEnum.PointOnArcMidpoint)
       {
         rad1 = _hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
         temp = Math.Atan2(A1_Start_y - A1_Center_y, A1_Start_x - A1_Center_x);
@@ -466,7 +466,7 @@ error += temp*temp*100;
         error += temp * temp + temp2 * temp2;
       }
 
-      if (cons[i].type == ConstraintEnum.pointOnCircleQuad)
+      if (cons[i].type == ConstraintEnum.PointOnCircleQuad)
       {
         Ex = C1_Center_x;
         Ey = C1_Center_y;
@@ -491,7 +491,7 @@ error += temp*temp*100;
         error += temp * temp + temp2 * temp2;
       }
 
-      if (cons[i].type == ConstraintEnum.symmetricPoints)
+      if (cons[i].type == ConstraintEnum.SymmetricPoints)
       {
         dx = Sym_P2_x - Sym_P1_x;
         dy = Sym_P2_y - Sym_P1_y;
@@ -503,7 +503,7 @@ error += temp*temp*100;
         error += temp * temp + temp2 * temp2;
       }
 
-      if (cons[i].type == ConstraintEnum.symmetricLines)
+      if (cons[i].type == ConstraintEnum.SymmetricLines)
       {
         dx = Sym_P2_x - Sym_P1_x;
         dy = Sym_P2_y - Sym_P1_y;
@@ -521,7 +521,7 @@ error += temp*temp*100;
         error += temp * temp + temp2 * temp2;
       }
 
-      if (cons[i].type == ConstraintEnum.symmetricCircles)
+      if (cons[i].type == ConstraintEnum.SymmetricCircles)
       {
         dx = Sym_P2_x - Sym_P1_x;
         dy = Sym_P2_y - Sym_P1_y;
@@ -535,7 +535,7 @@ error += temp*temp*100;
         error += temp * temp;
       }
 
-      if (cons[i].type == ConstraintEnum.symmetricArcs)
+      if (cons[i].type == ConstraintEnum.SymmetricArcs)
       {
         dx = Sym_P2_x - Sym_P1_x;
         dy = Sym_P2_y - Sym_P1_y;

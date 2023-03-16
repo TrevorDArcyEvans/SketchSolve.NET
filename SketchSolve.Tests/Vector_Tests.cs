@@ -24,8 +24,8 @@ public class Vector_Tests
 
     using (new AssertionScope())
     {
-      v2.dx.Value.Should().Be(0);
-      v2.dy.Value.Should().Be(10);
+      v2.dX.Value.Should().Be(0);
+      v2.dY.Value.Should().Be(10);
     }
   }
 }

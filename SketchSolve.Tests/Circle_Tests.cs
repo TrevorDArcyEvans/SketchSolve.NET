@@ -12,8 +12,8 @@ public class Circle_Tests
   {
     var circle = new Circle
     {
-      center = new Point(0, 0),
-      rad = new Parameter(10)
+      Center = new Point(0, 0),
+      Rad = new Parameter(10)
     };
     var line = new Line(new Point(-10, -10), new Point(-10, 10));
 
@@ -21,8 +21,8 @@ public class Circle_Tests
 
     using (new AssertionScope())
     {
-      line2.p1.x.Value.Should().Be(0);
-      line2.p1.y.Value.Should().Be(0);
+      line2.P1.X.Value.Should().Be(0);
+      line2.P1.Y.Value.Should().Be(0);
     }
   }
 }

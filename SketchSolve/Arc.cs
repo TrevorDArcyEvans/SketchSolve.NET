@@ -1,22 +1,22 @@
-﻿using System.Collections;
+﻿namespace SketchSolve;
 
-namespace SketchSolve;
+using System.Collections;
 
 public class Arc : IEnumerable<Parameter>
 {
-  public Parameter startAngle = new(0);
-  public Parameter endAngle = new(0);
-  public Parameter rad = new(0);
-  public Point center = new(0, 0);
+  public Parameter StartAngle = new(0);
+  public Parameter EndAngle = new(0);
+  public Parameter Rad = new(0);
+  public Point Center = new(0, 0);
 
   #region IEnumerable implementation
 
   public IEnumerator<Parameter> GetEnumerator()
   {
-    yield return startAngle;
-    yield return endAngle;
-    yield return rad;
-    foreach (var p in center)
+    yield return StartAngle;
+    yield return EndAngle;
+    yield return Rad;
+    foreach (var p in Center)
     {
       yield return p;
     }

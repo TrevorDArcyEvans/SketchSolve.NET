@@ -1,50 +1,50 @@
-﻿using System.Collections;
+﻿namespace SketchSolve;
 
-namespace SketchSolve;
+using System.Collections;
 
 public class Point : IEnumerable<Parameter>
 {
-  public Parameter x = new(0);
-  public Parameter y = new(0);
+  public Parameter X = new(0);
+  public Parameter Y = new(0);
 
   public Point(double x, double y, bool freex, bool freey)
   {
-    this.x = new Parameter(x, freex);
-    this.y = new Parameter(y, freey);
+    X = new Parameter(x, freex);
+    Y = new Parameter(y, freey);
   }
 
   public Point(double x, double y, bool free = true)
   {
-    this.x = new Parameter(x, free);
-    this.y = new Parameter(y, free);
+    X = new Parameter(x, free);
+    Y = new Parameter(y, free);
   }
 
   public override string ToString()
   {
-    return x.Value + ";" + y.Value;
+    return X.Value + ";" + Y.Value;
   }
 
   public static Point operator +(Point a, Vector b)
   {
-    return new Point(a.x.Value + b.dx.Value, a.y.Value + b.dy.Value);
+    return new Point(a.X.Value + b.dX.Value, a.Y.Value + b.dY.Value);
   }
 
   public static Point operator -(Point a, Vector b)
   {
-    return new Point(a.x.Value - b.dx.Value, a.y.Value - b.dy.Value);
+    return new Point(a.X.Value - b.dX.Value, a.Y.Value - b.dY.Value);
   }
 
   public static Vector operator -(Point a, Point b)
   {
-    return new Vector(a.x.Value - b.x.Value, a.y.Value - b.y.Value);
+    return new Vector(a.X.Value - b.X.Value, a.Y.Value - b.Y.Value);
   }
 
   #region IEnumerable implementation
 
   public IEnumerator<Parameter> GetEnumerator()
   {
-    yield return x;
-    yield return y;
+    yield return X;
+    yield return Y;
   }
 
   #endregion

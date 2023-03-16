@@ -6,7 +6,7 @@ public static class ConstraintBuilderMixins
   {
     return new Constraint
     {
-      type = ConstraintEnum.horizontal,
+      type = ConstraintEnum.Horizontal,
       line1 = This
     };
   }
@@ -15,7 +15,7 @@ public static class ConstraintBuilderMixins
   {
     return new Constraint
     {
-      type = ConstraintEnum.vertical,
+      type = ConstraintEnum.Vertical,
       line1 = This
     };
   }
@@ -24,7 +24,7 @@ public static class ConstraintBuilderMixins
   {
     return new Constraint
     {
-      type = ConstraintEnum.pointOnPoint,
+      type = ConstraintEnum.PointOnPoint,
       point1 = This,
       point2 = other
     };
@@ -34,7 +34,7 @@ public static class ConstraintBuilderMixins
   {
     return new Constraint
     {
-      type = ConstraintEnum.internalAngle,
+      type = ConstraintEnum.InternalAngle,
       line1 = This,
       line2 = other,
       parameter = angle
@@ -45,7 +45,7 @@ public static class ConstraintBuilderMixins
   {
     return new Constraint
     {
-      type = ConstraintEnum.externalAngle,
+      type = ConstraintEnum.ExternalAngle,
       line1 = This,
       line2 = other,
       parameter = angle
@@ -56,7 +56,7 @@ public static class ConstraintBuilderMixins
   {
     return new Constraint
     {
-      type = ConstraintEnum.perpendicular,
+      type = ConstraintEnum.Perpendicular,
       line1 = This,
       line2 = other,
     };
@@ -66,7 +66,7 @@ public static class ConstraintBuilderMixins
   {
     return new Constraint
     {
-      type = ConstraintEnum.tangentToCircle,
+      type = ConstraintEnum.TangentToCircle,
       line1 = This,
       circle1 = other,
     };

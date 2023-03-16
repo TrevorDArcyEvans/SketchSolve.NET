@@ -1,44 +1,32 @@
-﻿using System.Collections;
+﻿namespace SketchSolve;
 
-namespace SketchSolve;
+using System.Collections;
 
 public class Vector : IEnumerable<Parameter>
 {
-  public Parameter dx = new(0);
-  public Parameter dy = new(0);
+  public Parameter dX = new(0);
+  public Parameter dY = new(0);
 
   public Vector(double dx, double dy, bool freex, bool freey)
   {
-    this.dx = new Parameter(dx, freex);
-    this.dy = new Parameter(dy, freey);
+    dX = new Parameter(dx, freex);
+    dY = new Parameter(dy, freey);
   }
 
   public Vector(double dx, double dy, bool free = true)
   {
-    this.dx = new Parameter(dx, free);
-    this.dy = new Parameter(dy, free);
+    dX = new Parameter(dx, free);
+    dY = new Parameter(dy, free);
   }
 
   public override string ToString()
   {
-    return "-> " + dx.Value + ";" + dy.Value;
+    return "-> " + dX.Value + ";" + dY.Value;
   }
 
-  public double LengthSquared
-  {
-    get
-    {
-      return dx.Value * dx.Value + dy.Value * dy.Value;
-    }
-  }
+  public double LengthSquared => dX.Value * dX.Value + dY.Value * dY.Value;
 
-  public double Length
-  {
-    get
-    {
-      return Math.Sqrt(LengthSquared);
-    }
-  }
+  public double Length => Math.Sqrt(LengthSquared);
 
   // The cosine of the angle between
   // the lines
@@ -51,8 +39,7 @@ public class Vector : IEnumerable<Parameter>
 
   public double Dot(Vector other)
   {
-    return dx.Value * other.dx.Value
-           + dy.Value * other.dy.Value;
+    return dX.Value * other.dX.Value + dY.Value * other.dY.Value;
   }
 
   public Vector ProjectOnto(Vector other)
@@ -65,7 +52,7 @@ public class Vector : IEnumerable<Parameter>
 
   public static Vector operator *(Vector a, double b)
   {
-    return new Vector(a.dx.Value * b, a.dy.Value * b, false);
+    return new Vector(a.dX.Value * b, a.dY.Value * b, false);
   }
 
   public static Vector operator *(double b, Vector a)
@@ -85,7 +72,7 @@ public class Vector : IEnumerable<Parameter>
     get
     {
       var l = Length;
-      return new Vector(dx.Value / l, dy.Value / l);
+      return new Vector(dX.Value / l, dY.Value / l);
     }
   }
 
@@ -94,7 +81,7 @@ public class Vector : IEnumerable<Parameter>
     get
     {
       var l = Length;
-      return new Vector(-dy.Value / l, dx.Value / l);
+      return new Vector(-dY.Value / l, dX.Value / l);
     }
   }
 
@@ -102,8 +89,8 @@ public class Vector : IEnumerable<Parameter>
 
   public IEnumerator<Parameter> GetEnumerator()
   {
-    yield return dx;
-    yield return dy;
+    yield return dX;
+    yield return dY;
   }
 
   #endregion

@@ -1,11 +1,11 @@
-﻿using System.Collections;
+﻿namespace SketchSolve;
 
-namespace SketchSolve;
+using System.Collections;
 
 public class Circle : IEnumerable<Parameter>
 {
-  public Point center = new(0, 0);
-  public Parameter rad = new(0);
+  public Point Center = new(0, 0);
+  public Parameter Rad = new(0);
 
   #region IEnumerable implementation
 
@@ -17,30 +17,30 @@ public class Circle : IEnumerable<Parameter>
   /// <param name="line"></param>
   public Line CenterTo(Line line)
   {
-    var pCircCenter = center;
-    var pLineP1 = line.p1;
+    var pCircCenter = Center;
+    var pLineP1 = line.P1;
     var vLine = line.Vector;
 
     var vLineStartToCircCenter = pCircCenter - pLineP1;
 
     var pProjection = pLineP1 + vLineStartToCircCenter.ProjectOnto(vLine);
 
-    return new Line(center, pProjection);
+    return new Line(Center, pProjection);
   }
 
   public override string ToString()
   {
-    return "[c " + center + ", r " + rad.Value + "]";
+    return "[c " + Center + ", r " + Rad.Value + "]";
   }
 
   public IEnumerator<Parameter> GetEnumerator()
   {
-    foreach (var p in center)
+    foreach (var p in Center)
     {
       yield return p;
     }
 
-    yield return rad;
+    yield return Rad;
   }
 
   #endregion

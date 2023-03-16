@@ -17,7 +17,7 @@ public class Parameter_Tests
     using (new AssertionScope())
     {
       parameters.Length.Should().Be(1);
-      parameters[0].GetHashCode().Should().Be(line.p2.y.GetHashCode());
+      parameters[0].GetHashCode().Should().Be(line.P2.Y.GetHashCode());
     }
   }
 }
