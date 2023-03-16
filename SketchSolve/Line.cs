@@ -4,9 +4,9 @@ using System.Collections;
 
 public class Line : IEnumerable<Parameter>
 {
-  public readonly Point P1 = null;
-  public readonly Point P2 = null;
-  public readonly Vector V1 = null;
+  public readonly Point P1;
+  public readonly Point P2;
+  public readonly Vector V1;
 
   public Line(Point p1, Point p2)
   {

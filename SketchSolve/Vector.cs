@@ -4,8 +4,8 @@ using System.Collections;
 
 public class Vector : IEnumerable<Parameter>
 {
-  public readonly Parameter dX = new(0);
-  public readonly Parameter dY = new(0);
+  public readonly Parameter dX;
+  public readonly Parameter dY;
 
   public Vector(double dx, double dy, bool freex, bool freey)
   {

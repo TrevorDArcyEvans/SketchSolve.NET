@@ -2,7 +2,7 @@
 
 public class Parameter
 {
-  public double Value = 0;
+  public double Value;
   public readonly double Max = 1000;
   public readonly double Min = -1000;
 
