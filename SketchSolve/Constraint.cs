@@ -4,8 +4,6 @@ using System.Collections;
 
 public abstract class Constraint : IEnumerable<Parameter>
 {
-  public readonly ConstraintEnum ContraintType;
-
   public Point Point1;
   public Point Point2;
   public Line Line1;
@@ -18,11 +16,6 @@ public abstract class Constraint : IEnumerable<Parameter>
 
   public Parameter Parameter = null;
   //radius, length, angle etc...
-
-  protected Constraint(ConstraintEnum constraintType)
-  {
-    ContraintType = constraintType;
-  }
 
   public abstract double CalculateError();
 
@@ -69,11 +62,6 @@ public abstract class Constraint : IEnumerable<Parameter>
 
 public sealed class PointOnPointConstraint : Constraint
 {
-  public PointOnPointConstraint() :
-    base(ConstraintEnum.PointOnPoint)
-  {
-  }
-
   public override double CalculateError()
   {
     //Hopefully avoid this constraint, make coincident points use the same parameters
@@ -84,11 +72,6 @@ public sealed class PointOnPointConstraint : Constraint
 
 public sealed class HorizontalConstraint : Constraint
 {
-  public HorizontalConstraint() :
-    base(ConstraintEnum.Horizontal)
-  {
-  }
-
   public override double CalculateError()
   {
     var L1_P1_y = Line1 == null ? 0 : Line1.P1.Y.Value;
@@ -100,11 +83,6 @@ public sealed class HorizontalConstraint : Constraint
 
 public sealed class VerticalConstraint : Constraint
 {
-  public VerticalConstraint() :
-    base(ConstraintEnum.Vertical)
-  {
-  }
-
   public override double CalculateError()
   {
     var L1_P1_x = Line1 == null ? 0 : Line1.P1.X.Value;
@@ -116,11 +94,6 @@ public sealed class VerticalConstraint : Constraint
 
 public sealed class InternalAngleConstraint : Constraint
 {
-  public InternalAngleConstraint() :
-    base(ConstraintEnum.InternalAngle)
-  {
-  }
-
   public override double CalculateError()
   {
     var angleP = Parameter == null ? 0 : Parameter.Value;
@@ -132,11 +105,6 @@ public sealed class InternalAngleConstraint : Constraint
 
 public sealed class ExternalAngleConstraint : Constraint
 {
-  public ExternalAngleConstraint() :
-    base(ConstraintEnum.ExternalAngle)
-  {
-  }
-
   public override double CalculateError()
   {
     var angleP = Parameter == null ? 0 : Parameter.Value;
@@ -148,11 +116,6 @@ public sealed class ExternalAngleConstraint : Constraint
 
 public sealed class PerpendicularConstraint : Constraint
 {
-  public PerpendicularConstraint() :
-    base(ConstraintEnum.Perpendicular)
-  {
-  }
-
   public override double CalculateError()
   {
     var temp = Line1.Vector.Dot(Line2.Vector);
@@ -162,11 +125,6 @@ public sealed class PerpendicularConstraint : Constraint
 
 public sealed class TangentToCircleConstraint : Constraint
 {
-  public TangentToCircleConstraint() :
-    base(ConstraintEnum.TangentToCircle)
-  {
-  }
-
   public override double CalculateError()
   {
     var line = Line1;
@@ -178,11 +136,6 @@ public sealed class TangentToCircleConstraint : Constraint
 
 public sealed class P2PDistanceConstraint : Constraint
 {
-  public P2PDistanceConstraint() :
-    base(ConstraintEnum.P2PDistance)
-  {
-  }
-
   public override double CalculateError()
   {
     var P1_x = Point1 == null ? 0 : Point1.X.Value;
@@ -196,11 +149,6 @@ public sealed class P2PDistanceConstraint : Constraint
 
 public sealed class P2PDistanceVertConstraint : Constraint
 {
-  public P2PDistanceVertConstraint() :
-    base(ConstraintEnum.P2PDistanceVert)
-  {
-  }
-
   public override double CalculateError()
   {
     var P1_y = Point1 == null ? 0 : Point1.Y.Value;
@@ -212,11 +160,6 @@ public sealed class P2PDistanceVertConstraint : Constraint
 
 public sealed class P2PDistanceHorizConstraint : Constraint
 {
-  public P2PDistanceHorizConstraint() :
-    base(ConstraintEnum.P2PDistanceHoriz)
-  {
-  }
-
   public override double CalculateError()
   {
     var P1_x = Point1 == null ? 0 : Point1.X.Value;
@@ -228,11 +171,6 @@ public sealed class P2PDistanceHorizConstraint : Constraint
 
 public sealed class PointOnLineConstraint : Constraint
 {
-  public PointOnLineConstraint() :
-    base(ConstraintEnum.PointOnLine)
-  {
-  }
-
   public override double CalculateError()
   {
     var L1_P1_x = Line1 == null ? 0 : Line1.P1.X.Value;
@@ -266,11 +204,6 @@ public sealed class PointOnLineConstraint : Constraint
 
 public sealed class P2LDistanceConstraint : Constraint
 {
-  public P2LDistanceConstraint() :
-    base(ConstraintEnum.P2LDistance)
-  {
-  }
-
   public override double CalculateError()
   {
     var L1_P1_x = Line1 == null ? 0 : Line1.P1.X.Value;
@@ -293,11 +226,6 @@ public sealed class P2LDistanceConstraint : Constraint
 
 public sealed class P2LDistanceVertConstraint : Constraint
 {
-  public P2LDistanceVertConstraint() :
-    base(ConstraintEnum.P2LDistanceVert)
-  {
-  }
-
   public override double CalculateError()
   {
     var L1_P1_x = Line1 == null ? 0 : Line1.P1.X.Value;
@@ -319,11 +247,6 @@ public sealed class P2LDistanceVertConstraint : Constraint
 
 public sealed class P2LDistanceHorizConstraint : Constraint
 {
-  public P2LDistanceHorizConstraint() :
-    base(ConstraintEnum.P2LDistanceHoriz)
-  {
-  }
-
   public override double CalculateError()
   {
     var L1_P1_x = Line1 == null ? 0 : Line1.P1.X.Value;
@@ -345,11 +268,6 @@ public sealed class P2LDistanceHorizConstraint : Constraint
 
 public sealed class TangentToArcConstraint : Constraint
 {
-  public TangentToArcConstraint() :
-    base(ConstraintEnum.TangentToArc)
-  {
-  }
-
   public override double CalculateError()
   {
     /*
@@ -402,11 +320,6 @@ public sealed class TangentToArcConstraint : Constraint
 
 public sealed class ArcRulesConstraint : Constraint
 {
-  public ArcRulesConstraint() :
-    base(ConstraintEnum.ArcRules)
-  {
-  }
-
   public override double CalculateError()
   {
     //rad1=Hypot(A1_Center_x - A1_Start_x , A1_Center_y - A1_Start_y);
@@ -444,11 +357,6 @@ public sealed class ArcRulesConstraint : Constraint
 
 public sealed class LineLengthConstraint : Constraint
 {
-  public LineLengthConstraint() :
-    base(ConstraintEnum.LineLength)
-  {
-  }
-
   public override double CalculateError()
   {
     var L1_P1_x = Line1 == null ? 0 : Line1.P1.X.Value;
@@ -463,11 +371,6 @@ public sealed class LineLengthConstraint : Constraint
 
 public sealed class EqualLengthConstraint : Constraint
 {
-  public EqualLengthConstraint() :
-    base(ConstraintEnum.EqualLength)
-  {
-  }
-
   public override double CalculateError()
   {
     var L1_P1_x = Line1 == null ? 0 : Line1.P1.X.Value;
@@ -485,11 +388,6 @@ public sealed class EqualLengthConstraint : Constraint
 
 public sealed class ArcRadiusConstraint : Constraint
 {
-  public ArcRadiusConstraint() :
-    base(ConstraintEnum.ArcRadius)
-  {
-  }
-
   public override double CalculateError()
   {
     var A1_Center_x = Arc1 == null ? 0 : Arc1.Center.X.Value;
@@ -511,11 +409,6 @@ public sealed class ArcRadiusConstraint : Constraint
 
 public sealed class EqualRadiusArcsConstraint : Constraint
 {
-  public EqualRadiusArcsConstraint() :
-    base(ConstraintEnum.EqualRadiusArcs)
-  {
-  }
-
   public override double CalculateError()
   {
     var A2_radius = Arc2 == null ? 0 : Arc2.Rad.Value;
@@ -539,11 +432,6 @@ public sealed class EqualRadiusArcsConstraint : Constraint
 
 public sealed class EqualRadiusCirclesConstraint : Constraint
 {
-  public EqualRadiusCirclesConstraint() :
-    base(ConstraintEnum.EqualRadiusCircles)
-  {
-  }
-
   public override double CalculateError()
   {
     var C1_rad = Circle1 == null ? 0 : Circle1.Rad.Value;
@@ -555,11 +443,6 @@ public sealed class EqualRadiusCirclesConstraint : Constraint
 
 public sealed class EqualRadiusCircArcConstraint : Constraint
 {
-  public EqualRadiusCircArcConstraint() :
-    base(ConstraintEnum.EqualRadiusCircArc)
-  {
-  }
-
   public override double CalculateError()
   {
     var A1_Center_x = Arc1 == null ? 0 : Arc1.Center.X.Value;
@@ -577,11 +460,6 @@ public sealed class EqualRadiusCircArcConstraint : Constraint
 
 public sealed class ConcentricArcsConstraint : Constraint
 {
-  public ConcentricArcsConstraint() :
-    base(ConstraintEnum.ConcentricArcs)
-  {
-  }
-
   public override double CalculateError()
   {
     var A1_Center_x = Arc1 == null ? 0 : Arc1.Center.X.Value;
@@ -595,11 +473,6 @@ public sealed class ConcentricArcsConstraint : Constraint
 
 public sealed class ConcentricCirclesConstraint : Constraint
 {
-  public ConcentricCirclesConstraint() :
-    base(ConstraintEnum.ConcentricCircles)
-  {
-  }
-
   public override double CalculateError()
   {
     var C1_Center_x = Circle1 == null ? 0 : Circle1.Center.X.Value;
@@ -613,11 +486,6 @@ public sealed class ConcentricCirclesConstraint : Constraint
 
 public sealed class ConcentricCircArcConstraint : Constraint
 {
-  public ConcentricCircArcConstraint() :
-    base(ConstraintEnum.ConcentricCircArc)
-  {
-  }
-
   public override double CalculateError()
   {
     var A1_Center_x = Arc1 == null ? 0 : Arc1.Center.X.Value;
@@ -631,11 +499,6 @@ public sealed class ConcentricCircArcConstraint : Constraint
 
 public sealed class CircleRadiusConstraint : Constraint
 {
-  public CircleRadiusConstraint() :
-    base(ConstraintEnum.CircleRadius)
-  {
-  }
-
   public override double CalculateError()
   {
     var C1_rad = Circle1 == null ? 0 : Circle1.Rad.Value;
@@ -646,11 +509,6 @@ public sealed class CircleRadiusConstraint : Constraint
 
 public sealed class ParallelConstraint : Constraint
 {
-  public ParallelConstraint() :
-    base(ConstraintEnum.Parallel)
-  {
-  }
-
   public override double CalculateError()
   {
     var L1_P1_x = Line1 == null ? 0 : Line1.P1.X.Value;
@@ -681,11 +539,6 @@ public sealed class ParallelConstraint : Constraint
 
 public sealed class CollinearConstraint : Constraint
 {
-  public CollinearConstraint() :
-    base(ConstraintEnum.Collinear)
-  {
-  }
-
   public override double CalculateError()
   {
     var error = 0d;
@@ -735,11 +588,6 @@ public sealed class CollinearConstraint : Constraint
 
 public sealed class PointOnCircleConstraint : Constraint
 {
-  public PointOnCircleConstraint() :
-    base(ConstraintEnum.PointOnCircle)
-  {
-  }
-
   public override double CalculateError()
   {
     //see what the current radius to the point is
@@ -757,11 +605,6 @@ public sealed class PointOnCircleConstraint : Constraint
 
 public sealed class PointOnArcConstraint : Constraint
 {
-  public PointOnArcConstraint() :
-    base(ConstraintEnum.PointOnArc)
-  {
-  }
-
   public override double CalculateError()
   {
     //see what the current radius to the point is
@@ -783,11 +626,6 @@ public sealed class PointOnArcConstraint : Constraint
 
 public sealed class PointOnLineMidpointConstraint : Constraint
 {
-  public PointOnLineMidpointConstraint() :
-    base(ConstraintEnum.PointOnLineMidpoint)
-  {
-  }
-
   public override double CalculateError()
   {
     var L1_P1_x = Line1 == null ? 0 : Line1.P1.X.Value;
@@ -806,11 +644,6 @@ public sealed class PointOnLineMidpointConstraint : Constraint
 
 public sealed class PointOnArcMidpointConstraint : Constraint
 {
-  public PointOnArcMidpointConstraint() :
-    base(ConstraintEnum.PointOnArcMidpoint)
-  {
-  }
-
   public override double CalculateError()
   {
     var A1_Center_x = Arc1 == null ? 0 : Arc1.Center.X.Value;
@@ -837,11 +670,6 @@ public sealed class PointOnArcMidpointConstraint : Constraint
 
 public sealed class PointOnCircleQuadConstraint : Constraint
 {
-  public PointOnCircleQuadConstraint() :
-    base(ConstraintEnum.PointOnCircleQuad)
-  {
-  }
-
   public override double CalculateError()
   {
     var C1_Center_x = Circle1 == null ? 0 : Circle1.Center.X.Value;
@@ -876,11 +704,6 @@ public sealed class PointOnCircleQuadConstraint : Constraint
 
 public sealed class SymmetricPointsConstraint : Constraint
 {
-  public SymmetricPointsConstraint() :
-    base(ConstraintEnum.SymmetricPoints)
-  {
-  }
-
   public override double CalculateError()
   {
     var Sym_P1_x = SymLine == null ? 0 : SymLine.P1.X.Value;
@@ -904,11 +727,6 @@ public sealed class SymmetricPointsConstraint : Constraint
 
 public sealed class SymmetricLinesConstraint : Constraint
 {
-  public SymmetricLinesConstraint() :
-    base(ConstraintEnum.SymmetricLines)
-  {
-  }
-
   public override double CalculateError()
   {
     var error = 0d;
@@ -946,11 +764,6 @@ public sealed class SymmetricLinesConstraint : Constraint
 
 public sealed class SymmetricCirclesConstraint : Constraint
 {
-  public SymmetricCirclesConstraint() :
-    base(ConstraintEnum.SymmetricCircles)
-  {
-  }
-
   public override double CalculateError()
   {
     var error = 0d;
@@ -983,11 +796,6 @@ public sealed class SymmetricCirclesConstraint : Constraint
 
 public sealed class SymmetricArcsConstraint : Constraint
 {
-  public SymmetricArcsConstraint() :
-    base(ConstraintEnum.SymmetricArcs)
-  {
-  }
-
   public override double CalculateError()
   {
     var error = 0d;
@@ -1044,11 +852,6 @@ public sealed class SymmetricArcsConstraint : Constraint
 
 public sealed class RadiusValueConstraint : Constraint
 {
-  public RadiusValueConstraint() :
-    base(ConstraintEnum.RadiusValue)
-  {
-  }
-
   public override double CalculateError()
   {
     throw new NotImplementedException();
