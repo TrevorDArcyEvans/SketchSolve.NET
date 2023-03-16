@@ -58,44 +58,43 @@ public class Constraint : IEnumerable<Parameter>
     return Math.Sqrt(a * a + b * b);
   }
 
-  public static double Calc(Constraint[] cons)
+  public static double Calc(Constraint[] constraints)
   {
-    var consLength = cons.Length;
     double error = 0;
     double temp, dx, dy, m, n, Ex, Ey, rad1, rad2, t, Xint, Yint, dx2, dy2, hyp1, hyp2, temp2;
 
-    for (var i = 0; i < consLength; i++)
+    foreach (var constraint in constraints)
     {
       // Crappy hack but it will get us going
-      var P1_x = cons[i].Point1 == null ? 0 : cons[i].Point1.X.Value;
-      var P1_y = cons[i].Point1 == null ? 0 : cons[i].Point1.Y.Value;
-      var P2_x = cons[i].Point2 == null ? 0 : cons[i].Point2.X.Value;
-      var P2_y = cons[i].Point2 == null ? 0 : cons[i].Point2.Y.Value;
-      var L1_P1_x = cons[i].Line1 == null ? 0 : cons[i].Line1.P1.X.Value;
-      var L1_P1_y = cons[i].Line1 == null ? 0 : cons[i].Line1.P1.Y.Value;
-      var L1_P2_x = cons[i].Line1 == null ? 0 : cons[i].Line1.P2.X.Value;
-      var L1_P2_y = cons[i].Line1 == null ? 0 : cons[i].Line1.P2.Y.Value;
-      var L2_P1_x = cons[i].Line2 == null ? 0 : cons[i].Line2.P1.X.Value;
-      var L2_P1_y = cons[i].Line2 == null ? 0 : cons[i].Line2.P1.Y.Value;
-      var L2_P2_x = cons[i].Line2 == null ? 0 : cons[i].Line2.P2.X.Value;
-      var L2_P2_y = cons[i].Line2 == null ? 0 : cons[i].Line2.P2.Y.Value;
-      var C1_Center_x = cons[i].Circle1 == null ? 0 : cons[i].Circle1.Center.X.Value;
-      var C1_Center_y = cons[i].Circle1 == null ? 0 : cons[i].Circle1.Center.Y.Value;
-      var C1_rad = cons[i].Circle1 == null ? 0 : cons[i].Circle1.Rad.Value;
-      var C2_Center_x = cons[i].Circle2 == null ? 0 : cons[i].Circle2.Center.X.Value;
-      var C2_Center_y = cons[i].Circle2 == null ? 0 : cons[i].Circle2.Center.Y.Value;
-      var C2_rad = cons[i].Circle2 == null ? 0 : cons[i].Circle2.Rad.Value;
+      var P1_x = constraint.Point1 == null ? 0 : constraint.Point1.X.Value;
+      var P1_y = constraint.Point1 == null ? 0 : constraint.Point1.Y.Value;
+      var P2_x = constraint.Point2 == null ? 0 : constraint.Point2.X.Value;
+      var P2_y = constraint.Point2 == null ? 0 : constraint.Point2.Y.Value;
+      var L1_P1_x = constraint.Line1 == null ? 0 : constraint.Line1.P1.X.Value;
+      var L1_P1_y = constraint.Line1 == null ? 0 : constraint.Line1.P1.Y.Value;
+      var L1_P2_x = constraint.Line1 == null ? 0 : constraint.Line1.P2.X.Value;
+      var L1_P2_y = constraint.Line1 == null ? 0 : constraint.Line1.P2.Y.Value;
+      var L2_P1_x = constraint.Line2 == null ? 0 : constraint.Line2.P1.X.Value;
+      var L2_P1_y = constraint.Line2 == null ? 0 : constraint.Line2.P1.Y.Value;
+      var L2_P2_x = constraint.Line2 == null ? 0 : constraint.Line2.P2.X.Value;
+      var L2_P2_y = constraint.Line2 == null ? 0 : constraint.Line2.P2.Y.Value;
+      var C1_Center_x = constraint.Circle1 == null ? 0 : constraint.Circle1.Center.X.Value;
+      var C1_Center_y = constraint.Circle1 == null ? 0 : constraint.Circle1.Center.Y.Value;
+      var C1_rad = constraint.Circle1 == null ? 0 : constraint.Circle1.Rad.Value;
+      var C2_Center_x = constraint.Circle2 == null ? 0 : constraint.Circle2.Center.X.Value;
+      var C2_Center_y = constraint.Circle2 == null ? 0 : constraint.Circle2.Center.Y.Value;
+      var C2_rad = constraint.Circle2 == null ? 0 : constraint.Circle2.Rad.Value;
 
-      var A1_startA = cons[i].Arc1 == null ? 0 : cons[i].Arc1.StartAngle.Value;
-      var A1_endA = cons[i].Arc1 == null ? 0 : cons[i].Arc1.EndAngle.Value;
-      var A1_radius = cons[i].Arc1 == null ? 0 : cons[i].Arc1.Rad.Value;
-      var A1_Center_x = cons[i].Arc1 == null ? 0 : cons[i].Arc1.Center.X.Value;
-      var A1_Center_y = cons[i].Arc1 == null ? 0 : cons[i].Arc1.Center.Y.Value;
-      var A2_startA = cons[i].Arc2 == null ? 0 : cons[i].Arc2.StartAngle.Value;
-      var A2_endA = cons[i].Arc2 == null ? 0 : cons[i].Arc2.EndAngle.Value;
-      var A2_radius = cons[i].Arc2 == null ? 0 : cons[i].Arc2.Rad.Value;
-      var A2_Center_x = cons[i].Arc2 == null ? 0 : cons[i].Arc2.Center.X.Value;
-      var A2_Center_y = cons[i].Arc2 == null ? 0 : cons[i].Arc2.Center.Y.Value;
+      var A1_startA = constraint.Arc1 == null ? 0 : constraint.Arc1.StartAngle.Value;
+      var A1_endA = constraint.Arc1 == null ? 0 : constraint.Arc1.EndAngle.Value;
+      var A1_radius = constraint.Arc1 == null ? 0 : constraint.Arc1.Rad.Value;
+      var A1_Center_x = constraint.Arc1 == null ? 0 : constraint.Arc1.Center.X.Value;
+      var A1_Center_y = constraint.Arc1 == null ? 0 : constraint.Arc1.Center.Y.Value;
+      var A2_startA = constraint.Arc2 == null ? 0 : constraint.Arc2.StartAngle.Value;
+      var A2_endA = constraint.Arc2 == null ? 0 : constraint.Arc2.EndAngle.Value;
+      var A2_radius = constraint.Arc2 == null ? 0 : constraint.Arc2.Rad.Value;
+      var A2_Center_x = constraint.Arc2 == null ? 0 : constraint.Arc2.Center.X.Value;
+      var A2_Center_y = constraint.Arc2 == null ? 0 : constraint.Arc2.Center.Y.Value;
 
       var A1_Start_x = A1_Center_x + A1_radius * Math.Cos(A1_startA);
       var A1_Start_y = A1_Center_y + A1_radius * Math.Sin(A1_startA);
@@ -107,44 +106,44 @@ public class Constraint : IEnumerable<Parameter>
       var A2_End_y = A1_Center_y + A2_radius * Math.Sin(A2_endA);
 
 
-      var length = cons[i].Parameter == null ? 0 : cons[i].Parameter.Value;
+      var length = constraint.Parameter == null ? 0 : constraint.Parameter.Value;
       var distance = length;
       var radius = length;
       var angleP = length;
       var quadIndex = length;
 
-      var Sym_P1_x = cons[i].SymLine == null ? 0 : cons[i].SymLine.P1.X.Value;
-      var Sym_P1_y = cons[i].SymLine == null ? 0 : cons[i].SymLine.P1.Y.Value;
+      var Sym_P1_x = constraint.SymLine == null ? 0 : constraint.SymLine.P1.X.Value;
+      var Sym_P1_y = constraint.SymLine == null ? 0 : constraint.SymLine.P1.Y.Value;
 
-      var Sym_P2_x = cons[i].SymLine == null ? 0 : cons[i].SymLine.P2.X.Value;
-      var Sym_P2_y = cons[i].SymLine == null ? 0 : cons[i].SymLine.P2.Y.Value;
+      var Sym_P2_x = constraint.SymLine == null ? 0 : constraint.SymLine.P2.X.Value;
+      var Sym_P2_y = constraint.SymLine == null ? 0 : constraint.SymLine.P2.Y.Value;
 
 
-      if (cons[i].ContraintType == ConstraintEnum.PointOnPoint)
+      if (constraint.ContraintType == ConstraintEnum.PointOnPoint)
       {
         //Hopefully avoid this constraint, make coincident points use the same parameters
-        var l2 = (cons[i].Point1 - cons[i].Point2).LengthSquared;
+        var l2 = (constraint.Point1 - constraint.Point2).LengthSquared;
         error += l2;
       }
 
 
-      if (cons[i].ContraintType == ConstraintEnum.P2PDistance)
+      if (constraint.ContraintType == ConstraintEnum.P2PDistance)
       {
         error += (P1_x - P2_x) * (P1_x - P2_x) + (P1_y - P2_y) * (P1_y - P2_y) - distance * distance;
       }
 
-      if (cons[i].ContraintType == ConstraintEnum.P2PDistanceVert)
+      if (constraint.ContraintType == ConstraintEnum.P2PDistanceVert)
       {
         error += (P1_y - P2_y) * (P1_y - P2_y) - distance * distance;
       }
 
-      if (cons[i].ContraintType == ConstraintEnum.P2PDistanceHoriz)
+      if (constraint.ContraintType == ConstraintEnum.P2PDistanceHoriz)
       {
         error += (P1_x - P2_x) * (P1_x - P2_x) - distance * distance;
       }
 
 
-      if (cons[i].ContraintType == ConstraintEnum.PointOnLine)
+      if (constraint.ContraintType == ConstraintEnum.PointOnLine)
       {
         dx = L1_P2_x - L1_P1_x;
         dy = L1_P2_y - L1_P1_y;
@@ -166,7 +165,7 @@ public class Constraint : IEnumerable<Parameter>
         }
       }
 
-      if (cons[i].ContraintType == ConstraintEnum.P2LDistance)
+      if (constraint.ContraintType == ConstraintEnum.P2LDistance)
       {
         dx = L1_P2_x - L1_P1_x;
         dy = L1_P2_y - L1_P1_y;
@@ -178,7 +177,7 @@ public class Constraint : IEnumerable<Parameter>
         error += temp * temp / 10;
       }
 
-      if (cons[i].ContraintType == ConstraintEnum.P2LDistanceVert)
+      if (constraint.ContraintType == ConstraintEnum.P2LDistanceVert)
       {
         dx = L1_P2_x - L1_P1_x;
         dy = L1_P2_y - L1_P1_y;
@@ -189,7 +188,7 @@ public class Constraint : IEnumerable<Parameter>
         error += temp * temp;
       }
 
-      if (cons[i].ContraintType == ConstraintEnum.P2LDistanceHoriz)
+      if (constraint.ContraintType == ConstraintEnum.P2LDistanceHoriz)
       {
         dx = L1_P2_x - L1_P1_x;
         dy = L1_P2_y - L1_P1_y;
@@ -201,53 +200,53 @@ public class Constraint : IEnumerable<Parameter>
       }
 
 
-      if (cons[i].ContraintType == ConstraintEnum.Vertical)
+      if (constraint.ContraintType == ConstraintEnum.Vertical)
       {
         var odx = L1_P2_x - L1_P1_x;
         error += odx * odx;
       }
 
-      if (cons[i].ContraintType == ConstraintEnum.Horizontal)
+      if (constraint.ContraintType == ConstraintEnum.Horizontal)
       {
         var ody = L1_P2_y - L1_P1_y;
         error += ody * ody;
       }
 
-      if (cons[i].ContraintType == ConstraintEnum.TangentToCircle)
+      if (constraint.ContraintType == ConstraintEnum.TangentToCircle)
       {
-        var l = cons[i].Line1;
-        var c = cons[i].Circle1;
+        var l = constraint.Line1;
+        var c = constraint.Circle1;
         temp = c.CenterTo(l).Vector.Length - c.Rad.Value;
         error += temp * temp;
       }
 
-      if (cons[i].ContraintType == ConstraintEnum.TangentToArc)
+      if (constraint.ContraintType == ConstraintEnum.TangentToArc)
       {
         /*
-  double dx,dy,Rpx,Rpy,RpxN,RpyN,hyp,error1,error2,rad;
-  dx = L1_P2_x - L1_P1_x;
-  dy = L1_P2_y - L1_P1_y;
+        double dx,dy,Rpx,Rpy,RpxN,RpyN,hyp,error1,error2,rad;
+        dx = L1_P2_x - L1_P1_x;
+        dy = L1_P2_y - L1_P1_y;
 
-  hyp=Hypot(dx,dy);
+        hyp=Hypot(dx,dy);
 
-  double u = (A1_Center_x - L1_P1_x) * (L1_P2_x - L1_P1_x) + (A1_Center_y - L1_P1_y) * (L1_P2_y - L1_P1_y);
-  u/=hyp*hyp;
+        double u = (A1_Center_x - L1_P1_x) * (L1_P2_x - L1_P1_x) + (A1_Center_y - L1_P1_y) * (L1_P2_y - L1_P1_y);
+        u/=hyp*hyp;
 
-  double x = L1_P1_x + u *(L1_P2_x - L1_P1_x);
-  double y = L1_P1_y + u *(L1_P2_y - L1_P1_y);
+        double x = L1_P1_x + u *(L1_P2_x - L1_P1_x);
+        double y = L1_P1_y + u *(L1_P2_y - L1_P1_y);
 
-  double dcsx = A1_Center_x - A1_Start_x;
-  double dcsy = A1_Center_y - A1_Start_y;
-  double dcex = A1_Center_x - A1_End_x;
-  double dcey = A1_Center_y - A1_End_y;
-  rad=(dcsx*dcsx + dcsy * dcsy);
-  //  rad+=(dcex*dcex + dcey * dcey)/4;
+        double dcsx = A1_Center_x - A1_Start_x;
+        double dcsy = A1_Center_y - A1_Start_y;
+        double dcex = A1_Center_x - A1_End_x;
+        double dcey = A1_Center_y - A1_End_y;
+        rad=(dcsx*dcsx + dcsy * dcsy);
+        //  rad+=(dcex*dcex + dcey * dcey)/4;
 
-  double dcx = A1_Center_x-x;
-  double dcy = A1_Center_y-y;
-  temp = (dcx * dcx + dcy * dcy) - rad;
-  error += temp*temp*100;
-  */
+        double dcx = A1_Center_x-x;
+        double dcy = A1_Center_y-y;
+        temp = (dcx * dcx + dcy * dcy) - rad;
+        error += temp*temp*100;
+        */
 
         dx = L1_P2_x - L1_P1_x;
         dy = L1_P2_y - L1_P1_y;
@@ -261,7 +260,7 @@ public class Constraint : IEnumerable<Parameter>
         error += temp * temp;
       }
 
-      if (cons[i].ContraintType == ConstraintEnum.ArcRules)
+      if (constraint.ContraintType == ConstraintEnum.ArcRules)
       {
         //rad1=Hypot(A1_Center_x - A1_Start_x , A1_Center_y - A1_Start_y);
         //rad2=Hypot(A1_Center_x - A1_End_x , A1_Center_y - A1_End_y);
@@ -286,20 +285,20 @@ public class Constraint : IEnumerable<Parameter>
         error += num * num / (4.0 * a1endx2 + a1endy2 - 2 * A1_End_x * A1_Start_x + a1startx2 - 2 * A1_End_y * A1_Start_y + a1starty2);
       }
 
-      if (cons[i].ContraintType == ConstraintEnum.LineLength)
+      if (constraint.ContraintType == ConstraintEnum.LineLength)
       {
         temp = Math.Sqrt(Math.Pow(L1_P2_x - L1_P1_x, 2) + Math.Pow(L1_P2_y - L1_P1_y, 2)) - length;
         //temp=Hypot(L1_P2_x - L1_P1_x , L1_P2_y - L1_P1_y) - length;
         error += temp * temp * 100;
       }
 
-      if (cons[i].ContraintType == ConstraintEnum.EqualLength)
+      if (constraint.ContraintType == ConstraintEnum.EqualLength)
       {
         temp = Hypot(L1_P2_x - L1_P1_x, L1_P2_y - L1_P1_y) - Hypot(L2_P2_x - L2_P1_x, L2_P2_y - L2_P1_y);
         error += temp * temp;
       }
 
-      if (cons[i].ContraintType == ConstraintEnum.ArcRadius)
+      if (constraint.ContraintType == ConstraintEnum.ArcRadius)
       {
         rad1 = Hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
         rad2 = Hypot(A1_Center_x - A1_End_x, A1_Center_y - A1_End_y);
@@ -307,7 +306,7 @@ public class Constraint : IEnumerable<Parameter>
         error += temp * temp;
       }
 
-      if (cons[i].ContraintType == ConstraintEnum.EqualRadiusArcs)
+      if (constraint.ContraintType == ConstraintEnum.EqualRadiusArcs)
       {
         rad1 = Hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
         rad2 = Hypot(A2_Center_x - A2_Start_x, A2_Center_y - A2_Start_y);
@@ -315,64 +314,64 @@ public class Constraint : IEnumerable<Parameter>
         error += temp * temp;
       }
 
-      if (cons[i].ContraintType == ConstraintEnum.EqualRadiusCircles)
+      if (constraint.ContraintType == ConstraintEnum.EqualRadiusCircles)
       {
         temp = C1_rad - C2_rad;
         error += temp * temp;
       }
 
-      if (cons[i].ContraintType == ConstraintEnum.EqualRadiusCircArc)
+      if (constraint.ContraintType == ConstraintEnum.EqualRadiusCircArc)
       {
         rad1 = Hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
         temp = rad1 - C1_rad;
         error += temp * temp;
       }
 
-      if (cons[i].ContraintType == ConstraintEnum.ConcentricArcs)
+      if (constraint.ContraintType == ConstraintEnum.ConcentricArcs)
       {
         temp = Hypot(A1_Center_x - A2_Center_x, A1_Center_y - A2_Center_y);
         error += temp * temp;
       }
 
-      if (cons[i].ContraintType == ConstraintEnum.ConcentricCircles)
+      if (constraint.ContraintType == ConstraintEnum.ConcentricCircles)
       {
         temp = Hypot(C1_Center_x - C2_Center_x, C1_Center_y - C2_Center_y);
         error += temp * temp;
       }
 
-      if (cons[i].ContraintType == ConstraintEnum.ConcentricCircArc)
+      if (constraint.ContraintType == ConstraintEnum.ConcentricCircArc)
       {
         temp = Hypot(A1_Center_x - C1_Center_x, A1_Center_y - C1_Center_y);
         error += temp * temp;
       }
 
-      if (cons[i].ContraintType == ConstraintEnum.CircleRadius)
+      if (constraint.ContraintType == ConstraintEnum.CircleRadius)
       {
         error += (C1_rad - radius) * (C1_rad - radius);
       }
 
-      if (cons[i].ContraintType == ConstraintEnum.InternalAngle)
+      if (constraint.ContraintType == ConstraintEnum.InternalAngle)
       {
-        temp = cons[i].Line1.Vector.Cosine(cons[i].Line2.Vector);
+        temp = constraint.Line1.Vector.Cosine(constraint.Line2.Vector);
 
         temp2 = Math.Cos(angleP);
         error += (temp - temp2) * (temp - temp2);
       }
 
-      if (cons[i].ContraintType == ConstraintEnum.ExternalAngle)
+      if (constraint.ContraintType == ConstraintEnum.ExternalAngle)
       {
-        temp = cons[i].Line1.Vector.Cosine(cons[i].Line2.Vector);
+        temp = constraint.Line1.Vector.Cosine(constraint.Line2.Vector);
         temp2 = Math.Cos(Math.PI - angleP);
         error += (temp - temp2) * (temp - temp2);
       }
 
-      if (cons[i].ContraintType == ConstraintEnum.Perpendicular)
+      if (constraint.ContraintType == ConstraintEnum.Perpendicular)
       {
-        temp = cons[i].Line1.Vector.Dot(cons[i].Line2.Vector);
+        temp = constraint.Line1.Vector.Dot(constraint.Line2.Vector);
         error += temp * temp;
       }
 
-      if (cons[i].ContraintType == ConstraintEnum.Parallel)
+      if (constraint.ContraintType == ConstraintEnum.Parallel)
       {
         dx = L1_P2_x - L1_P1_x;
         dy = L1_P2_y - L1_P1_y;
@@ -392,7 +391,7 @@ public class Constraint : IEnumerable<Parameter>
       }
 
       // Collinear constraint
-      if (cons[i].ContraintType == ConstraintEnum.Collinear)
+      if (constraint.ContraintType == ConstraintEnum.Collinear)
       {
         dx = L1_P2_x - L1_P1_x;
         dy = L1_P2_y - L1_P1_y;
@@ -423,7 +422,7 @@ public class Constraint : IEnumerable<Parameter>
       }
 
       // Point on a circle
-      if (cons[i].ContraintType == ConstraintEnum.PointOnCircle)
+      if (constraint.ContraintType == ConstraintEnum.PointOnCircle)
       {
         //see what the current radius to the point is
         rad1 = Hypot(C1_Center_x - P1_x, C1_Center_y - P1_y);
@@ -433,7 +432,7 @@ public class Constraint : IEnumerable<Parameter>
         //cout<<"Point On circle error"<<temp*temp<<endl;
       }
 
-      if (cons[i].ContraintType == ConstraintEnum.PointOnArc)
+      if (constraint.ContraintType == ConstraintEnum.PointOnArc)
       {
         //see what the current radius to the point is
         rad1 = Hypot(A1_Center_x - P1_x, A1_Center_y - P1_y);
@@ -444,7 +443,7 @@ public class Constraint : IEnumerable<Parameter>
         //cout<<"Point On circle error"<<temp*temp<<endl;
       }
 
-      if (cons[i].ContraintType == ConstraintEnum.PointOnLineMidpoint)
+      if (constraint.ContraintType == ConstraintEnum.PointOnLineMidpoint)
       {
         Ex = (L1_P1_x + L1_P2_x) / 2;
         Ey = (L1_P1_y + L1_P2_y) / 2;
@@ -453,7 +452,7 @@ public class Constraint : IEnumerable<Parameter>
         error += temp * temp + temp2 * temp2;
       }
 
-      if (cons[i].ContraintType == ConstraintEnum.PointOnArcMidpoint)
+      if (constraint.ContraintType == ConstraintEnum.PointOnArcMidpoint)
       {
         rad1 = Hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
         temp = Math.Atan2(A1_Start_y - A1_Center_y, A1_Start_x - A1_Center_x);
@@ -465,7 +464,7 @@ public class Constraint : IEnumerable<Parameter>
         error += temp * temp + temp2 * temp2;
       }
 
-      if (cons[i].ContraintType == ConstraintEnum.PointOnCircleQuad)
+      if (constraint.ContraintType == ConstraintEnum.PointOnCircleQuad)
       {
         Ex = C1_Center_x;
         Ey = C1_Center_y;
@@ -490,7 +489,7 @@ public class Constraint : IEnumerable<Parameter>
         error += temp * temp + temp2 * temp2;
       }
 
-      if (cons[i].ContraintType == ConstraintEnum.SymmetricPoints)
+      if (constraint.ContraintType == ConstraintEnum.SymmetricPoints)
       {
         dx = Sym_P2_x - Sym_P1_x;
         dy = Sym_P2_y - Sym_P1_y;
@@ -502,7 +501,7 @@ public class Constraint : IEnumerable<Parameter>
         error += temp * temp + temp2 * temp2;
       }
 
-      if (cons[i].ContraintType == ConstraintEnum.SymmetricLines)
+      if (constraint.ContraintType == ConstraintEnum.SymmetricLines)
       {
         dx = Sym_P2_x - Sym_P1_x;
         dy = Sym_P2_y - Sym_P1_y;
@@ -520,7 +519,7 @@ public class Constraint : IEnumerable<Parameter>
         error += temp * temp + temp2 * temp2;
       }
 
-      if (cons[i].ContraintType == ConstraintEnum.SymmetricCircles)
+      if (constraint.ContraintType == ConstraintEnum.SymmetricCircles)
       {
         dx = Sym_P2_x - Sym_P1_x;
         dy = Sym_P2_y - Sym_P1_y;
@@ -534,7 +533,7 @@ public class Constraint : IEnumerable<Parameter>
         error += temp * temp;
       }
 
-      if (cons[i].ContraintType == ConstraintEnum.SymmetricArcs)
+      if (constraint.ContraintType == ConstraintEnum.SymmetricArcs)
       {
         dx = Sym_P2_x - Sym_P1_x;
         dy = Sym_P2_y - Sym_P1_y;
