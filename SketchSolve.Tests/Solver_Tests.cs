@@ -1,7 +1,8 @@
-﻿using FluentAssertions;
-using NUnit.Framework;
+﻿namespace SketchSolve.Tests;
 
-namespace SketchSolve.Tests;
+using FluentAssertions;
+using FluentAssertions.Execution;
+using NUnit.Framework;
 
 [TestFixture]
 public class Solver_Tests
@@ -11,14 +12,10 @@ public class Solver_Tests
   {
     var line = new Line(new Point(0, 1, false), new Point(2, 3, false, true));
 
-    var error = SketchSolve.Solver.solve
-    (true
-      , line.IsHorizontal()
-    );
+    var error = Solver.Solve(true, line.IsHorizontal());
 
-    NumericAssertionsExtensions.BeApproximately(error.Should(), 0, 0.0001);
-
-    NumericAssertionsExtensions.BeApproximately(line.p1.y.Value.Should(), line.p2.y.Value, 0.001);
+    error.Should().BeApproximately(0, 0.0001);
+    line.p1.y.Value.Should().BeApproximately(line.p2.y.Value, 0.001);
   }
 
   [Test]
@@ -26,13 +23,10 @@ public class Solver_Tests
   {
     var line = new Line(new Point(0, 1, false), new Point(2, 3, true, false));
 
-    SketchSolve.Solver.solve
-    (true
-      , line.IsVertical()
-    );
+    Solver.Solve(true, line.IsVertical());
 
     Console.WriteLine(line);
-    NumericAssertionsExtensions.BeApproximately(line.p1.x.Value.Should(), line.p2.x.Value, 0.001);
+    line.p1.x.Value.Should().BeApproximately(line.p2.x.Value, 0.001);
   }
 
   [Test]
@@ -41,12 +35,13 @@ public class Solver_Tests
     var line1 = new Line(new Point(0, 1), new Point(2, 3, false));
     var line2 = new Line(new Point(10, 100, false), new Point(200, 300, false));
 
-    SketchSolve.Solver.solve
-    (true
-      , line1.p1.IsColocated(line2.p1));
+    Solver.Solve(true, line1.p1.IsColocated(line2.p1));
 
-    NumericAssertionsExtensions.BeApproximately(line1.p1.x.Value.Should(), line2.p1.x.Value, 0.001);
-    NumericAssertionsExtensions.BeApproximately(line1.p1.y.Value.Should(), line2.p1.y.Value, 0.001);
+    using (new AssertionScope())
+    {
+      line1.p1.x.Value.Should().BeApproximately(line2.p1.x.Value, 0.001);
+      line1.p1.y.Value.Should().BeApproximately(line2.p1.y.Value, 0.001);
+    }
   }
 
   [Test]
@@ -60,14 +55,12 @@ public class Solver_Tests
       Console.WriteLine(i);
       const double a = Math.PI / 2 / 3;
 
-      SketchSolve.Solver.solve
-      (true
-        , line1.HasInternalAngle(line2, new Parameter(a, false)));
+      Solver.Solve(true, line1.HasInternalAngle(line2, new Parameter(a, false)));
 
-      NumericAssertionsExtensions.BeApproximately(line1
+      line1
         .Vector
         .Cosine(line2.Vector)
-        .Should(), Math.Cos(a), 0.001);
+        .Should().BeApproximately(Math.Cos(a), 0.001);
     }
   }
 
@@ -82,14 +75,12 @@ public class Solver_Tests
       Console.WriteLine(i);
       const double a = Math.PI / 2 / 3;
 
-      SketchSolve.Solver.solve
-      (true
-        , line1.HasExternalAngle(line2, new Parameter(a, false)));
+      Solver.Solve(true, line1.HasExternalAngle(line2, new Parameter(a, false)));
 
-      NumericAssertionsExtensions.BeApproximately(line1
+      line1
         .Vector
         .Cosine(line2.Vector)
-        .Should(), Math.Cos(Math.PI - a), 0.001);
+        .Should().BeApproximately(Math.Cos(Math.PI - a), 0.001);
     }
   }
 
@@ -101,17 +92,15 @@ public class Solver_Tests
       var line1 = new Line(new Point(0, 0, false), new Point(10, 0, false, true));
       var line2 = new Line(new Point(0, 0, false), new Point(10, 10, true, false));
 
-      SketchSolve.Solver.solve
-      (true
-        , line1.IsPerpendicularTo(line2));
+      Solver.Solve(true, line1.IsPerpendicularTo(line2));
 
       Console.WriteLine(line1);
       Console.WriteLine(line2);
 
-      NumericAssertionsExtensions.BeApproximately(line1
+      line1
         .Vector
         .Dot(line2.Vector)
-        .Should(), 0, 0.001);
+        .Should().BeApproximately(0, 0.001);
     }
   }
 
@@ -129,13 +118,13 @@ public class Solver_Tests
 
     var line = new Line(new Point(0, -v, false, false), new Point(35, 0, true, false));
 
-    var r = SketchSolve.Solver.solve
-    (true
-      , line.IsTangentTo(circle));
+    var r = Solver.Solve(true, line.IsTangentTo(circle));
 
-    NumericAssertionsExtensions.BeApproximately(r.Should(), 0, 0.0001);
-
-    NumericAssertionsExtensions.BeApproximately(line.p2.x.Value.Should(), v, 0.001);
+    using (new AssertionScope())
+    {
+      r.Should().BeApproximately(0, 0.0001);
+      line.p2.x.Value.Should().BeApproximately(v, 0.001);
+    }
   }
 
   /// <summary>
@@ -156,19 +145,19 @@ public class Solver_Tests
 
     var line = new Line(new Point(0, -v, false, false), new Point(0, v, true, false));
 
-    var r = SketchSolve.Solver.solve
-    (true
-      , line.IsTangentTo(circle));
+    var r = Solver.Solve(true, line.IsTangentTo(circle));
 
     Console.WriteLine(line);
-    NumericAssertionsExtensions.BeApproximately(r.Should(), 0, 0.0001);
-
-    NumericAssertionsExtensions.BeApproximately((circle.CenterTo(line).Vector.LengthSquared - 1).Should(), 0, 0.001);
+    using (new AssertionScope())
+    {
+      r.Should().BeApproximately(0, 0.0001);
+      (circle.CenterTo(line).Vector.LengthSquared - 1).Should().BeApproximately(0, 0.001);
+    }
   }
 
   /// <summary>
   /// TODO
-  /// Wierd problem when only one degree of freedom with horizontal initialconditions
+  /// Weird problem when only one degree of freedom with horizontal initial conditions
   /// </summary>
   [Test]
   public void TangentToCircleConstraintWithLineInitiallyHorizontal()
@@ -176,7 +165,7 @@ public class Solver_Tests
     // Create a fully constrained circle at 0,0 with radius 1
     var circle = new Circle
     {
-      center = new Point(0, 0, false), 
+      center = new Point(0, 0, false),
       rad = new Parameter(1, false)
     };
 
@@ -184,20 +173,19 @@ public class Solver_Tests
 
     var line = new Line(new Point(0, -v, false, false), new Point(10, -v, true, false));
 
-    var r = SketchSolve.Solver.solve
-    (true
-      , line.IsTangentTo(circle));
+    var r = Solver.Solve(true, line.IsTangentTo(circle));
 
     Console.WriteLine(line);
-    NumericAssertionsExtensions.BeApproximately(r.Should(), 0, 0.0001);
-
-    NumericAssertionsExtensions.BeApproximately((circle.CenterTo(line).Vector.LengthSquared - 1).Should(), 0, 0.001);
+    using (new AssertionScope())
+    {
+      r.Should().BeApproximately(0, 0.0001);
+      (circle.CenterTo(line).Vector.LengthSquared - 1).Should().BeApproximately(0, 0.001);
+    }
   }
 
   /// <summary>
   /// TODO
-  /// Not sure how to fix this one. My gues is that we have a local maximum due
-  /// to the initial conditions
+  /// Not sure how to fix this one. My guess is that we have a local maximum due to the initial conditions
   /// </summary>
   [Test]
   public void TangentToCircleConstraintWithLineInitiallyHorizontalShouldWork()
@@ -213,17 +201,13 @@ public class Solver_Tests
 
     var line = new Line(new Point(-100, -v, false, true), new Point(100, -v * 2.1, false, true));
 
-    var r = SketchSolve.Solver.solve
-    (true
-      , line.IsTangentTo(circle)
-      , line.IsHorizontal()
-    );
+    var r = Solver.Solve(true, line.IsTangentTo(circle), line.IsHorizontal());
 
     Console.WriteLine(line);
     Console.WriteLine(circle);
 
-    NumericAssertionsExtensions.BeApproximately((circle.CenterTo(line).Vector.LengthSquared - circle.rad.Value * circle.rad.Value)
-      .Should(), 0, 0.001);
+    (circle.CenterTo(line).Vector.LengthSquared - circle.rad.Value * circle.rad.Value)
+      .Should().BeApproximately(0, 0.001);
   }
 
   [Test]
@@ -246,7 +230,7 @@ public class Solver_Tests
 
     var angle = new Parameter(Math.PI / 2, false);
 
-    var r = SketchSolve.Solver.solve
+    var r = Solver.Solve
     (true
       , line0.IsTangentTo(circle)
       , line1.IsTangentTo(circle)
@@ -270,6 +254,6 @@ public class Solver_Tests
 
     Console.WriteLine(circle.CenterTo(line0));
 
-    NumericAssertionsExtensions.BeApproximately(r.Should(), 0, 0.0001);
+    r.Should().BeApproximately(0, 0.0001);
   }
 }

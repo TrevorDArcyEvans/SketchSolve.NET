@@ -1,16 +1,16 @@
+namespace SketchSolve;
+
 using Accord.Math.Optimization;
 using Accord.Math.Differentiation;
 
-namespace SketchSolve;
-
 public static class Solver
 {
-  public static double solve(bool isFine, params Constraint[] cons)
+  public static double Solve(bool isFine, params Constraint[] cons)
   {
-    return solve(isFine, (IEnumerable<Constraint>)cons);
+    return Solve(isFine, (IEnumerable<Constraint>)cons);
   }
 
-  static Func<double[], double> LogWrap(Func<double[], double> fn)
+  private static Func<double[], double> LogWrap(Func<double[], double> fn)
   {
     return args =>
     {
@@ -20,7 +20,7 @@ public static class Solver
     };
   }
 
-  static Func<double[], double[]> LogWrap(Func<double[], double[]> fn)
+  private static Func<double[], double[]> LogWrap(Func<double[], double[]> fn)
   {
     return args =>
     {
@@ -30,13 +30,13 @@ public static class Solver
     };
   }
 
-  static Func<double[], double[]> Grad(int n, Func<double[], double> fn)
+  private static Func<double[], double[]> Grad(int n, Func<double[], double> fn)
   {
     var gradient = new FiniteDifferences(n, fn);
     return a => gradient.Compute(a);
   }
 
-  public static double solve(bool isFine, IEnumerable<Constraint> cons)
+  private static double Solve(bool isFine, IEnumerable<Constraint> cons)
   {
     var constraints = cons.ToArray();
 
@@ -80,7 +80,7 @@ public static class Solver
   }
 
   // We don't use this at the moment
-  static List<NonlinearConstraint> CreateConstraints(Parameter[] x, NonlinearObjectiveFunction f)
+  private static List<NonlinearConstraint> CreateConstraints(Parameter[] x, NonlinearObjectiveFunction f)
   {
     // Now we can start stating the constraints 
     var nlConstraints = x.SelectMany((p, i) =>
