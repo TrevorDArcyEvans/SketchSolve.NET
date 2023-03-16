@@ -94,8 +94,6 @@ public class Constraint : IEnumerable<Parameter>
       var A2_startA = constraint.Arc2 == null ? 0 : constraint.Arc2.StartAngle.Value;
       var A2_endA = constraint.Arc2 == null ? 0 : constraint.Arc2.EndAngle.Value;
       var A2_radius = constraint.Arc2 == null ? 0 : constraint.Arc2.Rad.Value;
-      var A2_Center_x = constraint.Arc2 == null ? 0 : constraint.Arc2.Center.X.Value;
-      var A2_Center_y = constraint.Arc2 == null ? 0 : constraint.Arc2.Center.Y.Value;
 
       switch (constraint.ContraintType)
       {
@@ -321,6 +319,8 @@ public class Constraint : IEnumerable<Parameter>
           var A2_Start_y = A1_Center_y + A2_radius * Math.Sin(A2_startA);
           var A1_Start_y = A1_Center_y + A1_radius * Math.Sin(A1_startA);
           var A1_Start_x = A1_Center_x + A1_radius * Math.Cos(A1_startA);
+          var A2_Center_y = constraint.Arc2 == null ? 0 : constraint.Arc2.Center.Y.Value;
+          var A2_Center_x = constraint.Arc2 == null ? 0 : constraint.Arc2.Center.X.Value;
           var rad1 = Hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
           var rad2 = Hypot(A2_Center_x - A2_Start_x, A2_Center_y - A2_Start_y);
           var temp = rad1 - rad2;
@@ -347,6 +347,8 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.ConcentricArcs:
         {
+          var A2_Center_y = constraint.Arc2 == null ? 0 : constraint.Arc2.Center.Y.Value;
+          var A2_Center_x = constraint.Arc2 == null ? 0 : constraint.Arc2.Center.X.Value;
           var temp = Hypot(A1_Center_x - A2_Center_x, A1_Center_y - A2_Center_y);
           error += temp * temp;
         }
@@ -622,6 +624,8 @@ public class Constraint : IEnumerable<Parameter>
           t = -(dy * A1_Center_x - dx * A1_Center_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
           Ex = A1_Center_x + dy * t * 2;
           Ey = A1_Center_y - dx * t * 2;
+          var A2_Center_x = constraint.Arc2 == null ? 0 : constraint.Arc2.Center.X.Value;
+          var A2_Center_y = constraint.Arc2 == null ? 0 : constraint.Arc2.Center.Y.Value;
           tempX = Ex - A2_Center_x;
           tempY = Ey - A2_Center_y;
           error += tempX * tempX + tempY * tempY;
