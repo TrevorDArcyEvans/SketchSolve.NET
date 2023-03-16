@@ -12,7 +12,7 @@ public class Solver_Tests
   {
     var line = new Line(new Point(0, 1, false), new Point(2, 3, false, true));
 
-    var error = Solver.Solve(true, line.IsHorizontal());
+    var error = Solver.Solve(line.IsHorizontal());
 
     using (new AssertionScope())
     {
@@ -26,7 +26,7 @@ public class Solver_Tests
   {
     var line = new Line(new Point(0, 1, false), new Point(2, 3, true, false));
 
-    var r = Solver.Solve(true, line.IsVertical());
+    var r = Solver.Solve(line.IsVertical());
 
     Console.WriteLine(line);
     using (new AssertionScope())
@@ -42,7 +42,7 @@ public class Solver_Tests
     var line1 = new Line(new Point(0, 1), new Point(2, 3, false));
     var line2 = new Line(new Point(10, 100, false), new Point(200, 300, false));
 
-    var error = Solver.Solve(true, line1.P1.IsColocated(line2.P1));
+    var error = Solver.Solve(line1.P1.IsColocated(line2.P1));
 
     using (new AssertionScope())
     {
@@ -63,7 +63,7 @@ public class Solver_Tests
       Console.WriteLine(i);
       const double angle = Math.PI / 2 / 3;   // 30 deg
 
-      var error = Solver.Solve(true, line1.HasInternalAngle(line2, new Parameter(angle, false)));
+      var error = Solver.Solve(line1.HasInternalAngle(line2, new Parameter(angle, false)));
 
       using (new AssertionScope())
       {
@@ -87,7 +87,7 @@ public class Solver_Tests
       Console.WriteLine(i);
       const double angle = Math.PI / 2 / 3;   // 30 deg
 
-      var error = Solver.Solve(true, line1.HasExternalAngle(line2, new Parameter(angle, false)));
+      var error = Solver.Solve(line1.HasExternalAngle(line2, new Parameter(angle, false)));
 
       using (new AssertionScope())
       {
@@ -108,7 +108,7 @@ public class Solver_Tests
       var line1 = new Line(new Point(0, 0, false), new Point(10, 0, false, true));
       var line2 = new Line(new Point(0, 0, false), new Point(10, 10, true, false));
 
-      var error = Solver.Solve(true, line1.IsPerpendicularTo(line2));
+      var error = Solver.Solve(line1.IsPerpendicularTo(line2));
 
       Console.WriteLine(line1);
       Console.WriteLine(line2);
@@ -138,7 +138,7 @@ public class Solver_Tests
 
     var line = new Line(new Point(0, -v, false, false), new Point(35, 0, true, false));
 
-    var error = Solver.Solve(true, line.IsTangentTo(circle));
+    var error = Solver.Solve(line.IsTangentTo(circle));
 
     using (new AssertionScope())
     {
@@ -165,7 +165,7 @@ public class Solver_Tests
 
     var line = new Line(new Point(0, -v, false, false), new Point(0, v, true, false));
 
-    var error = Solver.Solve(true, line.IsTangentTo(circle));
+    var error = Solver.Solve(line.IsTangentTo(circle));
 
     Console.WriteLine(line);
     using (new AssertionScope())
@@ -193,7 +193,7 @@ public class Solver_Tests
 
     var line = new Line(new Point(0, -v, false, false), new Point(10, -v, true, false));
 
-    var error = Solver.Solve(true, line.IsTangentTo(circle));
+    var error = Solver.Solve(line.IsTangentTo(circle));
 
     Console.WriteLine(line);
     using (new AssertionScope())
@@ -221,7 +221,7 @@ public class Solver_Tests
 
     var line = new Line(new Point(-100, -v, false, true), new Point(100, -v * 2.1, false, true));
 
-    var error = Solver.Solve(true, line.IsTangentTo(circle), line.IsHorizontal());
+    var error = Solver.Solve(line.IsTangentTo(circle), line.IsHorizontal());
 
     Console.WriteLine(line);
     Console.WriteLine(circle);
@@ -254,9 +254,7 @@ public class Solver_Tests
 
     var angle = new Parameter(Math.PI / 2, false);
 
-    var error = Solver.Solve(
-      true,
-      line0.IsTangentTo(circle),
+    var error = Solver.Solve(line0.IsTangentTo(circle),
       line1.IsTangentTo(circle),
       line2.IsTangentTo(circle),
       line3.IsTangentTo(circle),

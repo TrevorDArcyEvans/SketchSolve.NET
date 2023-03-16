@@ -5,9 +5,9 @@ using Accord.Math.Differentiation;
 
 public static class Solver
 {
-  public static double Solve(bool isFine, params Constraint[] cons)
+  public static double Solve(params Constraint[] cons)
   {
-    return Solve(isFine, (IEnumerable<Constraint>)cons);
+    return Solve((IEnumerable<Constraint>)cons);
   }
 
   private static Func<double[], double> LogWrap(Func<double[], double> fn)
@@ -36,7 +36,7 @@ public static class Solver
     return a => gradient.Compute(a);
   }
 
-  private static double Solve(bool isFine, IEnumerable<Constraint> cons)
+  private static double Solve(IEnumerable<Constraint> cons)
   {
     var constraints = cons.ToArray();
 
