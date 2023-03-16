@@ -64,12 +64,6 @@ public class Constraint : IEnumerable<Parameter>
 
     foreach (var constraint in constraints)
     {
-      // Crappy hack but it will get us going
-      var P1_x = constraint.Point1 == null ? 0 : constraint.Point1.X.Value;
-      var P1_y = constraint.Point1 == null ? 0 : constraint.Point1.Y.Value;
-      var P2_x = constraint.Point2 == null ? 0 : constraint.Point2.X.Value;
-      var P2_y = constraint.Point2 == null ? 0 : constraint.Point2.Y.Value;
-      
       switch (constraint.ContraintType)
       {
         case ConstraintEnum.PointOnPoint:
@@ -82,6 +76,10 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.P2PDistance:
         {
+          var P1_x = constraint.Point1 == null ? 0 : constraint.Point1.X.Value;
+          var P1_y = constraint.Point1 == null ? 0 : constraint.Point1.Y.Value;
+          var P2_x = constraint.Point2 == null ? 0 : constraint.Point2.X.Value;
+          var P2_y = constraint.Point2 == null ? 0 : constraint.Point2.Y.Value;
           var distance = constraint.Parameter == null ? 0 : constraint.Parameter.Value;
           error += (P1_x - P2_x) * (P1_x - P2_x) + (P1_y - P2_y) * (P1_y - P2_y) - distance * distance;
         }
@@ -89,6 +87,8 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.P2PDistanceVert:
         {
+          var P1_y = constraint.Point1 == null ? 0 : constraint.Point1.Y.Value;
+          var P2_y = constraint.Point2 == null ? 0 : constraint.Point2.Y.Value;
           var distance = constraint.Parameter == null ? 0 : constraint.Parameter.Value;
           error += (P1_y - P2_y) * (P1_y - P2_y) - distance * distance;
         }
@@ -96,6 +96,8 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.P2PDistanceHoriz:
         {
+          var P1_x = constraint.Point1 == null ? 0 : constraint.Point1.X.Value;
+          var P2_x = constraint.Point2 == null ? 0 : constraint.Point2.X.Value;
           var distance = constraint.Parameter == null ? 0 : constraint.Parameter.Value;
           error += (P1_x - P2_x) * (P1_x - P2_x) - distance * distance;
         }
@@ -116,12 +118,16 @@ public class Constraint : IEnumerable<Parameter>
           if (m <= 1 && m >= -1)
           {
             //Calculate the expected y point given the x coordinate of the point
+            var P1_x = constraint.Point1 == null ? 0 : constraint.Point1.X.Value;
+            var P1_y = constraint.Point1 == null ? 0 : constraint.Point1.Y.Value;
             var Ey = L1_P1_y + m * (P1_x - L1_P1_x);
             error += (Ey - P1_y) * (Ey - P1_y);
           }
           else
           {
             //Calculate the expected x point given the y coordinate of the point
+            var P1_x = constraint.Point1 == null ? 0 : constraint.Point1.X.Value;
+            var P1_y = constraint.Point1 == null ? 0 : constraint.Point1.Y.Value;
             var Ex = L1_P1_x + n * (P1_y - L1_P1_y);
             error += (Ex - P1_x) * (Ex - P1_x);
           }
@@ -137,6 +143,8 @@ public class Constraint : IEnumerable<Parameter>
           var dx = L1_P2_x - L1_P1_x;
           var dy = L1_P2_y - L1_P1_y;
 
+          var P1_x = constraint.Point1 == null ? 0 : constraint.Point1.X.Value;
+          var P1_y = constraint.Point1 == null ? 0 : constraint.Point1.Y.Value;
           var t = -(L1_P1_x * dx - P1_x * dx + L1_P1_y * dy - P1_y * dy) / (dx * dx + dy * dy);
           var Xint = L1_P1_x + dx * t;
           var Yint = L1_P1_y + dy * t;
@@ -155,9 +163,11 @@ public class Constraint : IEnumerable<Parameter>
           var dx = L1_P2_x - L1_P1_x;
           var dy = L1_P2_y - L1_P1_y;
 
+          var P1_x = constraint.Point1 == null ? 0 : constraint.Point1.X.Value;
           var t = (P1_x - L1_P1_x) / dx;
           var Yint = L1_P1_y + dy * t;
           var distance = constraint.Parameter == null ? 0 : constraint.Parameter.Value;
+          var P1_y = constraint.Point1 == null ? 0 : constraint.Point1.Y.Value;
           var temp = Math.Abs(P1_y - Yint) - distance;
           error += temp * temp;
         }
@@ -172,6 +182,8 @@ public class Constraint : IEnumerable<Parameter>
           var dx = L1_P2_x - L1_P1_x;
           var dy = L1_P2_y - L1_P1_y;
 
+          var P1_x = constraint.Point1 == null ? 0 : constraint.Point1.X.Value;
+          var P1_y = constraint.Point1 == null ? 0 : constraint.Point1.Y.Value;
           var t = (P1_y - L1_P1_y) / dy;
           var Xint = L1_P1_x + dx * t;
           var distance = constraint.Parameter == null ? 0 : constraint.Parameter.Value;
@@ -526,6 +538,8 @@ public class Constraint : IEnumerable<Parameter>
           var C1_rad = constraint.Circle1 == null ? 0 : constraint.Circle1.Rad.Value;
           var C1_Center_x = constraint.Circle1 == null ? 0 : constraint.Circle1.Center.X.Value;
           var C1_Center_y = constraint.Circle1 == null ? 0 : constraint.Circle1.Center.Y.Value;
+          var P1_x = constraint.Point1 == null ? 0 : constraint.Point1.X.Value;
+          var P1_y = constraint.Point1 == null ? 0 : constraint.Point1.Y.Value;
           var rad1 = Hypot(C1_Center_x - P1_x, C1_Center_y - P1_y);
           //Compare this radius to the radius of the circle, return the error squared
           var temp = rad1 - C1_rad;
@@ -542,6 +556,8 @@ public class Constraint : IEnumerable<Parameter>
           var A1_startA = constraint.Arc1 == null ? 0 : constraint.Arc1.StartAngle.Value;
           var A1_Start_y = A1_Center_y + A1_radius * Math.Sin(A1_startA);
           var A1_Start_x = A1_Center_x + A1_radius * Math.Cos(A1_startA);
+          var P1_x = constraint.Point1 == null ? 0 : constraint.Point1.X.Value;
+          var P1_y = constraint.Point1 == null ? 0 : constraint.Point1.Y.Value;
           var rad1 = Hypot(A1_Center_x - P1_x, A1_Center_y - P1_y);
           var rad2 = Hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
           //Compare this radius to the radius of the circle, return the error squared
@@ -558,6 +574,8 @@ public class Constraint : IEnumerable<Parameter>
           var L1_P2_y = constraint.Line1 == null ? 0 : constraint.Line1.P2.Y.Value;
           var Ex = (L1_P1_x + L1_P2_x) / 2;
           var Ey = (L1_P1_y + L1_P2_y) / 2;
+          var P1_x = constraint.Point1 == null ? 0 : constraint.Point1.X.Value;
+          var P1_y = constraint.Point1 == null ? 0 : constraint.Point1.Y.Value;
           var tempX = Ex - P1_x;
           var tempY = Ey - P1_y;
           error += tempX * tempX + tempY * tempY;
@@ -580,6 +598,8 @@ public class Constraint : IEnumerable<Parameter>
           var tempEnd = Math.Atan2(A1_End_y - A1_Center_y, A1_End_x - A1_Center_x);
           var Ex = A1_Center_x + rad1 * Math.Cos((tempEnd + tempStart) / 2);
           var Ey = A1_Center_y + rad1 * Math.Sin((tempEnd + tempStart) / 2);
+          var P1_x = constraint.Point1 == null ? 0 : constraint.Point1.X.Value;
+          var P1_y = constraint.Point1 == null ? 0 : constraint.Point1.Y.Value;
           var tempX = Ex - P1_x;
           var tempY = Ey - P1_y;
           error += tempX * tempX + tempY * tempY;
@@ -610,6 +630,8 @@ public class Constraint : IEnumerable<Parameter>
               break;
           }
 
+          var P1_x = constraint.Point1 == null ? 0 : constraint.Point1.X.Value;
+          var P1_y = constraint.Point1 == null ? 0 : constraint.Point1.Y.Value;
           var tempX = Ex - P1_x;
           var tempY = Ey - P1_y;
           error += tempX * tempX + tempY * tempY;
@@ -625,9 +647,13 @@ public class Constraint : IEnumerable<Parameter>
           var Sym_P2_y = constraint.SymLine == null ? 0 : constraint.SymLine.P2.Y.Value;
           var dx = Sym_P2_x - Sym_P1_x;
           var dy = Sym_P2_y - Sym_P1_y;
+          var P1_x = constraint.Point1 == null ? 0 : constraint.Point1.X.Value;
+          var P1_y = constraint.Point1 == null ? 0 : constraint.Point1.Y.Value;
           var t = -(dy * P1_x - dx * P1_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
           var Ex = P1_x + dy * t * 2;
           var Ey = P1_y - dx * t * 2;
+          var P2_x = constraint.Point2 == null ? 0 : constraint.Point2.X.Value;
+          var P2_y = constraint.Point2 == null ? 0 : constraint.Point2.Y.Value;
           var tempX = Ex - P2_x;
           var tempY = Ey - P2_y;
           error += tempX * tempX + tempY * tempY;
