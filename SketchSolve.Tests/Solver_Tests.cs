@@ -41,7 +41,7 @@ public class Solver_Tests
     var line1 = new Line(new Point(0, 1), new Point(2, 3, false));
     var line2 = new Line(new Point(10, 100, false), new Point(200, 300, false));
 
-    var error = Solver.Solve(line1.P1.IsColocated(line2.P1));
+    var error = Solver.Solve(line1.P1.IsCoincidentWith(line2.P1));
 
     using (new AssertionScope())
     {
@@ -251,10 +251,10 @@ public class Solver_Tests
       line1.HasInternalAngle(line2, angle),
       line2.HasInternalAngle(line3, angle),
       line3.HasInternalAngle(line0, angle),
-      line0.P2.IsColocated(line1.P1),
-      line1.P2.IsColocated(line2.P1),
-      line2.P2.IsColocated(line3.P1),
-      line3.P2.IsColocated(line0.P1),
+      line0.P2.IsCoincidentWith(line1.P1),
+      line1.P2.IsCoincidentWith(line2.P1),
+      line2.P2.IsCoincidentWith(line3.P1),
+      line3.P2.IsCoincidentWith(line0.P1),
       line0.IsVertical());
 
     error.Should().BeApproximately(0, 0.0001);

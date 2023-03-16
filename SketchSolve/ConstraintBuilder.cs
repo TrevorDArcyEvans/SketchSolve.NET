@@ -12,7 +12,7 @@ public static class ConstraintBuilder
     return new VerticalConstraint(line);
   }
 
-  public static Constraint IsColocated(this Point pt, Point other)
+  public static Constraint IsCoincidentWith(this Point pt, Point other)
   {
     return new PointOnPointConstraint(pt, other);
   }
