@@ -61,7 +61,7 @@ public class Constraint : IEnumerable<Parameter>
   public static double Calculate(IEnumerable<Constraint> constraints)
   {
     double error = 0;
-    double dx, dy, m, n, Ex, Ey, rad1, rad2;
+    double dx, dy, m, n, Ex, Ey;
 
     foreach (var constraint in constraints)
     {
@@ -315,8 +315,8 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.ArcRadius:
         {
-          rad1 = Hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
-          rad2 = Hypot(A1_Center_x - A1_End_x, A1_Center_y - A1_End_y);
+          var rad1 = Hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
+          var rad2 = Hypot(A1_Center_x - A1_End_x, A1_Center_y - A1_End_y);
           var temp = rad1 - radius;
           error += temp * temp;
         }
@@ -324,8 +324,8 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.EqualRadiusArcs:
         {
-          rad1 = Hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
-          rad2 = Hypot(A2_Center_x - A2_Start_x, A2_Center_y - A2_Start_y);
+          var rad1 = Hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
+          var rad2 = Hypot(A2_Center_x - A2_Start_x, A2_Center_y - A2_Start_y);
           var temp = rad1 - rad2;
           error += temp * temp;
         }
@@ -340,7 +340,7 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.EqualRadiusCircArc:
         {
-          rad1 = Hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
+          var rad1 = Hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
           var temp = rad1 - C1_rad;
           error += temp * temp;
         }
@@ -450,7 +450,7 @@ public class Constraint : IEnumerable<Parameter>
         case ConstraintEnum.PointOnCircle:
         {
           //see what the current radius to the point is
-          rad1 = Hypot(C1_Center_x - P1_x, C1_Center_y - P1_y);
+          var rad1 = Hypot(C1_Center_x - P1_x, C1_Center_y - P1_y);
           //Compare this radius to the radius of the circle, return the error squared
           var temp = rad1 - C1_rad;
           error += temp * temp;
@@ -460,8 +460,8 @@ public class Constraint : IEnumerable<Parameter>
         case ConstraintEnum.PointOnArc:
         {
           //see what the current radius to the point is
-          rad1 = Hypot(A1_Center_x - P1_x, A1_Center_y - P1_y);
-          rad2 = Hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
+          var rad1 = Hypot(A1_Center_x - P1_x, A1_Center_y - P1_y);
+          var rad2 = Hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
           //Compare this radius to the radius of the circle, return the error squared
           var temp = rad1 - rad2;
           error += temp * temp;
@@ -480,7 +480,7 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.PointOnArcMidpoint:
         {
-          rad1 = Hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
+          var rad1 = Hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
           var tempStart = Math.Atan2(A1_Start_y - A1_Center_y, A1_Start_x - A1_Center_x);
           var tempEnd = Math.Atan2(A1_End_y - A1_Center_y, A1_End_x - A1_Center_x);
           Ex = A1_Center_x + rad1 * Math.Cos((tempEnd + tempStart) / 2);
