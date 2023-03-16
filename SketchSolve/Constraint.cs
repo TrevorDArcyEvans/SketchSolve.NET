@@ -97,9 +97,6 @@ public class Constraint : IEnumerable<Parameter>
       var A2_Center_x = constraint.Arc2 == null ? 0 : constraint.Arc2.Center.X.Value;
       var A2_Center_y = constraint.Arc2 == null ? 0 : constraint.Arc2.Center.Y.Value;
 
-      var A1_Start_x = A1_Center_x + A1_radius * Math.Cos(A1_startA);
-      var A1_Start_y = A1_Center_y + A1_radius * Math.Sin(A1_startA);
-
       switch (constraint.ContraintType)
       {
         case ConstraintEnum.PointOnPoint:
@@ -248,6 +245,8 @@ public class Constraint : IEnumerable<Parameter>
           var dx = L1_P2_x - L1_P1_x;
           var dy = L1_P2_y - L1_P1_y;
 
+          var A1_Start_y = A1_Center_y + A1_radius * Math.Sin(A1_startA);
+          var A1_Start_x = A1_Center_x + A1_radius * Math.Cos(A1_startA);
           var radsq = (A1_Center_x - A1_Start_x) * (A1_Center_x - A1_Start_x) + (A1_Center_y - A1_Start_y) * (A1_Center_y - A1_Start_y);
           var t = -(L1_P1_x * dx - A1_Center_x * dx + L1_P1_y * dy - A1_Center_y * dy) / (dx * dx + dy * dy);
           var Xint = L1_P1_x + dx * t;
@@ -276,6 +275,8 @@ public class Constraint : IEnumerable<Parameter>
           //error+=Math.Pow(-2*A1_Center_x*A1_End_y - 2*A1_Center_y*A1_End_y + A1_End_x*A1_End_y + Math.Pow(A1_End_y,2) + 2*A1_Center_x*A1_Start_x - 2*A1_Center_y*A1_Start_x - A1_End_x*A1_Start_x + 4*A1_End_y*A1_Start_x - 3*Math.Pow(A1_Start_x,2) +  2*A1_Center_y*A1_Start_y + A1_Start_x*A1_Start_y - Math.Pow(A1_Start_y,2),2)/(8*Math.Pow(A1_End_y,2) + 8*Math.Pow(A1_Start_x,2) - 8*A1_End_y*A1_Start_y -  8*A1_Start_x*A1_Start_y + 4*Math.Pow(A1_Start_y,2));
           var A1_End_x = A1_Center_x + A1_radius * Math.Cos(A1_endA);
           var A1_End_y = A1_Center_y + A1_radius * Math.Sin(A1_endA);
+          var A1_Start_y = A1_Center_y + A1_radius * Math.Sin(A1_startA);
+          var A1_Start_x = A1_Center_x + A1_radius * Math.Cos(A1_startA);
           var a1endx2 = A1_End_x * A1_End_x;
           var a1endy2 = A1_End_y * A1_End_y;
           var a1startx2 = A1_Start_x * A1_Start_x;
@@ -304,6 +305,8 @@ public class Constraint : IEnumerable<Parameter>
         {
           var A1_End_x = A1_Center_x + A1_radius * Math.Cos(A1_endA);
           var A1_End_y = A1_Center_y + A1_radius * Math.Sin(A1_endA);
+          var A1_Start_y = A1_Center_y + A1_radius * Math.Sin(A1_startA);
+          var A1_Start_x = A1_Center_x + A1_radius * Math.Cos(A1_startA);
           var radius = constraint.Parameter == null ? 0 : constraint.Parameter.Value;
           var rad1 = Hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
           var rad2 = Hypot(A1_Center_x - A1_End_x, A1_Center_y - A1_End_y);
@@ -316,6 +319,8 @@ public class Constraint : IEnumerable<Parameter>
         {
           var A2_Start_x = A1_Center_x + A2_radius * Math.Cos(A2_startA);
           var A2_Start_y = A1_Center_y + A2_radius * Math.Sin(A2_startA);
+          var A1_Start_y = A1_Center_y + A1_radius * Math.Sin(A1_startA);
+          var A1_Start_x = A1_Center_x + A1_radius * Math.Cos(A1_startA);
           var rad1 = Hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
           var rad2 = Hypot(A2_Center_x - A2_Start_x, A2_Center_y - A2_Start_y);
           var temp = rad1 - rad2;
@@ -332,6 +337,8 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.EqualRadiusCircArc:
         {
+          var A1_Start_y = A1_Center_y + A1_radius * Math.Sin(A1_startA);
+          var A1_Start_x = A1_Center_x + A1_radius * Math.Cos(A1_startA);
           var rad1 = Hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
           var temp = rad1 - C1_rad;
           error += temp * temp;
@@ -455,6 +462,8 @@ public class Constraint : IEnumerable<Parameter>
         case ConstraintEnum.PointOnArc:
         {
           //see what the current radius to the point is
+          var A1_Start_y = A1_Center_y + A1_radius * Math.Sin(A1_startA);
+          var A1_Start_x = A1_Center_x + A1_radius * Math.Cos(A1_startA);
           var rad1 = Hypot(A1_Center_x - P1_x, A1_Center_y - P1_y);
           var rad2 = Hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
           //Compare this radius to the radius of the circle, return the error squared
@@ -477,6 +486,8 @@ public class Constraint : IEnumerable<Parameter>
         {
           var A1_End_x = A1_Center_x + A1_radius * Math.Cos(A1_endA);
           var A1_End_y = A1_Center_y + A1_radius * Math.Sin(A1_endA);
+          var A1_Start_y = A1_Center_y + A1_radius * Math.Sin(A1_startA);
+          var A1_Start_x = A1_Center_x + A1_radius * Math.Cos(A1_startA);
           var rad1 = Hypot(A1_Center_x - A1_Start_x, A1_Center_y - A1_Start_y);
           var tempStart = Math.Atan2(A1_Start_y - A1_Center_y, A1_Start_x - A1_Center_x);
           var tempEnd = Math.Atan2(A1_End_y - A1_Center_y, A1_End_x - A1_Center_x);
@@ -583,6 +594,8 @@ public class Constraint : IEnumerable<Parameter>
           var Sym_P1_y = constraint.SymLine == null ? 0 : constraint.SymLine.P1.Y.Value;
           var Sym_P2_x = constraint.SymLine == null ? 0 : constraint.SymLine.P2.X.Value;
           var Sym_P2_y = constraint.SymLine == null ? 0 : constraint.SymLine.P2.Y.Value;
+          var A1_Start_y = A1_Center_y + A1_radius * Math.Sin(A1_startA);
+          var A1_Start_x = A1_Center_x + A1_radius * Math.Cos(A1_startA);
           var dx = Sym_P2_x - Sym_P1_x;
           var dy = Sym_P2_y - Sym_P1_y;
 
