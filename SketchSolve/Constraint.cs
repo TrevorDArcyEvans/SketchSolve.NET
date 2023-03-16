@@ -13,6 +13,7 @@ public abstract class Constraint : IEnumerable<Parameter>
 
   #region IEnumerable implementation
 
+  // TODO   GetEnumerator
   public IEnumerator<Parameter> GetEnumerator()
   {
     var list = new List<IEnumerable<Parameter>>
