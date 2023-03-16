@@ -61,7 +61,7 @@ public class Constraint : IEnumerable<Parameter>
   public static double Calculate(IEnumerable<Constraint> constraints)
   {
     double error = 0;
-    double dx, dy, m, n, Ex, Ey, rad1, rad2, t;
+    double dx, dy, m, n, Ex, Ey, rad1, rad2;
 
     foreach (var constraint in constraints)
     {
@@ -177,7 +177,7 @@ public class Constraint : IEnumerable<Parameter>
           dx = L1_P2_x - L1_P1_x;
           dy = L1_P2_y - L1_P1_y;
 
-          t = -(L1_P1_x * dx - P1_x * dx + L1_P1_y * dy - P1_y * dy) / (dx * dx + dy * dy);
+          var t = -(L1_P1_x * dx - P1_x * dx + L1_P1_y * dy - P1_y * dy) / (dx * dx + dy * dy);
           var Xint = L1_P1_x + dx * t;
           var Yint = L1_P1_y + dy * t;
           var temp = Hypot(P1_x - Xint, P1_y - Yint) - distance;
@@ -190,7 +190,7 @@ public class Constraint : IEnumerable<Parameter>
           dx = L1_P2_x - L1_P1_x;
           dy = L1_P2_y - L1_P1_y;
 
-          t = (P1_x - L1_P1_x) / dx;
+          var t = (P1_x - L1_P1_x) / dx;
           var Yint = L1_P1_y + dy * t;
           var temp = Math.Abs(P1_y - Yint) - distance;
           error += temp * temp;
@@ -202,7 +202,7 @@ public class Constraint : IEnumerable<Parameter>
           dx = L1_P2_x - L1_P1_x;
           dy = L1_P2_y - L1_P1_y;
 
-          t = (P1_y - L1_P1_y) / dy;
+          var t = (P1_y - L1_P1_y) / dy;
           var Xint = L1_P1_x + dx * t;
           var temp = Math.Abs(P1_x - Xint) - distance;
           error += temp * temp / 10;
@@ -264,7 +264,7 @@ public class Constraint : IEnumerable<Parameter>
           dy = L1_P2_y - L1_P1_y;
 
           var radsq = (A1_Center_x - A1_Start_x) * (A1_Center_x - A1_Start_x) + (A1_Center_y - A1_Start_y) * (A1_Center_y - A1_Start_y);
-          t = -(L1_P1_x * dx - A1_Center_x * dx + L1_P1_y * dy - A1_Center_y * dy) / (dx * dx + dy * dy);
+          var t = -(L1_P1_x * dx - A1_Center_x * dx + L1_P1_y * dy - A1_Center_y * dy) / (dx * dx + dy * dy);
           var Xint = L1_P1_x + dx * t;
           var Yint = L1_P1_y + dy * t;
           var temp = (A1_Center_x - Xint) * (A1_Center_x - Xint) + (A1_Center_y - Yint) * (A1_Center_y - Yint) - radsq;
@@ -522,7 +522,7 @@ public class Constraint : IEnumerable<Parameter>
         {
           dx = Sym_P2_x - Sym_P1_x;
           dy = Sym_P2_y - Sym_P1_y;
-          t = -(dy * P1_x - dx * P1_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
+          var t = -(dy * P1_x - dx * P1_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
           Ex = P1_x + dy * t * 2;
           Ey = P1_y - dx * t * 2;
           var tempX = Ex - P2_x;
@@ -535,7 +535,7 @@ public class Constraint : IEnumerable<Parameter>
         {
           dx = Sym_P2_x - Sym_P1_x;
           dy = Sym_P2_y - Sym_P1_y;
-          t = -(dy * L1_P1_x - dx * L1_P1_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
+          var t = -(dy * L1_P1_x - dx * L1_P1_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
           Ex = L1_P1_x + dy * t * 2;
           Ey = L1_P1_y - dx * t * 2;
           var tempX = Ex - L2_P1_x;
@@ -555,7 +555,7 @@ public class Constraint : IEnumerable<Parameter>
         {
           dx = Sym_P2_x - Sym_P1_x;
           dy = Sym_P2_y - Sym_P1_y;
-          t = -(dy * C1_Center_x - dx * C1_Center_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
+          var t = -(dy * C1_Center_x - dx * C1_Center_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
           Ex = C1_Center_x + dy * t * 2;
           Ey = C1_Center_y - dx * t * 2;
           var tempX = Ex - C2_Center_x;
@@ -571,7 +571,7 @@ public class Constraint : IEnumerable<Parameter>
         {
           dx = Sym_P2_x - Sym_P1_x;
           dy = Sym_P2_y - Sym_P1_y;
-          t = -(dy * A1_Start_x - dx * A1_Start_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
+          var t = -(dy * A1_Start_x - dx * A1_Start_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
           Ex = A1_Start_x + dy * t * 2;
           Ey = A1_Start_y - dx * t * 2;
           var tempX = Ex - A2_Start_x;
