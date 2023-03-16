@@ -111,7 +111,6 @@ public class Constraint : IEnumerable<Parameter>
       var distance = length;
       var radius = length;
       var angleP = length;
-      var quadIndex = length;
 
       var Sym_P1_x = constraint.SymLine == null ? 0 : constraint.SymLine.P1.X.Value;
       var Sym_P1_y = constraint.SymLine == null ? 0 : constraint.SymLine.P1.Y.Value;
@@ -494,6 +493,7 @@ public class Constraint : IEnumerable<Parameter>
         {
           var Ex = C1_Center_x;
           var Ey = C1_Center_y;
+          var quadIndex = length;
           switch ((int)quadIndex)
           {
             case 0:
