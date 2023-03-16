@@ -59,7 +59,7 @@ public class Solver_Tests
       var line1 = new Line(new Point(0, 0, false), new Point(10, 0, false, true));
       var line2 = new Line(new Point(0, 0, false), new Point(10, -1, false));
 
-      const double angle = Math.PI / 2 / 3;   // 30 deg
+      const double angle = Math.PI / 2 / 3; // 30 deg
 
       var error = Solver.Solve(line1.HasInternalAngle(line2, new Parameter(angle, false)));
 
@@ -82,7 +82,7 @@ public class Solver_Tests
       var line1 = new Line(new Point(0, 0, false), new Point(10, 0, false, true));
       var line2 = new Line(new Point(0, 0, false), new Point(10, -1, false));
 
-      const double angle = Math.PI / 2 / 3;   // 30 deg
+      const double angle = Math.PI / 2 / 3; // 30 deg
 
       var error = Solver.Solve(line1.HasExternalAngle(line2, new Parameter(angle, false)));
 
@@ -122,13 +122,9 @@ public class Solver_Tests
   public void TangentToCircleConstraintShouldWork()
   {
     // Create a fully constrained circle at 0,0 with radius 1
-    var circle = new Circle
-    {
-      Center = new Point(0, 0, false),
-      Rad = new Parameter(1, false)
-    };
+    var circle = new Circle(new Point(0, 0, false), new Parameter(1, false));
 
-    var v = 1 / Math.Sin(Math.PI / 4);  // sqrt(2)
+    var v = 1 / Math.Sin(Math.PI / 4); // sqrt(2)
 
     var line = new Line(new Point(0, -v, false, false), new Point(35, 0, true, false));
 
@@ -149,13 +145,9 @@ public class Solver_Tests
   public void TangentToCircleConstraintWithLineInitiallyThroughCenter()
   {
     // Create a fully constrained circle at 0,0 with radius 1
-    var circle = new Circle
-    {
-      Center = new Point(0, 0, false),
-      Rad = new Parameter(1, false)
-    };
+    var circle = new Circle(new Point(0, 0, false), new Parameter(1, false));
 
-    var v = 1 / Math.Sin(Math.PI / 4);  // sqrt(2)
+    var v = 1 / Math.Sin(Math.PI / 4); // sqrt(2)
 
     var line = new Line(new Point(0, -v, false, false), new Point(0, v, true, false));
 
@@ -176,13 +168,9 @@ public class Solver_Tests
   public void TangentToCircleConstraintWithLineInitiallyHorizontal()
   {
     // Create a fully constrained circle at 0,0 with radius 1
-    var circle = new Circle
-    {
-      Center = new Point(0, 0, false),
-      Rad = new Parameter(1, false)
-    };
+    var circle = new Circle(new Point(0, 0, false), new Parameter(1, false));
 
-    var v = 1 / Math.Sin(Math.PI / 4);  // sqrt(2)
+    var v = 1 / Math.Sin(Math.PI / 4); // sqrt(2)
 
     var line = new Line(new Point(0, -v, false, false), new Point(10, -v, true, false));
 
@@ -203,11 +191,7 @@ public class Solver_Tests
   public void TangentToCircleConstraintWithLineInitiallyHorizontalShouldWork()
   {
     // Create a fully constrained circle at 0,0 with radius 1
-    var circle = new Circle
-    {
-      Center = new Point(0, 0, false),
-      Rad = new Parameter(10, false)
-    };
+    var circle = new Circle(new Point(0, 0, false), new Parameter(10, false));
 
     const int v = -15;
 
@@ -226,11 +210,7 @@ public class Solver_Tests
   [Test]
   public void SquareAroundCircle()
   {
-    var circle = new Circle
-    {
-      Center = new Point(0, 0, false),
-      Rad = new Parameter(10, false)
-    };
+    var circle = new Circle(new Point(0, 0, false), new Parameter(10, false));
 
     // We want a box around the circle where all lines touch the 
     // circle and line0 is vertical. We arrange the lines roughly

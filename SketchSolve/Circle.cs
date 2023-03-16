@@ -4,8 +4,14 @@ using System.Collections;
 
 public class Circle : IEnumerable<Parameter>
 {
-  public Point Center = new(0, 0);
-  public Parameter Rad = new(0);
+  public readonly Point Center;
+  public readonly Parameter Rad;
+
+  public Circle(Point center, Parameter rad)
+  {
+    Center = center;
+    Rad = rad;
+  }
 
   #region IEnumerable implementation
 
