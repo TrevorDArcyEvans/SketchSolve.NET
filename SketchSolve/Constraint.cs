@@ -91,9 +91,6 @@ public class Constraint : IEnumerable<Parameter>
       var A1_radius = constraint.Arc1 == null ? 0 : constraint.Arc1.Rad.Value;
       var A1_Center_x = constraint.Arc1 == null ? 0 : constraint.Arc1.Center.X.Value;
       var A1_Center_y = constraint.Arc1 == null ? 0 : constraint.Arc1.Center.Y.Value;
-      var A2_startA = constraint.Arc2 == null ? 0 : constraint.Arc2.StartAngle.Value;
-      var A2_endA = constraint.Arc2 == null ? 0 : constraint.Arc2.EndAngle.Value;
-      var A2_radius = constraint.Arc2 == null ? 0 : constraint.Arc2.Rad.Value;
 
       switch (constraint.ContraintType)
       {
@@ -315,6 +312,8 @@ public class Constraint : IEnumerable<Parameter>
 
         case ConstraintEnum.EqualRadiusArcs:
         {
+          var A2_radius = constraint.Arc2 == null ? 0 : constraint.Arc2.Rad.Value;
+          var A2_startA = constraint.Arc2 == null ? 0 : constraint.Arc2.StartAngle.Value;
           var A2_Start_x = A1_Center_x + A2_radius * Math.Cos(A2_startA);
           var A2_Start_y = A1_Center_y + A2_radius * Math.Sin(A2_startA);
           var A1_Start_y = A1_Center_y + A1_radius * Math.Sin(A1_startA);
@@ -604,6 +603,8 @@ public class Constraint : IEnumerable<Parameter>
           var t = -(dy * A1_Start_x - dx * A1_Start_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
           var Ex = A1_Start_x + dy * t * 2;
           var Ey = A1_Start_y - dx * t * 2;
+          var A2_radius = constraint.Arc2 == null ? 0 : constraint.Arc2.Rad.Value;
+          var A2_startA = constraint.Arc2 == null ? 0 : constraint.Arc2.StartAngle.Value;
           var A2_Start_x = A1_Center_x + A2_radius * Math.Cos(A2_startA);
           var A2_Start_y = A1_Center_y + A2_radius * Math.Sin(A2_startA);
           var tempX = Ex - A2_Start_x;
@@ -615,6 +616,7 @@ public class Constraint : IEnumerable<Parameter>
           t = -(dy * A1_End_x - dx * A1_End_y - dy * Sym_P1_x + dx * Sym_P1_y) / (dx * dx + dy * dy);
           Ex = A1_End_x + dy * t * 2;
           Ey = A1_End_y - dx * t * 2;
+          var A2_endA = constraint.Arc2 == null ? 0 : constraint.Arc2.EndAngle.Value;
           var A2_End_x = A1_Center_x + A2_radius * Math.Cos(A2_endA);
           var A2_End_y = A1_Center_y + A2_radius * Math.Sin(A2_endA);
           tempX = Ex - A2_End_x;
