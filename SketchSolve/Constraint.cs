@@ -1,6 +1,6 @@
-﻿using System.Collections;
+﻿namespace SketchSolve;
 
-namespace SketchSolve;
+using System.Collections;
 
 public class Constraint : IEnumerable<Parameter>
 {
