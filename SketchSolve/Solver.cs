@@ -58,7 +58,7 @@ public static class Solver
         i++;
       }
 
-      return Constraint.Calculate(constraints);
+      return Constraint.CalculateError(constraints);
     };
 
 
