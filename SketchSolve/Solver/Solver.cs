@@ -11,24 +11,6 @@ public static class Solver
     return Solve((IEnumerable<Constraint.Constraint>)cons);
   }
 
-  private static Func<double[], double> LogWrap(Func<double[], double> fn)
-  {
-    return args =>
-    {
-      var v = fn(args);
-      return v;
-    };
-  }
-
-  private static Func<double[], double[]> LogWrap(Func<double[], double[]> fn)
-  {
-    return args =>
-    {
-      var v = fn(args);
-      return v;
-    };
-  }
-
   private static Func<double[], double[]> Grad(int n, Func<double[], double> fn)
   {
     var gradient = new FiniteDifferences(n, fn);
@@ -62,8 +44,8 @@ public static class Solver
     // Finally, we create the non-linear programming solver 
     var solver = new AugmentedLagrangian(freeParameters.Length, Enumerable.Empty<IConstraint>())
     {
-      Function = LogWrap(objective),
-      Gradient = LogWrap(Grad(freeParameters.Length, objective))
+      Function = objective,
+      Gradient = Grad(freeParameters.Length, objective)
     };
 
     // Copy in the initial conditions
