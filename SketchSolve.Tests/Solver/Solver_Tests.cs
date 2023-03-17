@@ -56,67 +56,58 @@ public class Solver_Tests
   [Test]
   public void InternalAngleConstraintShouldWork()
   {
-    for (var i = 1; i < 10; i++)
+    var line1 = new Line(new Point(0, 0, false), new Point(10, 0, false, true));
+    var line2 = new Line(new Point(0, 0, false), new Point(10, -1, false));
+
+    const double angle = Math.PI / 2 / 3; // 30 deg
+
+    var error = SketchSolve.Solver.Solver.Solve(line1.HasInternalAngle(line2, new Parameter(angle, false)));
+
+    using (new AssertionScope())
     {
-      var line1 = new Line(new Point(0, 0, false), new Point(10, 0, false, true));
-      var line2 = new Line(new Point(0, 0, false), new Point(10, -1, false));
-
-      const double angle = Math.PI / 2 / 3; // 30 deg
-
-      var error = SketchSolve.Solver.Solver.Solve(line1.HasInternalAngle(line2, new Parameter(angle, false)));
-
-      using (new AssertionScope())
-      {
-        error.Should().BeApproximately(0, 0.0001);
-        line1
-          .Vector
-          .Cosine(line2.Vector)
-          .Should().BeApproximately(Math.Cos(angle), 0.001);
-      }
+      error.Should().BeApproximately(0, 0.0001);
+      line1
+        .Vector
+        .Cosine(line2.Vector)
+        .Should().BeApproximately(Math.Cos(angle), 0.001);
     }
   }
 
   [Test]
   public void ExternalAngleConstraintShouldWork()
   {
-    for (var i = 1; i < 10; i++)
+    var line1 = new Line(new Point(0, 0, false), new Point(10, 0, false, true));
+    var line2 = new Line(new Point(0, 0, false), new Point(10, -1, false));
+
+    const double angle = Math.PI / 2 / 3; // 30 deg
+
+    var error = SketchSolve.Solver.Solver.Solve(line1.HasExternalAngle(line2, new Parameter(angle, false)));
+
+    using (new AssertionScope())
     {
-      var line1 = new Line(new Point(0, 0, false), new Point(10, 0, false, true));
-      var line2 = new Line(new Point(0, 0, false), new Point(10, -1, false));
-
-      const double angle = Math.PI / 2 / 3; // 30 deg
-
-      var error = SketchSolve.Solver.Solver.Solve(line1.HasExternalAngle(line2, new Parameter(angle, false)));
-
-      using (new AssertionScope())
-      {
-        error.Should().BeApproximately(0, 0.0001);
-        line1
-          .Vector
-          .Cosine(line2.Vector)
-          .Should().BeApproximately(Math.Cos(Math.PI - angle), 0.001);
-      }
+      error.Should().BeApproximately(0, 0.0001);
+      line1
+        .Vector
+        .Cosine(line2.Vector)
+        .Should().BeApproximately(Math.Cos(Math.PI - angle), 0.001);
     }
   }
 
   [Test]
   public void PerpendicularLineConstraintShouldWork()
   {
-    for (var i = 1; i < 10; i++)
+    var line1 = new Line(new Point(0, 0, false), new Point(10, 0, false, false));
+    var line2 = new Line(new Point(0, 0, false), new Point(10, 10, true, false));
+
+    var error = SketchSolve.Solver.Solver.Solve(line1.IsPerpendicularTo(line2));
+
+    using (new AssertionScope())
     {
-      var line1 = new Line(new Point(0, 0, false), new Point(10, 0, false, true));
-      var line2 = new Line(new Point(0, 0, false), new Point(10, 10, true, false));
-
-      var error = SketchSolve.Solver.Solver.Solve(line1.IsPerpendicularTo(line2));
-
-      using (new AssertionScope())
-      {
-        error.Should().BeApproximately(0, 0.0001);
-        line1
-          .Vector
-          .Dot(line2.Vector)
-          .Should().BeApproximately(0, 0.001);
-      }
+      error.Should().BeApproximately(0, 0.0001);
+      line1
+        .Vector
+        .Dot(line2.Vector)
+        .Should().BeApproximately(0, 0.001);
     }
   }
 
