@@ -85,6 +85,15 @@ $ dotnet build
 $ dotnet test
 ```
 
+## Further work
+* ~~refactor to class based constraints~~
+* ConstraintBuilder support for all constraints
+* unit tests for constraint errors
+* unit tests for constraint parameters
+* fix unit tests for solver
+* more unit tests for solver
+* portable UI aka test harness
+
 ## Acknowledgements
 
 This repository was cloned from [SketchSolve.NET](https://github.com/bradphelan/SketchSolve.NET)
