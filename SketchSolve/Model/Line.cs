@@ -6,7 +6,7 @@ public class Line : IEnumerable<Parameter>
 {
   public readonly Point P1;
   public readonly Point P2;
-  public Vector Vector { get; }
+  public readonly Vector Vector;
 
   public Line(Point p1, Point p2)
   {
