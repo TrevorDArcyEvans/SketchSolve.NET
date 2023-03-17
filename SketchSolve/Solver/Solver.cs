@@ -14,7 +14,7 @@ public static class Solver
   private static Func<double[], double[]> Grad(int n, Func<double[], double> fn)
   {
     var gradient = new FiniteDifferences(n, fn);
-    return a => gradient.Compute(a);
+    return a => gradient.Gradient(a);
   }
 
   private static double Solve(IEnumerable<Constraint.Constraint> cons)
