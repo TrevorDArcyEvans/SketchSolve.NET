@@ -1,10 +1,9 @@
-﻿using SketchSolve.Model;
-
-namespace SketchSolve.Tests;
+﻿namespace SketchSolve.Tests.Model;
 
 using FluentAssertions;
 using FluentAssertions.Execution;
 using NUnit.Framework;
+using SketchSolve.Model;
 
 [TestFixture]
 public class Circle_Tests

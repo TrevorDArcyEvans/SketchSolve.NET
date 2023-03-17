@@ -1,11 +1,10 @@
-﻿using SketchSolve.Constraint;
-using SketchSolve.Model;
-
-namespace SketchSolve.Tests;
+﻿namespace SketchSolve.Tests.Solver;
 
 using FluentAssertions;
 using FluentAssertions.Execution;
 using NUnit.Framework;
+using SketchSolve.Constraint;
+using SketchSolve.Model;
 
 [TestFixture]
 public class Solver_Tests
@@ -15,12 +14,12 @@ public class Solver_Tests
   {
     var line = new Line(new Point(0, 1, false), new Point(2, 3, false, true));
 
-    var error = Solver.Solver.Solve(line.IsHorizontal());
+    var error = SketchSolve.Solver.Solver.Solve(line.IsHorizontal());
 
     using (new AssertionScope())
     {
-      error.Should().BeApproximately(0, 0.0001);
-      line.P1.Y.Value.Should().BeApproximately(line.P2.Y.Value, 0.001);
+      NumericAssertionsExtensions.BeApproximately(error.Should(), 0, 0.0001);
+      NumericAssertionsExtensions.BeApproximately(line.P1.Y.Value.Should(), line.P2.Y.Value, 0.001);
     }
   }
 
@@ -29,12 +28,12 @@ public class Solver_Tests
   {
     var line = new Line(new Point(0, 1, false), new Point(2, 3, true, false));
 
-    var r = Solver.Solver.Solve(line.IsVertical());
+    var r = SketchSolve.Solver.Solver.Solve(line.IsVertical());
 
     using (new AssertionScope())
     {
-      r.Should().BeApproximately(0, 0.0001);
-      line.P1.X.Value.Should().BeApproximately(line.P2.X.Value, 0.001);
+      NumericAssertionsExtensions.BeApproximately(r.Should(), 0, 0.0001);
+      NumericAssertionsExtensions.BeApproximately(line.P1.X.Value.Should(), line.P2.X.Value, 0.001);
     }
   }
 
@@ -44,13 +43,13 @@ public class Solver_Tests
     var line1 = new Line(new Point(0, 1), new Point(2, 3, false));
     var line2 = new Line(new Point(10, 100, false), new Point(200, 300, false));
 
-    var error = Solver.Solver.Solve(line1.P1.IsCoincidentWith(line2.P1));
+    var error = SketchSolve.Solver.Solver.Solve(line1.P1.IsCoincidentWith(line2.P1));
 
     using (new AssertionScope())
     {
-      error.Should().BeApproximately(0, 0.0001);
-      line1.P1.X.Value.Should().BeApproximately(line2.P1.X.Value, 0.001);
-      line1.P1.Y.Value.Should().BeApproximately(line2.P1.Y.Value, 0.001);
+      NumericAssertionsExtensions.BeApproximately(error.Should(), 0, 0.0001);
+      NumericAssertionsExtensions.BeApproximately(line1.P1.X.Value.Should(), line2.P1.X.Value, 0.001);
+      NumericAssertionsExtensions.BeApproximately(line1.P1.Y.Value.Should(), line2.P1.Y.Value, 0.001);
     }
   }
 
@@ -64,15 +63,15 @@ public class Solver_Tests
 
       const double angle = Math.PI / 2 / 3; // 30 deg
 
-      var error = Solver.Solver.Solve(line1.HasInternalAngle(line2, new Parameter(angle, false)));
+      var error = SketchSolve.Solver.Solver.Solve(line1.HasInternalAngle(line2, new Parameter(angle, false)));
 
       using (new AssertionScope())
       {
-        error.Should().BeApproximately(0, 0.0001);
-        line1
-          .Vector
-          .Cosine(line2.Vector)
-          .Should().BeApproximately(Math.Cos(angle), 0.001);
+        NumericAssertionsExtensions.BeApproximately(error.Should(), 0, 0.0001);
+        NumericAssertionsExtensions.BeApproximately(line1
+            .Vector
+            .Cosine(line2.Vector)
+            .Should(), Math.Cos(angle), 0.001);
       }
     }
   }
@@ -87,15 +86,15 @@ public class Solver_Tests
 
       const double angle = Math.PI / 2 / 3; // 30 deg
 
-      var error = Solver.Solver.Solve(line1.HasExternalAngle(line2, new Parameter(angle, false)));
+      var error = SketchSolve.Solver.Solver.Solve(line1.HasExternalAngle(line2, new Parameter(angle, false)));
 
       using (new AssertionScope())
       {
-        error.Should().BeApproximately(0, 0.0001);
-        line1
-          .Vector
-          .Cosine(line2.Vector)
-          .Should().BeApproximately(Math.Cos(Math.PI - angle), 0.001);
+        NumericAssertionsExtensions.BeApproximately(error.Should(), 0, 0.0001);
+        NumericAssertionsExtensions.BeApproximately(line1
+            .Vector
+            .Cosine(line2.Vector)
+            .Should(), Math.Cos(Math.PI - angle), 0.001);
       }
     }
   }
@@ -108,15 +107,15 @@ public class Solver_Tests
       var line1 = new Line(new Point(0, 0, false), new Point(10, 0, false, true));
       var line2 = new Line(new Point(0, 0, false), new Point(10, 10, true, false));
 
-      var error = Solver.Solver.Solve(line1.IsPerpendicularTo(line2));
+      var error = SketchSolve.Solver.Solver.Solve(line1.IsPerpendicularTo(line2));
 
       using (new AssertionScope())
       {
-        error.Should().BeApproximately(0, 0.0001);
-        line1
-          .Vector
-          .Dot(line2.Vector)
-          .Should().BeApproximately(0, 0.001);
+        NumericAssertionsExtensions.BeApproximately(error.Should(), 0, 0.0001);
+        NumericAssertionsExtensions.BeApproximately(line1
+            .Vector
+            .Dot(line2.Vector)
+            .Should(), 0, 0.001);
       }
     }
   }
@@ -131,12 +130,12 @@ public class Solver_Tests
 
     var line = new Line(new Point(0, -v, false, false), new Point(35, 0, true, false));
 
-    var error = Solver.Solver.Solve(line.IsTangentTo(circle));
+    var error = SketchSolve.Solver.Solver.Solve(line.IsTangentTo(circle));
 
     using (new AssertionScope())
     {
-      error.Should().BeApproximately(0, 0.0001);
-      line.P2.X.Value.Should().BeApproximately(v, 0.001);
+      NumericAssertionsExtensions.BeApproximately(error.Should(), 0, 0.0001);
+      NumericAssertionsExtensions.BeApproximately(line.P2.X.Value.Should(), v, 0.001);
     }
   }
 
@@ -154,12 +153,12 @@ public class Solver_Tests
 
     var line = new Line(new Point(0, -v, false, false), new Point(0, v, true, false));
 
-    var error = Solver.Solver.Solve(line.IsTangentTo(circle));
+    var error = SketchSolve.Solver.Solver.Solve(line.IsTangentTo(circle));
 
     using (new AssertionScope())
     {
-      error.Should().BeApproximately(0, 0.0001);
-      (circle.CenterTo(line).Vector.LengthSquared - 1).Should().BeApproximately(0, 0.001);
+      NumericAssertionsExtensions.BeApproximately(error.Should(), 0, 0.0001);
+      NumericAssertionsExtensions.BeApproximately((circle.CenterTo(line).Vector.LengthSquared - 1).Should(), 0, 0.001);
     }
   }
 
@@ -177,12 +176,12 @@ public class Solver_Tests
 
     var line = new Line(new Point(0, -v, false, false), new Point(10, -v, true, false));
 
-    var error = Solver.Solver.Solve(line.IsTangentTo(circle));
+    var error = SketchSolve.Solver.Solver.Solve(line.IsTangentTo(circle));
 
     using (new AssertionScope())
     {
-      error.Should().BeApproximately(0, 0.0001);
-      (circle.CenterTo(line).Vector.LengthSquared - 1).Should().BeApproximately(0, 0.001);
+      NumericAssertionsExtensions.BeApproximately(error.Should(), 0, 0.0001);
+      NumericAssertionsExtensions.BeApproximately((circle.CenterTo(line).Vector.LengthSquared - 1).Should(), 0, 0.001);
     }
   }
 
@@ -200,13 +199,13 @@ public class Solver_Tests
 
     var line = new Line(new Point(-100, -v, false, true), new Point(100, -v * 2.1, false, true));
 
-    var error = Solver.Solver.Solve(line.IsTangentTo(circle), line.IsHorizontal());
+    var error = SketchSolve.Solver.Solver.Solve(line.IsTangentTo(circle), line.IsHorizontal());
 
     using (new AssertionScope())
     {
-      error.Should().BeApproximately(0, 0.0001);
-      (circle.CenterTo(line).Vector.LengthSquared - circle.Rad.Value * circle.Rad.Value)
-        .Should().BeApproximately(0, 0.001);
+      NumericAssertionsExtensions.BeApproximately(error.Should(), 0, 0.0001);
+      NumericAssertionsExtensions.BeApproximately((circle.CenterTo(line).Vector.LengthSquared - circle.Rad.Value * circle.Rad.Value)
+          .Should(), 0, 0.001);
     }
   }
 
@@ -226,7 +225,7 @@ public class Solver_Tests
 
     var angle = new Parameter(Math.PI / 2, false);
 
-    var error = Solver.Solver.Solve(line0.IsTangentTo(circle),
+    var error = SketchSolve.Solver.Solver.Solve(line0.IsTangentTo(circle),
       line1.IsTangentTo(circle),
       line2.IsTangentTo(circle),
       line3.IsTangentTo(circle),
@@ -240,6 +239,6 @@ public class Solver_Tests
       line3.P2.IsCoincidentWith(line0.P1),
       line0.IsVertical());
 
-    error.Should().BeApproximately(0, 0.0001);
+    NumericAssertionsExtensions.BeApproximately(error.Should(), 0, 0.0001);
   }
 }
