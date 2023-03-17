@@ -87,6 +87,7 @@ $ dotnet test
 
 ## Further work
 * ~~refactor to class based constraints~~
+* fix unit tests not running on Linux
 * ConstraintBuilder support for all constraints
 * unit tests for constraint errors
 * unit tests for constraint parameters
