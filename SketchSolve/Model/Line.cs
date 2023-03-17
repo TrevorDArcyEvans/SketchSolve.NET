@@ -16,7 +16,7 @@ public sealed class Line : IEnumerable<Parameter>
 
   public override string ToString()
   {
-    return "l " + P1 + " : " + P2;
+    return "L " + P1 + " : " + P2;
   }
 
   private double dX => P2.X.Value - P1.X.Value;

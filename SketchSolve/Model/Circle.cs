@@ -34,7 +34,7 @@ public sealed class Circle : IEnumerable<Parameter>
 
   public override string ToString()
   {
-    return "[c " + Center + ", r " + Rad.Value + "]";
+    return "[C " + Center + ", R " + Rad.Value + "]";
   }
   
   #region IEnumerable implementation
