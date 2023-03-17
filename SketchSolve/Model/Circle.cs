@@ -1,4 +1,4 @@
-﻿namespace SketchSolve;
+﻿namespace SketchSolve.Model;
 
 using System.Collections;
 

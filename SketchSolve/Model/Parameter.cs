@@ -1,4 +1,4 @@
-﻿namespace SketchSolve;
+﻿namespace SketchSolve.Model;
 
 public class Parameter
 {

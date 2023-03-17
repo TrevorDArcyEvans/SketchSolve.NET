@@ -1,6 +1,7 @@
-﻿namespace SketchSolve;
+﻿using System.Collections;
+namespace SketchSolve.Constraint;
 
-using System.Collections;
+using SketchSolve.Model;
 
 public abstract class Constraint : IEnumerable<Parameter>
 {

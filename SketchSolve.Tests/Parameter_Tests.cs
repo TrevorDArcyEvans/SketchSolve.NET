@@ -1,4 +1,6 @@
-﻿namespace SketchSolve.Tests;
+﻿using SketchSolve.Model;
+
+namespace SketchSolve.Tests;
 
 using FluentAssertions;
 using FluentAssertions.Execution;

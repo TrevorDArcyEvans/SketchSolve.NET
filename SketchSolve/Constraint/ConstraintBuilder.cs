@@ -1,4 +1,6 @@
-namespace SketchSolve;
+namespace SketchSolve.Constraint;
+
+using SketchSolve.Model;
 
 public static class ConstraintBuilder
 {

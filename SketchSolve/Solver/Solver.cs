@@ -1,13 +1,14 @@
-namespace SketchSolve;
+namespace SketchSolve.Solver;
 
-using Accord.Math.Optimization;
 using Accord.Math.Differentiation;
+using Accord.Math.Optimization;
+using SketchSolve.Model;
 
 public static class Solver
 {
-  public static double Solve(params Constraint[] cons)
+  public static double Solve(params Constraint.Constraint[] cons)
   {
-    return Solve((IEnumerable<Constraint>) cons);
+    return Solve((IEnumerable<Constraint.Constraint>) cons);
   }
 
   private static Func<double[], double> LogWrap(Func<double[], double> fn)
@@ -36,7 +37,7 @@ public static class Solver
     return a => gradient.Compute(a);
   }
 
-  private static double Solve(IEnumerable<Constraint> cons)
+  private static double Solve(IEnumerable<Constraint.Constraint> cons)
   {
     var constraints = cons.ToArray();
 
@@ -77,7 +78,7 @@ public static class Solver
     return solver.Value;
   }
 
-  private static double CalculateError(IEnumerable<Constraint> constraints)
+  private static double CalculateError(IEnumerable<Constraint.Constraint> constraints)
   {
     // Prevent symmetry errors
     return constraints.Sum(constraint => constraint.CalculateError());
