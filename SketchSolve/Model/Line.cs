@@ -6,13 +6,12 @@ public sealed class Line : IEnumerable<Parameter>
 {
   public readonly Point P1;
   public readonly Point P2;
-  public readonly Vector Vector;
+  public Vector Vector => new (dX, dY, false, false);
 
   public Line(Point p1, Point p2)
   {
     P1 = p1;
     P2 = p2;
-    Vector = new Vector(dX, dY, false, false);
   }
 
   public override string ToString()
@@ -28,7 +27,7 @@ public sealed class Line : IEnumerable<Parameter>
 
   public IEnumerator<Parameter> GetEnumerator()
   {
-    return new[] { P1, P2 }.SelectMany(p => p).GetEnumerator();
+    return new[] {P1, P2}.SelectMany(p => p).GetEnumerator();
   }
 
   IEnumerator IEnumerable.GetEnumerator()
