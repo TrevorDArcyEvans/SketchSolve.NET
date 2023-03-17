@@ -8,7 +8,7 @@ public static class Solver
 {
   public static double Solve(params Constraint.Constraint[] cons)
   {
-    return Solve((IEnumerable<Constraint.Constraint>) cons);
+    return Solve((IEnumerable<Constraint.Constraint>)cons);
   }
 
   private static Func<double[], double> LogWrap(Func<double[], double> fn)
@@ -16,7 +16,6 @@ public static class Solver
     return args =>
     {
       var v = fn(args);
-      Console.WriteLine(v);
       return v;
     };
   }
@@ -26,7 +25,6 @@ public static class Solver
     return args =>
     {
       var v = fn(args);
-      Console.WriteLine("[" + String.Join(", ", v) + "]");
       return v;
     };
   }
@@ -46,8 +44,6 @@ public static class Solver
       .Distinct()
       .Where(p => p.Free)
       .ToArray();
-
-    Console.WriteLine("Number of free parameters is " + freeParameters.Length);
 
     // Wrap our constraint error function for Accord.NET
     Func<double[], double> objective = args =>
