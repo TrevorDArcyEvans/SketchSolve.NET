@@ -85,28 +85,18 @@ public static class Solver
   }
 
   // We don't use this at the moment
-  private static List<NonlinearConstraint> CreateConstraints(Parameter[] x, NonlinearObjectiveFunction f)
+  private static IEnumerable<NonlinearConstraint> CreateConstraints(IEnumerable<Parameter> parameters, NonlinearObjectiveFunction func)
   {
     // Now we can start stating the constraints 
-    var nlConstraints = x.SelectMany((p, i) =>
+    var nlConstraints = parameters.SelectMany((p, i) =>
     {
-      Func<double[], double> cfn = args => x[i].Value;
+      Func<double[], double> constraintFunc = args => p.Value;
       return new[]
       {
-        new NonlinearConstraint
-        (f
-          , function: cfn
-          , shouldBe: ConstraintType.GreaterThanOrEqualTo
-          , value: p.Min
-          , gradient: Grad(x.Length, cfn)),
-        new NonlinearConstraint
-        (f
-          , function: cfn
-          , shouldBe: ConstraintType.LesserThanOrEqualTo
-          , value: p.Max
-          , gradient: Grad(x.Length, cfn)),
+        new NonlinearConstraint(func, function: constraintFunc, shouldBe: ConstraintType.GreaterThanOrEqualTo, value: p.Min, gradient: Grad(parameters.Count(), constraintFunc)),
+        new NonlinearConstraint(func, function: constraintFunc, shouldBe: ConstraintType.LesserThanOrEqualTo, value: p.Max, gradient: Grad(parameters.Count(), constraintFunc)),
       };
-    }).ToList();
+    });
     return nlConstraints;
   }
 }
