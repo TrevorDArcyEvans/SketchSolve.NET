@@ -13,8 +13,6 @@ public class Circle : IEnumerable<Parameter>
     Rad = rad;
   }
 
-  #region IEnumerable implementation
-
   /// <summary>
   /// Returns a line normal to the circle and normal
   /// to the line 
@@ -38,6 +36,8 @@ public class Circle : IEnumerable<Parameter>
   {
     return "[c " + Center + ", r " + Rad.Value + "]";
   }
+  
+  #region IEnumerable implementation
 
   public IEnumerator<Parameter> GetEnumerator()
   {

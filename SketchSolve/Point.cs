@@ -4,8 +4,8 @@ using System.Collections;
 
 public class Point : IEnumerable<Parameter>
 {
-  public readonly Parameter X = new(0);
-  public readonly Parameter Y = new(0);
+  public readonly Parameter X;
+  public readonly Parameter Y;
 
   public Point(double x, double y, bool freex, bool freey)
   {

@@ -4,10 +4,18 @@ using System.Collections;
 
 public class Arc : IEnumerable<Parameter>
 {
-  public readonly Parameter StartAngle = new(0);
-  public readonly Parameter EndAngle = new(0);
-  public readonly Parameter Rad = new(0);
-  public readonly Point Center = new(0, 0);
+  public readonly Parameter StartAngle;
+  public readonly Parameter EndAngle;
+  public readonly Parameter Rad;
+  public readonly Point Center;
+
+  public Arc(Point center, Parameter rad, Parameter startAngle, Parameter endAngle)
+  {
+    Center = center;
+    Rad = rad;
+    EndAngle = endAngle;
+    StartAngle = startAngle;
+  }
 
   #region IEnumerable implementation
 

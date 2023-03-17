@@ -71,8 +71,8 @@ public class Vector : IEnumerable<Parameter>
   {
     get
     {
-      var l = Length;
-      return new Vector(dX.Value / l, dY.Value / l);
+      var length = Length;
+      return new Vector(dX.Value / length, dY.Value / length);
     }
   }
 
@@ -80,8 +80,8 @@ public class Vector : IEnumerable<Parameter>
   {
     get
     {
-      var l = Length;
-      return new Vector(-dY.Value / l, dX.Value / l);
+      var length = Length;
+      return new Vector(-dY.Value / length, dX.Value / length);
     }
   }
 
