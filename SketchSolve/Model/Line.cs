@@ -2,7 +2,7 @@
 
 using System.Collections;
 
-public class Line : IEnumerable<Parameter>
+public sealed class Line : IEnumerable<Parameter>
 {
   public readonly Point P1;
   public readonly Point P2;

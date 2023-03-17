@@ -2,7 +2,7 @@
 
 using System.Collections;
 
-public class Vector : IEnumerable<Parameter>
+public sealed class Vector : IEnumerable<Parameter>
 {
   public readonly Parameter dX;
   public readonly Parameter dY;

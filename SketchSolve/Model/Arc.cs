@@ -2,7 +2,7 @@
 
 using System.Collections;
 
-public class Arc : IEnumerable<Parameter>
+public sealed class Arc : IEnumerable<Parameter>
 {
   public readonly Point Center;
   public readonly Parameter Rad;

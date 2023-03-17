@@ -2,7 +2,7 @@
 
 using System.Collections;
 
-public class Circle : IEnumerable<Parameter>
+public sealed class Circle : IEnumerable<Parameter>
 {
   public readonly Point Center;
   public readonly Parameter Rad;

@@ -1,6 +1,6 @@
 ﻿namespace SketchSolve.Model;
 
-public class Parameter
+public sealed class Parameter
 {
   public double Value;
   public readonly double Max = 1000;
