@@ -4,10 +4,10 @@ using System.Collections;
 
 public class Arc : IEnumerable<Parameter>
 {
+  public readonly Point Center;
+  public readonly Parameter Rad;
   public readonly Parameter StartAngle;
   public readonly Parameter EndAngle;
-  public readonly Parameter Rad;
-  public readonly Point Center;
 
   public Arc(Point center, Parameter rad, Parameter startAngle, Parameter endAngle)
   {
@@ -21,18 +21,14 @@ public class Arc : IEnumerable<Parameter>
 
   public IEnumerator<Parameter> GetEnumerator()
   {
-    yield return StartAngle;
-    yield return EndAngle;
-    yield return Rad;
     foreach (var p in Center)
     {
       yield return p;
     }
+    yield return Rad;
+    yield return StartAngle;
+    yield return EndAngle;
   }
-
-  #endregion
-
-  #region IEnumerable implementation
 
   IEnumerator IEnumerable.GetEnumerator()
   {

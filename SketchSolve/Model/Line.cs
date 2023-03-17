@@ -28,12 +28,8 @@ public class Line : IEnumerable<Parameter>
 
   public IEnumerator<Parameter> GetEnumerator()
   {
-    return new[] {P1, P2}.SelectMany(p => p).GetEnumerator();
+    return new[] { P1, P2 }.SelectMany(p => p).GetEnumerator();
   }
-
-  #endregion
-
-  #region IEnumerable implementation
 
   IEnumerator IEnumerable.GetEnumerator()
   {

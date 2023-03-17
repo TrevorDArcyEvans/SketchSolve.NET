@@ -93,10 +93,6 @@ public class Vector : IEnumerable<Parameter>
     yield return dY;
   }
 
-  #endregion
-
-  #region IEnumerable implementation
-
   IEnumerator IEnumerable.GetEnumerator()
   {
     return GetEnumerator();

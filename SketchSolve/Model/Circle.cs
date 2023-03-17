@@ -49,10 +49,6 @@ public class Circle : IEnumerable<Parameter>
     yield return Rad;
   }
 
-  #endregion
-
-  #region IEnumerable implementation
-
   IEnumerator IEnumerable.GetEnumerator()
   {
     return GetEnumerator();

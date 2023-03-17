@@ -47,10 +47,6 @@ public class Point : IEnumerable<Parameter>
     yield return Y;
   }
 
-  #endregion
-
-  #region IEnumerable implementation
-
   IEnumerator IEnumerable.GetEnumerator()
   {
     return GetEnumerator();
