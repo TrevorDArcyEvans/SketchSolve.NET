@@ -20,6 +20,9 @@ public class Circle_Tests
     {
       line2.P1.X.Value.Should().Be(0);
       line2.P1.Y.Value.Should().Be(0);
+      line2.P2.X.Value.Should().Be(-10);
+      line2.P2.Y.Value.Should().Be(0);
+      line2.Vector.Length.Should().Be(10);
     }
   }
 }
