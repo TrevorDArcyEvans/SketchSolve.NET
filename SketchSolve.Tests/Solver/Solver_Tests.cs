@@ -119,7 +119,8 @@ public class Solver_Tests
 
     var v = 1 / Math.Sin(Math.PI / 4); // sqrt(2)
 
-    var line = new Line(new Point(0, -v, false, false), new Point(35, 0, true, false));
+    // ill conditioned
+    var line = new Line(new Point(0, -v, false, false), new Point(1.0001 * v, 0, true, false));
 
     // TODO   objective function gets sent double.NaN
     var error = SketchSolve.Solver.Solver.Solve(line.IsTangentTo(circle));
@@ -143,7 +144,8 @@ public class Solver_Tests
 
     var v = 1 / Math.Sin(Math.PI / 4); // sqrt(2)
 
-    var line = new Line(new Point(0, -v, false, false), new Point(0, v, true, false));
+    // ill conditioned
+    var line = new Line(new Point(0, -v, false, false), new Point(0.00444, v, true, false));
 
     var error = SketchSolve.Solver.Solver.Solve(line.IsTangentTo(circle));
 
@@ -167,7 +169,8 @@ public class Solver_Tests
 
     var v = 1 / Math.Sin(Math.PI / 4); // sqrt(2)
 
-    var line = new Line(new Point(0, -v, false, false), new Point(5, -v, false, true));
+    // ill conditioned
+    var line = new Line(new Point(0, v, false, false), new Point(v, 1.000001 * v, false, true));
 
     var error = SketchSolve.Solver.Solver.Solve(line.IsTangentTo(circle));
 
@@ -212,10 +215,12 @@ public class Solver_Tests
     // circle and line0 is vertical. We arrange the lines roughly
     // in the correct placement to get the search off to a good
     // start
-    var line0 = new Line(new Point(-21, 0), new Point(0, 23));
-    var line1 = new Line(new Point(0, 22), new Point(22, 0));
-    var line2 = new Line(new Point(21, 0), new Point(0, -29));
-    var line3 = new Line(new Point(0, -27), new Point(-25, 0));
+    //
+    // ill conditioned
+    var line0 = new Line(new Point(-11, 0), new Point(0, 13));
+    var line1 = new Line(new Point(0, 12), new Point(12, 0));
+    var line2 = new Line(new Point(11, 0), new Point(0, -12));
+    var line3 = new Line(new Point(0, -12), new Point(-12, 0));
 
     var angle = new Parameter(Math.PI / 2, false);
 
