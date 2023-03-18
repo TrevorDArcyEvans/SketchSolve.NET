@@ -9,7 +9,7 @@ using SketchSolve.Model;
 public class Circle_Tests
 {
   [Test]
-  public static void CenterToTest()
+  public void CenterToTest()
   {
     var circle = new Circle(new Point(0, 0), new Parameter(10));
     var line = new Line(new Point(-10, -10), new Point(-10, 10));

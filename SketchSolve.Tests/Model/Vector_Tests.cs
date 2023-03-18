@@ -9,7 +9,7 @@ using SketchSolve.Model;
 public class Vector_Tests
 {
   [Test]
-  public static void DotProductShouldWork()
+  public void DotProductShouldWork()
   {
     var v0 = new Vector(0, 1);
 
@@ -17,7 +17,7 @@ public class Vector_Tests
   }
 
   [Test]
-  public static void ProjectShouldWork()
+  public void ProjectShouldWork()
   {
     var v0 = new Vector(0, 20);
     var v1 = new Vector(10, 10);
