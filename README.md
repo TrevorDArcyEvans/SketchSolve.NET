@@ -24,48 +24,48 @@ An Optimization routine was selected because there are often more or fewer const
 ## Supported constraints
 
 The constraints that are currently supported are the following:
-* pointOnPoint
-* pointToLine
-* pointOnCurve
+* point on point
+* point to line
+* point on curve
 * horizontal
 * vertical
-* radiusValue
-* tangentToArc
-* tangentToCircle
-* arcRules
-* Point to point Distance
-* Point to point vertical Distance
-* Point to point horizontal Distance
-* Point to line Distance
-* Point to line vertical Distance
-* Point to line horizontal Distance
-* lineLength
-* equalLegnth
-* arcRadius
-* equalRadiusArcs
-* equalRadiusCircles
-* equalRadiusCircArc
-* concentricArcs
-* concentricCircles
-* concentricCircArc
-* circleRadius
-* angle ( between two lines )
+* radius value
+* tangent to arc
+* tangent to circle
+* arc rules
+* point to point distance
+* point to point vertical distance
+* point to point horizontal distance
+* point to line distance
+* point to line vertical distance
+* point to line horizontal distance
+* line length
+* equal legnth
+* arc radius
+* equal radius arcs
+* equal radius circles
+* equal radius circ arc
+* concentric arcs
+* concentric circles
+* concentric circ arc
+* circle radius
+* angle (between two lines)
 * parallel
-* Perpendicular
-* Colinear Lines
-* Point On Circle
-* Point On Arc
-* Point On midpoint of a line
-* Point on midpoint of an arc
-* Point on a quadrant point of a circle
+* perpendicular
+* collinear lines
+* point on circle
+* point on arc
+* point On midpoint of a line
+* point on midpoint of an arc
+* point on a quadrant point of a circle
   * +x (parameter = 0)
   * +y (parameter = 1)
   * -x (parameter = 2)
   * -y (parameter = 3)
-* Points Symmetric about a line
-* lines Symmetric about a line
-* Circles Symmetric about a line
-* Arcs Symmetric about a line
+* points symmetric about a line
+* lines symmetric about a line
+* circles symmetric about a line
+* arcs symmetric about a line
 
 The constraints that will be implemented soon are the following:
 * others I can't think of right now
@@ -85,6 +85,35 @@ $ dotnet build
 $ dotnet test
 ```
 
+## Problem formulation
+Each constraint has a notion of 'error' ie how 'far' away it is from it's target condition.
+In this project, constraint parameters are varied to minimise the overall (sum of ell individual) errors.
+Thus, the problem is reduced to finding the global/local minima nearest the initial starting point.
+Note that some constraints are linear and others are angular, which makes summing an overall error
+problematic ie adding incompatible units.
+
+This is achieved by using [Accord Framework](http://accord-framework.net/) and its 
+[AugmentedLagrangian](http://accord-framework.net/docs/html/T_Accord_Math_Optimization_AugmentedLagrangian.htm)
+solver with the solution gradient computed by a
+[FiniteDifferences](http://accord-framework.net/docs/html/Overload_Accord_Math_Differentiation_FiniteDifferences_Gradient.htm)
+method.
+
+### Ill conditioning
+Some of the unit tests are [ill conditioned](https://en.wikipedia.org/wiki/Condition_number) in that a
+very small change to the starting position will result in finding an 'acceptable' solution rather than not.
+A solution is 'found' when varying parameters results in the overall error increasing ie solution
+gradient iss zero.
+An 'acceptable' solution is one for which the overall error is within some user defined limit.
+
+If an 'unacceptable' solution is found, the problem **may** be ill conditioned.  If this is
+suspected, then randomly perturbing the starting position **may** result in an 'acceptable'
+solution.  Conceptually, this is moving the starting position such that the solution
+gradient is pointing to another/better, hopefully global, minima.  Note that there are no
+guarantees that the next minima is more acceptable.
+
+Further, in some cases, _Accord_ will try to set a parameter to [NaN](https://en.wikipedia.org/wiki/NaN)
+(Not a Number), which is obviously an error.
+
 ## Further work
 * ~~refactor to class based constraints~~
 * ~~fix unit tests not running on Linux~~
@@ -94,12 +123,20 @@ $ dotnet test
 * ~~fix unit tests for solver~~
 * more unit tests for solver
 * portable UI aka test harness
+* perturb starting parameters for unacceptable solutions
+  * have to limit number of perturbations 
 
-## Background
-
-## Problem formulation
-
-### Ill conditioning
+## Further information
+* [Geometric constraint solving - Wikipedia](https://en.wikipedia.org/wiki/Geometric_constraint_solving)
+* [Sketchpad](https://en.wikipedia.org/wiki/Sketchpad)
+* [A Geometric Constraint Solver](https://core.ac.uk/download/pdf/4971979.pdf)
+* [Modelling of Geometric Constraints in CAD-Applications](https://userpages.uni-koblenz.de/~ros/ModellingGeometricConstraints.pdf)
+* [Interactive 2D Constraint-Based Geometric Construction System](papers.cumincad.org/data/works/att/41d4.content.pdf)
+* [Geometric Sketch Constraint Solving with User Feedback](https://acdl.mit.edu/ESP/Publications/AIAApaper2013-0702.pdf)
+* [OpenCSM: An Open-Source Constructive Solid Modeler for MDAO](https://acdl.mit.edu/esp/Publications/AIAApaper2013-0701.pdf)
+* [SolveSpace - parametric 3d CAD](https://solvespace.com/index.pl)
+* [Geometric Constraint Solving](geosolver.sourceforge.net)
+* [imuli/geosolver-python](https://github.com/imuli/geosolver-python)
 
 ## Acknowledgements
 
