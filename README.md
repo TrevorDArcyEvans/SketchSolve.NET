@@ -91,9 +91,15 @@ $ dotnet test
 * ConstraintBuilder support for all constraints
 * unit tests for constraint errors
 * unit tests for constraint parameters
-* fix unit tests for solver
+* ~~fix unit tests for solver~~
 * more unit tests for solver
 * portable UI aka test harness
+
+## Background
+
+## Problem formulation
+
+### Ill conditioning
 
 ## Acknowledgements
 
