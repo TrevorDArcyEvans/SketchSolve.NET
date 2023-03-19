@@ -76,12 +76,13 @@ public class Solver_Tests
   [Test]
   public void ExternalAngleConstraintShouldWork()
   {
-    var line1 = new Line(new Point(0, 0, false), new Point(10, 0, false, true));
-    var line2 = new Line(new Point(0, 0, false), new Point(10, -1, false));
+    var line1 = new Line(new Point(0, 0, false), new Point(10, -10, false, true));
+    var line2 = new Line(new Point(0, 0, false), new Point(10, 0, false));
 
     const double angle = Math.PI / 2 / 3; // 30 deg
 
-    var error = SketchSolve.Solver.Solver.Solve(line1.HasExternalAngle(line2, new Parameter(angle, false)));
+    //var error = SketchSolve.Solver.Solver.Solve(line1.HasExternalAngle(line2, new Parameter(angle, false)));
+    var error = SketchSolve.Solver.Solver.Solve(line1.HasInternalAngle(line2, new Parameter(angle, false)));
 
     using (new AssertionScope())
     {
@@ -89,7 +90,7 @@ public class Solver_Tests
       line1
         .Vector
         .Cosine(line2.Vector)
-        .Should().BeApproximately(Math.Cos(Math.PI - angle), 0.001);
+        .Should().BeApproximately(-Math.Cos(Math.PI - angle), 0.001);
     }
   }
 
