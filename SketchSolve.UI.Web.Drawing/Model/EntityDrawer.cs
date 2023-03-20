@@ -42,11 +42,11 @@ public abstract class EntityDrawer : IDrawable
   {
     if (IsSelected)
     {
-      await batch.LineWidthAsync(2);
+      await batch.LineWidthAsync(3);
     }
     else if (ShowPreview)
     {
-      await batch.LineWidthAsync(2);
+      await batch.LineWidthAsync(3);
     }
     else
     {
