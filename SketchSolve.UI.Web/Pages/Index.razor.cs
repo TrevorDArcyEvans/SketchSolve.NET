@@ -136,6 +136,20 @@ public partial class Index
       _tempLine.Line.P2.X.Value = _currMouse.X;
       _tempLine.Line.P2.Y.Value = _currMouse.Y;
     }
+
+    // move selected points
+    if (_isMouseDown && _appMode == ApplicationMode.Select)
+    {
+      _drawables
+        .SelectMany(draw => draw.SelectionPoints)
+        .Where(pt => pt.IsSelected)
+        .ToList()
+        .ForEach(pt =>
+        {
+          pt.Point.X.Value = _currMouse.X;
+          pt.Point.Y.Value = _currMouse.Y;
+        });
+    }
   }
 
   private void MouseUpCanvas(MouseEventArgs e)
