@@ -93,6 +93,17 @@ public partial class Index
     _mouseDown.Y = _currMouse.Y = (int)(e.ClientY - CanvasPos.Y);
     _isMouseDown = true;
 
+    // select whatever is under mouse
+    if (_appMode == ApplicationMode.Select)
+    {
+      _drawables
+        .SelectMany(draw => draw.SelectionPoints)
+        .SelectMany(draw => draw.SelectionPoints)
+        .Where(pt => pt.Point.IsNear(_currMouse))
+        .ToList()
+        .ForEach(pt => pt.IsSelected = true);
+    }
+
     // drawing line
     if (_appMode == ApplicationMode.Draw && _drawEnt == DrawableEntity.Line)
     {
@@ -113,19 +124,11 @@ public partial class Index
     _currMouse.X = (int)(e.ClientX - CanvasPos.X);
     _currMouse.Y = (int)(e.ClientY - CanvasPos.Y);
 
-    // clear all previews
-    var allPts = _drawables
-      .SelectMany(draw => draw.SelectionPoints)
-      .ToList();
-    allPts.ForEach(pt => pt.ShowPreview = false);
-    _drawables.ForEach(draw => draw.ShowPreview = false);
-
     // highlight points under mouse
-    var prevPts = allPts
+    _drawables
       .SelectMany(draw => draw.SelectionPoints)
-      .Where(pt => pt.Point.IsNear(_currMouse))
-      .ToList();
-    prevPts.ForEach(pt => pt.ShowPreview = true);
+      .ToList()
+      .ForEach(pt => pt.ShowPreview = pt.Point.IsNear(_currMouse));
 
     // drawing line
     if (_isMouseDown && _appMode == ApplicationMode.Draw && _drawEnt == DrawableEntity.Line)
@@ -138,6 +141,12 @@ public partial class Index
   private void MouseUpCanvas(MouseEventArgs e)
   {
     _isMouseDown = false;
+
+    // clear selections and previews
+    _drawables
+      .SelectMany(draw => draw.SelectionPoints)
+      .ToList()
+      .ForEach(pt => pt.IsSelected = pt.ShowPreview = false);
 
     // drawing line
     if (_appMode == ApplicationMode.Draw && _drawEnt == DrawableEntity.Line)
