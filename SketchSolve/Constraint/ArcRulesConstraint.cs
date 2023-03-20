@@ -2,7 +2,7 @@
 
 using SketchSolve.Model;
 
-public sealed class ArcRulesConstraint : Constraint
+public sealed class ArcRulesConstraint : BaseConstraint
 {
   private readonly Arc _arc1;
 

@@ -2,7 +2,7 @@
 
 using SketchSolve.Model;
 
-public sealed class CollinearConstraint : Constraint
+public sealed class CollinearConstraint : BaseConstraint
 {
   private readonly Line _line1;
   private readonly Line _line2;

@@ -2,7 +2,7 @@
 
 using SketchSolve.Model;
 
-public sealed class ParallelConstraint : Constraint
+public sealed class ParallelConstraint : BaseConstraint
 {
   private readonly Line _line1;
   private readonly Line _line2;

@@ -2,7 +2,7 @@
 
 using SketchSolve.Model;
 
-public sealed class P2PDistanceVertConstraint : Constraint
+public sealed class P2PDistanceVertConstraint : BaseConstraint
 {
   private readonly Point _point1;
   private readonly Point _point2;

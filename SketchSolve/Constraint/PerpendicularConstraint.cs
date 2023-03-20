@@ -2,7 +2,7 @@
 
 using SketchSolve.Model;
 
-public sealed class PerpendicularConstraint : Constraint
+public sealed class PerpendicularConstraint : BaseConstraint
 {
   private readonly Line _line1;
   private readonly Line _line2;

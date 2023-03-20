@@ -2,7 +2,7 @@
 
 using SketchSolve.Model;
 
-public sealed class InternalAngleConstraint : Constraint
+public sealed class InternalAngleConstraint : BaseConstraint
 {
   private readonly Line _line1;
   private readonly Line _line2;

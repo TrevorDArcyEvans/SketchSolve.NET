@@ -2,7 +2,7 @@
 
 using SketchSolve.Model;
 
-public sealed class ConcentricCirclesConstraint : Constraint
+public sealed class ConcentricCirclesConstraint : BaseConstraint
 {
   private readonly Circle _circle1;
   private readonly Circle _circle2;

@@ -2,13 +2,14 @@ namespace SketchSolve.Solver;
 
 using Accord.Math.Differentiation;
 using Accord.Math.Optimization;
+using SketchSolve.Constraint;
 using SketchSolve.Model;
 
 public static class Solver
 {
-  public static double Solve(double maxError = 1e5, params Constraint.Constraint[] cons)
+  public static double Solve(double maxError = 1e5, params BaseConstraint[] cons)
   {
-    return Solve(maxError, (IEnumerable<Constraint.Constraint>)cons);
+    return Solve(maxError, (IEnumerable<BaseConstraint>)cons);
   }
 
   private static Func<double[], double[]> Grad(int n, Func<double[], double> fn)
@@ -17,7 +18,7 @@ public static class Solver
     return a => gradient.Gradient(a);
   }
 
-  private static double Solve(double maxError, IEnumerable<Constraint.Constraint> cons)
+  private static double Solve(double maxError, IEnumerable<BaseConstraint> cons)
   {
     const int MaxIterations = 10;
 
@@ -69,7 +70,7 @@ public static class Solver
     return solver.Value;
   }
 
-  private static double CalculateError(IEnumerable<Constraint.Constraint> constraints)
+  private static double CalculateError(IEnumerable<BaseConstraint> constraints)
   {
     // Prevent symmetry errors
     return constraints.Sum(constraint => constraint.CalculateError());

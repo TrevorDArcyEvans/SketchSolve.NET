@@ -2,7 +2,7 @@
 
 using SketchSolve.Model;
 
-public sealed class CircleRadiusConstraint : Constraint
+public sealed class CircleRadiusConstraint : BaseConstraint
 {
   private readonly Circle _circle1;
   private readonly Parameter _parameter;

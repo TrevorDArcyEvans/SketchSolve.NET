@@ -2,7 +2,7 @@
 
 using SketchSolve.Model;
 
-public sealed class PointOnLineConstraint : Constraint
+public sealed class PointOnLineConstraint : BaseConstraint
 {
   private readonly Point _point1;
   private readonly Line _line1;

@@ -2,7 +2,7 @@
 
 using SketchSolve.Model;
 
-public sealed class SymmetricCirclesConstraint : Constraint
+public sealed class SymmetricCirclesConstraint : BaseConstraint
 {
   private readonly Line _symLine;
   private readonly Circle _circle1;

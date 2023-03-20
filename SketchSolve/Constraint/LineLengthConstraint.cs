@@ -2,7 +2,7 @@
 
 using SketchSolve.Model;
 
-public sealed class LineLengthConstraint : Constraint
+public sealed class LineLengthConstraint : BaseConstraint
 {
   private readonly Line _line1;
   private readonly Parameter _parameter;

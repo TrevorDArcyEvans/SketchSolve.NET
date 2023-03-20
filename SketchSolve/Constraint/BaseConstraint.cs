@@ -3,7 +3,7 @@
 using System.Collections;
 using SketchSolve.Model;
 
-public abstract class Constraint : IEnumerable<Parameter>
+public abstract class BaseConstraint : IEnumerable<Parameter>
 {
   public abstract double CalculateError();
 

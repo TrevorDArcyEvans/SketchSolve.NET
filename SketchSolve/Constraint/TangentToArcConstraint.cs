@@ -2,7 +2,7 @@
 
 using SketchSolve.Model;
 
-public sealed class TangentToArcConstraint : Constraint
+public sealed class TangentToArcConstraint : BaseConstraint
 {
   private readonly Line _line1;
   private readonly Arc _arc1;

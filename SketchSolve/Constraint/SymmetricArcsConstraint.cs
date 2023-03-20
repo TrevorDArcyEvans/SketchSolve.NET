@@ -2,7 +2,7 @@
 
 using SketchSolve.Model;
 
-public sealed class SymmetricArcsConstraint : Constraint
+public sealed class SymmetricArcsConstraint : BaseConstraint
 {
   private readonly Line _symLine;
   private readonly Arc _arc1;

@@ -2,7 +2,7 @@
 
 using SketchSolve.Model;
 
-public sealed class EqualLengthConstraint : Constraint
+public sealed class EqualLengthConstraint : BaseConstraint
 {
   private readonly Line _line1;
   private readonly Line _line2;

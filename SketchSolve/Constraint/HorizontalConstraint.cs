@@ -2,7 +2,7 @@
 
 using SketchSolve.Model;
 
-public sealed class HorizontalConstraint : Constraint
+public sealed class HorizontalConstraint : BaseConstraint
 {
   private readonly Line _line1;
 

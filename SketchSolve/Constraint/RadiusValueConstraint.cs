@@ -2,7 +2,7 @@
 
 using SketchSolve.Model;
 
-public sealed class RadiusValueConstraint : Constraint
+public sealed class RadiusValueConstraint : BaseConstraint
 {
   public override double CalculateError()
   {

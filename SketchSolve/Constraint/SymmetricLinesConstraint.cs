@@ -2,7 +2,7 @@
 
 using SketchSolve.Model;
 
-public sealed class SymmetricLinesConstraint : Constraint
+public sealed class SymmetricLinesConstraint : BaseConstraint
 {
   private readonly Line _line1;
   private readonly Line _line2;

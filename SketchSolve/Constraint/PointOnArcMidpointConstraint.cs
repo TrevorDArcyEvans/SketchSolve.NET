@@ -2,7 +2,7 @@
 
 using SketchSolve.Model;
 
-public sealed class PointOnArcMidpointConstraint : Constraint
+public sealed class PointOnArcMidpointConstraint : BaseConstraint
 {
   private readonly Point _point1;
   private readonly Arc _arc1;

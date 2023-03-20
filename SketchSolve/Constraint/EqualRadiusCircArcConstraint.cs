@@ -2,7 +2,7 @@
 
 using SketchSolve.Model;
 
-public sealed class EqualRadiusCircArcConstraint : Constraint
+public sealed class EqualRadiusCircArcConstraint : BaseConstraint
 {
   private readonly Circle _circle1;
   private readonly Arc _arc1;

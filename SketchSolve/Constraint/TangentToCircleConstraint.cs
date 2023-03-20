@@ -2,7 +2,7 @@
 
 using SketchSolve.Model;
 
-public sealed class TangentToCircleConstraint : Constraint
+public sealed class TangentToCircleConstraint : BaseConstraint
 {
   private readonly Line _line1;
   private readonly Circle _circle1;

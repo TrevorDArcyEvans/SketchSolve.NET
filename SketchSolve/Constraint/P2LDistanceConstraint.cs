@@ -2,7 +2,7 @@
 
 using SketchSolve.Model;
 
-public sealed class P2LDistanceConstraint : Constraint
+public sealed class P2LDistanceConstraint : BaseConstraint
 {
   private readonly Point _point1;
   private readonly Line _line1;

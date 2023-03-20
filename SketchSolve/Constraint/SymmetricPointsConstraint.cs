@@ -2,7 +2,7 @@
 
 using SketchSolve.Model;
 
-public sealed class SymmetricPointsConstraint : Constraint
+public sealed class SymmetricPointsConstraint : BaseConstraint
 {
   private readonly Point _point1;
   private readonly Point _point2;

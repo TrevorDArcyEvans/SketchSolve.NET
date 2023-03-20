@@ -2,7 +2,7 @@
 
 using SketchSolve.Model;
 
-public sealed class ConcentricArcsConstraint : Constraint
+public sealed class ConcentricArcsConstraint : BaseConstraint
 {
   private readonly Arc _arc1;
   private readonly Arc _arc2;

@@ -2,7 +2,7 @@
 
 using SketchSolve.Model;
 
-public sealed class ArcRadiusConstraint : Constraint
+public sealed class ArcRadiusConstraint : BaseConstraint
 {
   private readonly Arc _arc1;
   private readonly Parameter _parameter;
