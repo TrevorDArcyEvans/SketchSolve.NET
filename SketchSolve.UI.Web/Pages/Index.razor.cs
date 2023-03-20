@@ -94,16 +94,17 @@ public partial class Index
 
     if (_appMode == ApplicationMode.Select)
     {
-      // select entities under mouse
-      _drawables
-        .ToList()
-        .ForEach(draw => draw.IsSelected = draw.IsNear(_currMouse));
-
       // select points under mouse
       _drawables
         .SelectMany(draw => draw.SelectionPoints)
         .ToList()
         .ForEach(pt => pt.IsSelected = pt.Point.IsNear(_currMouse));
+
+      // only select entities under mouse which do not have any points selected
+      _drawables
+        .Where(draw => !draw.SelectionPoints.Any(pt => pt.IsSelected))
+        .ToList()
+        .ForEach(draw => draw.IsSelected = draw.IsNear(_currMouse));
     }
 
     // drawing line
@@ -126,16 +127,17 @@ public partial class Index
     _currMouse.X = (int) (e.ClientX - CanvasPos.X);
     _currMouse.Y = (int) (e.ClientY - CanvasPos.Y);
 
-    // highlight entities under mouse
-    _drawables
-      .ToList()
-      .ForEach(draw => draw.ShowPreview = draw.IsNear(_currMouse));
-
     // highlight points under mouse
     _drawables
       .SelectMany(draw => draw.SelectionPoints)
       .ToList()
       .ForEach(pt => pt.ShowPreview = pt.Point.IsNear(_currMouse));
+
+    // only highlight entities under mouse which do not have any points highlighted
+    _drawables
+      .Where(draw => !draw.SelectionPoints.Any(pt => pt.ShowPreview))
+      .ToList()
+      .ForEach(draw => draw.ShowPreview = draw.IsNear(_currMouse));
 
     // drawing line
     if (_isMouseDown && _appMode == ApplicationMode.Draw && _drawEnt == DrawableEntity.Line)
