@@ -1,3 +1,5 @@
+using System;
+
 namespace SketchSolve.UI.Web.Drawing.Model;
 
 using System.Collections.Generic;
@@ -11,7 +13,12 @@ public sealed class LineDrawer : EntityDrawer
   private StartPointDrawer Start { get; }
   private EndPointDrawer End { get; }
 
-  public override IEnumerable<PointDrawer> SelectionPoints => new PointDrawer[] { Start, End };
+  public override IEnumerable<PointDrawer> SelectionPoints => new PointDrawer[] {Start, End};
+
+  public override bool IsNear(System.Drawing.Point pt)
+  {
+    return pt.IsNear(Line);
+  }
 
   public LineDrawer(Line line)
   {

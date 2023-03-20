@@ -61,14 +61,14 @@ public partial class Index
   {
     if (firstRender)
     {
-      CanvasDims = new Point(int.Parse((string)_canvas.AdditionalAttributes["width"]), int.Parse((string)_canvas.AdditionalAttributes["height"]));
+      CanvasDims = new Point(int.Parse((string) _canvas.AdditionalAttributes["width"]), int.Parse((string) _canvas.AdditionalAttributes["height"]));
 
       _context = await _canvas.GetContext2DAsync();
 
       // this retrieves the top left corner of the canvas _container (which is equivalent to the top left corner of the canvas, as we don't have any margins / padding)
       // NOTE: coordinates are returned as doubles
       var pos = await _js.InvokeAsync<PointD>("eval", $"let e = document.querySelector('[_bl_{_container.Id}=\"\"]'); e = e.getBoundingClientRect(); e = {{ 'X': e.x, 'Y': e.y }}; e");
-      CanvasPos = new((int)pos.X, (int)pos.Y);
+      CanvasPos = new((int) pos.X, (int) pos.Y);
     }
 
     await DrawAsync();
@@ -88,18 +88,22 @@ public partial class Index
 
   private void MouseDownCanvas(MouseEventArgs e)
   {
-    _mouseDown.X = _currMouse.X = (int)(e.ClientX - CanvasPos.X);
-    _mouseDown.Y = _currMouse.Y = (int)(e.ClientY - CanvasPos.Y);
+    _mouseDown.X = _currMouse.X = (int) (e.ClientX - CanvasPos.X);
+    _mouseDown.Y = _currMouse.Y = (int) (e.ClientY - CanvasPos.Y);
     _isMouseDown = true;
 
-    // select whatever is under mouse
     if (_appMode == ApplicationMode.Select)
     {
+      // select entities under mouse
+      _drawables
+        .ToList()
+        .ForEach(draw => draw.IsSelected = draw.IsNear(_currMouse));
+
+      // select points under mouse
       _drawables
         .SelectMany(draw => draw.SelectionPoints)
-        .Where(pt => pt.Point.IsNear(_currMouse))
         .ToList()
-        .ForEach(pt => pt.IsSelected = true);
+        .ForEach(pt => pt.IsSelected = pt.Point.IsNear(_currMouse));
     }
 
     // drawing line
@@ -119,8 +123,13 @@ public partial class Index
 
   private void MouseMoveCanvasAsync(MouseEventArgs e)
   {
-    _currMouse.X = (int)(e.ClientX - CanvasPos.X);
-    _currMouse.Y = (int)(e.ClientY - CanvasPos.Y);
+    _currMouse.X = (int) (e.ClientX - CanvasPos.X);
+    _currMouse.Y = (int) (e.ClientY - CanvasPos.Y);
+
+    // highlight entities under mouse
+    _drawables
+      .ToList()
+      .ForEach(draw => draw.ShowPreview = draw.IsNear(_currMouse));
 
     // highlight points under mouse
     _drawables
@@ -154,11 +163,14 @@ public partial class Index
   {
     _isMouseDown = false;
 
-    // clear selections and previews
+    // clear previews
+    _drawables
+      .ToList()
+      .ForEach(draw => draw.ShowPreview = false);
     _drawables
       .SelectMany(draw => draw.SelectionPoints)
       .ToList()
-      .ForEach(pt => pt.IsSelected = pt.ShowPreview = false);
+      .ForEach(pt => pt.ShowPreview = false);
 
     // drawing line
     if (_appMode == ApplicationMode.Draw && _drawEnt == DrawableEntity.Line)

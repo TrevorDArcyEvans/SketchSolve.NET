@@ -13,7 +13,12 @@ public sealed class ArcDrawer : EntityDrawer
   private CentrePointDrawer Centre { get; }
   private EndPointDrawer End { get; }
 
-  public override IEnumerable<PointDrawer> SelectionPoints => new PointDrawer[] { Start, Centre, End };
+  public override IEnumerable<PointDrawer> SelectionPoints => new PointDrawer[] {Start, Centre, End};
+
+  public override bool IsNear(System.Drawing.Point pt)
+  {
+    throw new NotImplementedException();
+  }
 
   public ArcDrawer(Arc arc)
   {

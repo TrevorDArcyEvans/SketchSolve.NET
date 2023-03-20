@@ -1,3 +1,5 @@
+using System.Drawing;
+
 namespace SketchSolve.UI.Web.Drawing.Model;
 
 using System.Collections.Generic;
@@ -18,6 +20,8 @@ public abstract class EntityDrawer : IDrawable
   public bool ShowPreview { get; set; }
 
   public abstract IEnumerable<PointDrawer> SelectionPoints { get; }
+
+  public abstract bool IsNear(Point pt);
 
   public async Task DrawAsync(Batch2D batch)
   {
