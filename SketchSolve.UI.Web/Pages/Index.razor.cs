@@ -1,18 +1,17 @@
-﻿using System.Linq;
-using SketchSolve.Model;
-using SketchSolve.UI.Web.Drawing.Entities;
-
-namespace SketchSolve.UI.Web.Pages;
+﻿namespace SketchSolve.UI.Web.Pages;
 
 using System.Collections.Generic;
-using System.Drawing;
+using System.Linq;
 using System.Threading.Tasks;
 using Excubo.Blazor.Canvas;
 using Excubo.Blazor.Canvas.Contexts;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
+using SketchSolve.Model;
 using SketchSolve.UI.Web.Drawing;
+using SketchSolve.UI.Web.Drawing.Model;
+using Point = System.Drawing.Point;
 
 public partial class Index
 {
@@ -98,7 +97,6 @@ public partial class Index
     {
       _drawables
         .SelectMany(draw => draw.SelectionPoints)
-        .SelectMany(draw => draw.SelectionPoints)
         .Where(pt => pt.Point.IsNear(_currMouse))
         .ToList()
         .ForEach(pt => pt.IsSelected = true);
@@ -108,8 +106,8 @@ public partial class Index
     if (_appMode == ApplicationMode.Draw && _drawEnt == DrawableEntity.Line)
     {
       _lineStart = _mouseDown;
-      var startPt = new SketchSolve.Model.Point(_lineStart.X, _lineStart.Y);
-      var endPt = new SketchSolve.Model.Point(e.ClientX - CanvasPos.X, e.ClientY - CanvasPos.Y);
+      var startPt = new Model.Point(_lineStart.X, _lineStart.Y);
+      var endPt = new Model.Point(e.ClientX - CanvasPos.X, e.ClientY - CanvasPos.Y);
       var line = new Line(startPt, endPt);
       _tempLine = new LineDrawer(line)
       {
@@ -167,8 +165,8 @@ public partial class Index
     {
       _drawables.Remove(_tempLine);
 
-      var startPt = new SketchSolve.Model.Point(_lineStart.X, _lineStart.Y);
-      var endPt = new SketchSolve.Model.Point(e.ClientX - CanvasPos.X, e.ClientY - CanvasPos.Y);
+      var startPt = new Model.Point(_lineStart.X, _lineStart.Y);
+      var endPt = new Model.Point(e.ClientX - CanvasPos.X, e.ClientY - CanvasPos.Y);
       var line = new Line(startPt, endPt);
       var lineDrawer = new LineDrawer(line);
       _drawables.Add(lineDrawer);

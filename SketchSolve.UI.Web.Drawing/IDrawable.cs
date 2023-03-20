@@ -3,7 +3,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Excubo.Blazor.Canvas.Contexts;
-using SketchSolve.UI.Web.Drawing.Entities;
+using SketchSolve.UI.Web.Drawing.Model;
 
 public interface IDrawable
 {

@@ -1,7 +1,7 @@
-namespace SketchSolve.UI.Web.Drawing.Entities;
+namespace SketchSolve.UI.Web.Drawing.Model;
 
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Excubo.Blazor.Canvas.Contexts;
 using SketchSolve.Model;

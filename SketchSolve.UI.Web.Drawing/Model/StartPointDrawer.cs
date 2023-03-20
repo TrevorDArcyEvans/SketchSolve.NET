@@ -1,4 +1,4 @@
-namespace SketchSolve.UI.Web.Drawing.Entities;
+namespace SketchSolve.UI.Web.Drawing.Model;
 
 using System;
 using System.Threading.Tasks;
