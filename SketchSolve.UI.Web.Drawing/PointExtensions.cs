@@ -38,6 +38,30 @@ public static class PointExtensions
     return distSq < ToleranceRadius;
   }
 
+  public static bool IsNear(this Point pt, Arc arc)
+  {
+    //see what the current radius to the point is
+    var a1CenterX = arc.Center.X.Value;
+    var a1CenterY = arc.Center.Y.Value;
+    var a1Radius = arc.Rad.Value;
+    var a1StartA = arc.StartAngle.Value;
+    var a1StartY = a1CenterY + a1Radius * Math.Sin(a1StartA);
+    var a1StartX = a1CenterX + a1Radius * Math.Cos(a1StartA);
+    var p1X = pt.X;
+    var p1Y = pt.Y;
+    var rad1 = Hypot(a1CenterX - p1X, a1CenterY - p1Y);
+    var rad2 = Hypot(a1CenterX - a1StartX, a1CenterY - a1StartY);
+    //Compare this radius to the radius of the circle, return the error squared
+    var dist = rad1 - rad2;
+    var distSq = dist * dist;
+    return distSq < ToleranceRadius;
+  }
+
+  private static double Hypot(double a, double b)
+  {
+    return Math.Sqrt(a * a + b * b);
+  }
+
   #region Point to Line distance
 
   // stolen from:

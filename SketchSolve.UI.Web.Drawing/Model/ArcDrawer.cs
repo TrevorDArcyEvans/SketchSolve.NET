@@ -17,7 +17,7 @@ public sealed class ArcDrawer : EntityDrawer
 
   public override bool IsNear(System.Drawing.Point pt)
   {
-    throw new NotImplementedException();
+    return pt.IsNear(Arc);
   }
 
   public ArcDrawer(Arc arc)
