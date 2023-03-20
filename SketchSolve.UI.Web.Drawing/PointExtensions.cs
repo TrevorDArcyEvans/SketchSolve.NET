@@ -29,6 +29,16 @@ public static class PointExtensions
     return new Point((int) pt.X.Value, (int) pt.Y.Value);
   }
 
+  public static SketchSolve.Model.Point ToModel(this SketchSolve.Model.Point pt)
+  {
+    return new SketchSolve.Model.Point((int) pt.X.Value, (int) pt.Y.Value);
+  }
+
+  public static SketchSolve.Model.Point ToModel(this Point pt)
+  {
+    return new SketchSolve.Model.Point(pt.X, pt.Y);
+  }
+
   public static bool IsNear(this Point pt, Line line)
   {
     var startPt = line.P1.ToDrawing();
