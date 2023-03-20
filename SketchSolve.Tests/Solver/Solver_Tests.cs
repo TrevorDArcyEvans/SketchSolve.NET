@@ -266,14 +266,13 @@ public sealed class Solver_Tests
   [Test]
   public void Square_around_circle()
   {
+    // circle on origin with radius 10
     var circle = new Circle(new Point(0, 0, false), new Parameter(10, false));
 
     // We want a box around the circle where all lines touch the 
     // circle and line0 is vertical. We arrange the lines roughly
     // in the correct placement to get the search off to a good
     // start
-    //
-    // ill conditioned
     var line0 = new Line(new Point(-11, 0), new Point(0, 13));
     var line1 = new Line(new Point(0, 12), new Point(12, 0));
     var line2 = new Line(new Point(11, 0), new Point(0, -12));
@@ -281,7 +280,8 @@ public sealed class Solver_Tests
 
     var angle = new Parameter(Math.PI / 2, false);
 
-    var error = SketchSolve.Solver.Solver.Solve(0.0001, line0.IsTangentTo(circle),
+    var error = SketchSolve.Solver.Solver.Solve(0.0001,
+      line0.IsTangentTo(circle),
       line1.IsTangentTo(circle),
       line2.IsTangentTo(circle),
       line3.IsTangentTo(circle),
