@@ -8,7 +8,7 @@ using SketchSolve.Model;
 
 public sealed class ArcDrawer : EntityDrawer
 {
-  private Arc Arc { get; }
+  public Arc Arc { get; }
   private StartPointDrawer Start { get; }
   private CentrePointDrawer Centre { get; }
   private EndPointDrawer End { get; }
