@@ -1,0 +1,71 @@
+@page "/"
+
+@using Excubo.Blazor.Canvas
+
+<div class="mat-layout-grid" style="cursor: @_cursorStyle">
+  <div class="mat-layout-grid-inner">
+    <div class="mat-layout-grid-cell-span-3">
+      <div>
+        <MatH5>Application Mode</MatH5>
+        <MatRadioGroup @bind-Value="_appMode" Items="@ApplicationModes">
+          <ItemTemplate>
+            <div>
+              <MatRadioButton Value="@context">@context.ToString()</MatRadioButton>
+            </div>
+          </ItemTemplate>
+        </MatRadioGroup>
+      </div>
+      <hr/>
+      <p/>
+
+      <div>
+        <MatH5>Entity</MatH5>
+        <MatRadioGroup @bind-Value="@_drawEnt" Items="@DrawableEntities">
+          <ItemTemplate>
+            <div>
+              <MatRadioButton Value="@context">@context.ToString()</MatRadioButton>
+            </div>
+          </ItemTemplate>
+        </MatRadioGroup>
+      </div>
+      <hr/>
+      <p/>
+
+      <div>
+        @_currMouse.ToString()
+      </div>
+    </div>
+
+    <div @ref="_container" class="mat-layout-grid-cell">
+      <Canvas
+        @onmousemove="MouseMoveCanvasAsync"
+        @onmouseup="MouseUpCanvas"
+        @onmousedown="MouseDownCanvas"
+        width="1000"
+        height="800"
+        @ref="_canvas"
+        style="border: 1px solid blue"/>
+    </div>
+  </div>
+
+  <div>
+    <img id="@CoincidentImageElementName" src="constraints/coincident.png" style="display: none;">
+    <img id="@CollinearImageElementName" src="constraints/collinear.png" style="display: none;">
+    <img id="@ConcentricImageElementName" src="constraints/concentric.png" style="display: none;">
+    <img id="@EqualImageElementName" src="constraints/equal.png" style="display: none;">
+    <img id="@FixedImageElementName" src="constraints/fixed.png" style="display: none;">
+    <img id="@HorizontalImageElementName" src="constraints/horizontal.png" style="display: none;">
+    <img id="@ParallelImageElementName" src="constraints/parallel.png" style="display: none;">
+    <img id="@PerpendicularImageElementName" src="constraints/perpendicular.png" style="display: none;">
+    <img id="@SmoothG2ImageElementName" src="constraints/smoothg2.png" style="display: none;">
+    <img id="@SymmetricImageElementName" src="constraints/symmetric.png" style="display: none;">
+    <img id="@TangentImageElementName" src="constraints/tangent.png" style="display: none;">
+    <img id="@VerticalImageElementName" src="constraints/vertical.png" style="display: none;">
+  </div>
+</div>
+
+@code
+{
+  private readonly ApplicationMode[] ApplicationModes = Enum.GetValues<ApplicationMode>();
+  private readonly DrawableEntity[] DrawableEntities = Enum.GetValues<DrawableEntity>();
+}

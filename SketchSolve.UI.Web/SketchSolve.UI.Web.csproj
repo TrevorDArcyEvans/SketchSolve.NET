@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Excubo.Blazor.Canvas" Version="3.2.18" />
+    <PackageReference Include="MatBlazor" Version="2.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SketchSolve\SketchSolve.csproj" />
+    <ProjectReference Include="..\SketchSolve.UI.Web.Drawing\SketchSolve.UI.Web.Drawing.csproj" />
+  </ItemGroup>
+
+</Project>

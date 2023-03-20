@@ -5,6 +5,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SketchSolve", "SketchSolve\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SketchSolve.Tests", "SketchSolve.Tests\SketchSolve.Tests.csproj", "{F10F437F-75A1-4A84-8286-51FA4D13B0EA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SketchSolve.UI.Web.Drawing", "SketchSolve.UI.Web.Drawing\SketchSolve.UI.Web.Drawing.csproj", "{9187D3C3-6C8A-400F-A805-35ED1CD02D53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SketchSolve.UI.Web", "SketchSolve.UI.Web\SketchSolve.UI.Web.csproj", "{91E4CD63-684C-47EA-BA91-C7CC4000FEC5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Release|Any CPU = Release|Any CPU
@@ -19,6 +23,14 @@ Global
 		{F10F437F-75A1-4A84-8286-51FA4D13B0EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F10F437F-75A1-4A84-8286-51FA4D13B0EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F10F437F-75A1-4A84-8286-51FA4D13B0EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9187D3C3-6C8A-400F-A805-35ED1CD02D53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9187D3C3-6C8A-400F-A805-35ED1CD02D53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9187D3C3-6C8A-400F-A805-35ED1CD02D53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9187D3C3-6C8A-400F-A805-35ED1CD02D53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91E4CD63-684C-47EA-BA91-C7CC4000FEC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91E4CD63-684C-47EA-BA91-C7CC4000FEC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91E4CD63-684C-47EA-BA91-C7CC4000FEC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91E4CD63-684C-47EA-BA91-C7CC4000FEC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
