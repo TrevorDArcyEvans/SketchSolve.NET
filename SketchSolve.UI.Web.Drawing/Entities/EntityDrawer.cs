@@ -36,11 +36,11 @@ public abstract class EntityDrawer : IDrawable
 
   protected virtual async Task SetLine(Batch2D batch)
   {
-    if (ShowPreview)
+    if (IsSelected)
     {
       await batch.LineWidthAsync(2);
     }
-    else if (IsSelected)
+    else if (ShowPreview)
     {
       await batch.LineWidthAsync(2);
     }
@@ -48,19 +48,20 @@ public abstract class EntityDrawer : IDrawable
     {
       await batch.LineWidthAsync(1);
     }
+
     await batch.LineJoinAsync(LineJoin.Round);
     await batch.LineCapAsync(LineCap.Round);
   }
 
   protected virtual async Task SetColour(Batch2D batch)
   {
-    if (ShowPreview)
-    {
-      await batch.StrokeStyleAsync(PreviewClr);
-    }
-    else if (IsSelected)
+    if (IsSelected)
     {
       await batch.StrokeStyleAsync(SelectedClr);
+    }
+    else if (ShowPreview)
+    {
+      await batch.StrokeStyleAsync(PreviewClr);
     }
     else
     {
