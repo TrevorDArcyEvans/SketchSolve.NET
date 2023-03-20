@@ -7,10 +7,10 @@ using SketchSolve.Constraint;
 using SketchSolve.Model;
 
 [TestFixture]
-public class Solver_Tests
+public sealed class Solver_Tests
 {
   [Test]
-  public void HorizontalConstraintShouldWork()
+  public void HorizontalConstraint_should_work()
   {
     var line = new Line(new Point(0, 1, false), new Point(2, 3, false, true));
 
@@ -24,7 +24,7 @@ public class Solver_Tests
   }
 
   [Test]
-  public void VerticalConstraintShouldWork()
+  public void VerticalConstraint_should_work()
   {
     var line = new Line(new Point(0, 1, false), new Point(2, 3, true, false));
 
@@ -38,7 +38,7 @@ public class Solver_Tests
   }
 
   [Test]
-  public void PointOnPointConstraintShouldWork()
+  public void PointOnPointConstraint_should_work()
   {
     var line1 = new Line(new Point(0, 1), new Point(2, 3, false));
     var line2 = new Line(new Point(10, 100, false), new Point(200, 300, false));
@@ -54,7 +54,7 @@ public class Solver_Tests
   }
 
   [Test]
-  public void InternalAngleConstraintShouldWork()
+  public void InternalAngleConstraint_should_work()
   {
     var line1 = new Line(new Point(0, 0, false), new Point(10, 0, false, true));
     var line2 = new Line(new Point(0, 0, false), new Point(10, -1, false));
@@ -74,7 +74,7 @@ public class Solver_Tests
   }
 
   [Test]
-  public void ExternalAngleConstraintShouldWork()
+  public void ExternalAngleConstraint_should_work()
   {
     var line1 = new Line(new Point(0, 0, false), new Point(10, -10, false, true));
     var line2 = new Line(new Point(0, 0, false), new Point(10, 0, false));
@@ -94,7 +94,7 @@ public class Solver_Tests
   }
 
   [Test]
-  public void PerpendicularLineConstraintShouldWork()
+  public void PerpendicularLineConstraint_should_work()
   {
     var line1 = new Line(new Point(0, 0, false), new Point(10, 0, false, false));
     var line2 = new Line(new Point(0, 0, false), new Point(10, 10, true, false));
@@ -112,7 +112,7 @@ public class Solver_Tests
   }
 
   [Test]
-  public void TangentToCircleConstraintShouldWork()
+  public void TangentToCircleConstraint_should_work()
   {
     // Create a fully constrained circle at 0,0 with radius 1
     var circle = new Circle(new Point(0, 0, false), new Parameter(1, false));
@@ -155,12 +155,8 @@ public class Solver_Tests
     }
   }
 
-  /// <summary>
-  /// TODO
-  /// Weird problem when only one degree of freedom with horizontal initial conditions
-  /// </summary>
   [Test]
-  public void TangentToCircleConstraintWithLineInitiallyThroughCenter()
+  public void TangentToCircleConstraint_with_line_initially_through_center()
   {
     // Create a fully constrained circle at 0,0 with radius 1
     var circle = new Circle(new Point(0, 0, false), new Parameter(1, false));
@@ -203,12 +199,8 @@ public class Solver_Tests
     }
   }
 
-  /// <summary>
-  /// TODO
-  /// Weird problem when only one degree of freedom with horizontal initial conditions
-  /// </summary>
   [Test]
-  public void TangentToCircleConstraintWithLineInitiallyHorizontal()
+  public void TangentToCircleConstraint_with_line_initially_horizontal()
   {
     // Create a fully constrained circle at 0,0 with radius 1
     var circle = new Circle(new Point(0, 0, false), new Parameter(1, false));
@@ -251,12 +243,8 @@ public class Solver_Tests
     }
   }
 
-  /// <summary>
-  /// TODO
-  /// Not sure how to fix this one. My guess is that we have a local maximum due to the initial conditions
-  /// </summary>
   [Test]
-  public void TangentToCircleConstraintWithLineInitiallyHorizontalShouldWork()
+  public void TangentToCircleConstraint_with_line_initially_horizontal_should_work()
   {
     // Create a fully constrained circle at 0,0 with radius 1
     var circle = new Circle(new Point(0, 0, false), new Parameter(10, false));
@@ -276,7 +264,7 @@ public class Solver_Tests
   }
 
   [Test]
-  public void SquareAroundCircle()
+  public void Square_around_circle()
   {
     var circle = new Circle(new Point(0, 0, false), new Parameter(10, false));
 
