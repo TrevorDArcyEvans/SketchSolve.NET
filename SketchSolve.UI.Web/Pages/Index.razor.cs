@@ -45,6 +45,10 @@ public partial class Index
   private Point _lineStart;
   private LineDrawer _tempLine;
 
+  private Point _arcCentre;
+  private Point _arcStart;
+  private ArcDrawer _tempArc;
+
   private Point _mouseDown = new(0, 0);
   private Point _currMouse = new(0, 0);
 
@@ -120,6 +124,19 @@ public partial class Index
       };
       _drawables.Add(_tempLine);
     }
+
+    // drawing arc
+    if (_appMode == ApplicationMode.Draw && _drawEnt == DrawableEntity.Arc)
+    {
+      if (_arcCentre == Point.Empty)
+      {
+        _arcCentre = _mouseDown;
+      }
+      else
+      {
+        _arcStart = _mouseDown;
+      }
+    }
   }
 
   private void MouseMoveCanvasAsync(MouseEventArgs e)
@@ -144,6 +161,16 @@ public partial class Index
     {
       _tempLine.Line.P2.X.Value = _currMouse.X;
       _tempLine.Line.P2.Y.Value = _currMouse.Y;
+    }
+
+    // drawing arc
+    if (_isMouseDown && _appMode == ApplicationMode.Draw && _drawEnt == DrawableEntity.Arc)
+    {
+      if (_arcCentre != Point.Empty && _arcStart != Point.Empty && _tempArc is null)
+      {
+        // TODO   create ArcDrawer
+        _drawables.Add(_tempArc);
+      }
     }
 
     // drag selected points
@@ -179,13 +206,23 @@ public partial class Index
     {
       _drawables.Remove(_tempLine);
 
-      var startPt = new Model.Point(_lineStart.X, _lineStart.Y);
+      var startPt = _lineStart.ToModel();
       var endPt = new Model.Point(e.ClientX - CanvasPos.X, e.ClientY - CanvasPos.Y);
       var line = new Line(startPt, endPt);
       var lineDrawer = new LineDrawer(line);
       _drawables.Add(lineDrawer);
 
       _appMode = ApplicationMode.Select;
+    }
+
+    // drawing arc
+    if (_appMode == ApplicationMode.Draw && _drawEnt == DrawableEntity.Arc)
+    {
+      _drawables.Remove(_tempArc);
+
+      // TODO   finish arc
+      _arcCentre = Point.Empty;
+      _arcStart = Point.Empty;
     }
 
     _cursorStyle = DefaultCursor;
