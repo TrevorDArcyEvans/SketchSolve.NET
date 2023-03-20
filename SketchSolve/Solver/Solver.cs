@@ -6,9 +6,9 @@ using SketchSolve.Model;
 
 public static class Solver
 {
-  public static double Solve(params Constraint.Constraint[] cons)
+  public static double Solve(double maxError = 1e5, params Constraint.Constraint[] cons)
   {
-    return Solve((IEnumerable<Constraint.Constraint>)cons);
+    return Solve(maxError, (IEnumerable<Constraint.Constraint>)cons);
   }
 
   private static Func<double[], double[]> Grad(int n, Func<double[], double> fn)
@@ -17,8 +17,12 @@ public static class Solver
     return a => gradient.Gradient(a);
   }
 
-  private static double Solve(IEnumerable<Constraint.Constraint> cons)
+  private static double Solve(double maxError, IEnumerable<Constraint.Constraint> cons)
   {
+    const int MaxIterations = 10;
+
+    var currIteration = 0;
+
     var constraints = cons.ToArray();
 
     // Get the parameters that need solving by selecting "free" ones
@@ -33,7 +37,9 @@ public static class Solver
       var i = 0;
       foreach (var arg in args)
       {
-        freeParameters[i].Value = arg;
+        // if we can't solve it the first time, then increasingly, randomly perturb parameter for subsequent attempts
+        var sign = Random.Shared.NextDouble() >= 0.5 ? 1d : -1d;
+        freeParameters[i].Value = arg * (1 + currIteration * sign * 0.001);
         i++;
       }
 
@@ -51,8 +57,15 @@ public static class Solver
     // Copy in the initial conditions
     freeParameters.Select(v => v.Value).ToArray().CopyTo(solver.Solution, 0);
 
-    // And attempt to solve the problem 
-    _ = solver.Minimize();
+    do
+    {
+      // And attempt to solve the problem 
+      _ = solver.Minimize();
+    } while (
+      currIteration++ < MaxIterations &&
+      solver.Value > maxError);
+
+    // we have either solved it or run out of attempts
     return solver.Value;
   }
 

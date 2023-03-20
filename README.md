@@ -123,8 +123,8 @@ Further, in some cases, _Accord_ will try to set a parameter to [NaN](https://en
 * ~~fix unit tests for solver~~
 * more unit tests for solver
 * portable UI aka test harness
-* perturb starting parameters for unacceptable solutions
-  * have to limit number of perturbations 
+* ~~perturb starting parameters for unacceptable solutions~~
+  * ~~have to limit number of perturbations~~ 
 
 ## Further information
 * [Geometric constraint solving - Wikipedia](https://en.wikipedia.org/wiki/Geometric_constraint_solving)

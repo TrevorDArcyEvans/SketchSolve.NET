@@ -14,7 +14,7 @@ public class Solver_Tests
   {
     var line = new Line(new Point(0, 1, false), new Point(2, 3, false, true));
 
-    var error = SketchSolve.Solver.Solver.Solve(line.IsHorizontal());
+    var error = SketchSolve.Solver.Solver.Solve(0.0001, line.IsHorizontal());
 
     using (new AssertionScope())
     {
@@ -28,7 +28,7 @@ public class Solver_Tests
   {
     var line = new Line(new Point(0, 1, false), new Point(2, 3, true, false));
 
-    var error = SketchSolve.Solver.Solver.Solve(line.IsVertical());
+    var error = SketchSolve.Solver.Solver.Solve(0.0001, line.IsVertical());
 
     using (new AssertionScope())
     {
@@ -43,7 +43,7 @@ public class Solver_Tests
     var line1 = new Line(new Point(0, 1), new Point(2, 3, false));
     var line2 = new Line(new Point(10, 100, false), new Point(200, 300, false));
 
-    var error = SketchSolve.Solver.Solver.Solve(line1.P1.IsCoincidentWith(line2.P1));
+    var error = SketchSolve.Solver.Solver.Solve(0.0001, line1.P1.IsCoincidentWith(line2.P1));
 
     using (new AssertionScope())
     {
@@ -61,7 +61,7 @@ public class Solver_Tests
 
     const double angle = Math.PI / 2 / 3; // 30 deg
 
-    var error = SketchSolve.Solver.Solver.Solve(line1.HasInternalAngle(line2, new Parameter(angle, false)));
+    var error = SketchSolve.Solver.Solver.Solve(0.0001, line1.HasInternalAngle(line2, new Parameter(angle, false)));
 
     using (new AssertionScope())
     {
@@ -81,8 +81,7 @@ public class Solver_Tests
 
     const double angle = Math.PI / 2 / 3; // 30 deg
 
-    //var error = SketchSolve.Solver.Solver.Solve(line1.HasExternalAngle(line2, new Parameter(angle, false)));
-    var error = SketchSolve.Solver.Solver.Solve(line1.HasInternalAngle(line2, new Parameter(angle, false)));
+    var error = SketchSolve.Solver.Solver.Solve(0.0001, line1.HasInternalAngle(line2, new Parameter(angle, false)));
 
     using (new AssertionScope())
     {
@@ -100,7 +99,7 @@ public class Solver_Tests
     var line1 = new Line(new Point(0, 0, false), new Point(10, 0, false, false));
     var line2 = new Line(new Point(0, 0, false), new Point(10, 10, true, false));
 
-    var error = SketchSolve.Solver.Solver.Solve(line1.IsPerpendicularTo(line2));
+    var error = SketchSolve.Solver.Solver.Solve(0.0001, line1.IsPerpendicularTo(line2));
 
     using (new AssertionScope())
     {
@@ -124,12 +123,35 @@ public class Solver_Tests
     var line = new Line(new Point(0, -v, false, false), new Point(1.0001 * v, 0, true, false));
 
     // TODO   objective function gets sent double.NaN
-    var error = SketchSolve.Solver.Solver.Solve(line.IsTangentTo(circle));
+    var error = SketchSolve.Solver.Solver.Solve(0.0001, line.IsTangentTo(circle));
 
     using (new AssertionScope())
     {
       error.Should().BeApproximately(0, 0.0001);
       line.P2.X.Value.Should().BeApproximately(v, 0.001);
+    }
+  }
+
+  [Test]
+  public void TangentToCircleConstraint_ill_conditioned_should_work()
+  {
+    // Create a fully constrained circle at 0,0 with radius 1
+    var circle = new Circle(new Point(0, 0, false), new Parameter(1, false));
+
+    var v = 1 / Math.Sin(Math.PI / 4); // sqrt(2)
+
+    // ill conditioned
+    var line = new Line(new Point(0, -v, false, false), new Point(1, 0, true, false));
+
+    // TODO   objective function gets sent double.NaN
+    var error = SketchSolve.Solver.Solver.Solve(0.0001, line.IsTangentTo(circle));
+
+    using (new AssertionScope())
+    {
+      error.Should().BeApproximately(0, 0.0001);
+
+      // NOTE:  looser tolerance because problem is ill conditioned
+      line.P2.X.Value.Should().BeApproximately(v, 0.01);
     }
   }
 
@@ -148,13 +170,36 @@ public class Solver_Tests
     // ill conditioned
     var line = new Line(new Point(0, -v, false, false), new Point(0.00444, v, true, false));
 
-    var error = SketchSolve.Solver.Solver.Solve(line.IsTangentTo(circle));
+    var error = SketchSolve.Solver.Solver.Solve(0.0001, line.IsTangentTo(circle));
 
     using (new AssertionScope())
     {
       error.Should().BeApproximately(0, 0.0001);
       (circle.CenterTo(line).Vector.LengthSquared - 1)
         .Should().BeApproximately(0, 0.001);
+    }
+  }
+
+  [Test]
+  public void TangentToCircleConstraint_ill_conditioned_with_line_initially_through_center()
+  {
+    // Create a fully constrained circle at 0,0 with radius 1
+    var circle = new Circle(new Point(0, 0, false), new Parameter(1, false));
+
+    var v = 1 / Math.Sin(Math.PI / 4); // sqrt(2)
+
+    // ill conditioned
+    var line = new Line(new Point(0, -v, false, false), new Point(0, v, true, false));
+
+    var error = SketchSolve.Solver.Solver.Solve(0.0001, line.IsTangentTo(circle));
+
+    using (new AssertionScope())
+    {
+      error.Should().BeApproximately(0, 0.0001);
+
+      // NOTE:  looser tolerance because problem is ill conditioned
+      (circle.CenterTo(line).Vector.LengthSquared - 1)
+        .Should().BeApproximately(0, 0.01);
     }
   }
 
@@ -173,13 +218,36 @@ public class Solver_Tests
     // ill conditioned
     var line = new Line(new Point(0, v, false, false), new Point(v, 1.000001 * v, false, true));
 
-    var error = SketchSolve.Solver.Solver.Solve(line.IsTangentTo(circle));
+    var error = SketchSolve.Solver.Solver.Solve(0.0001, line.IsTangentTo(circle));
 
     using (new AssertionScope())
     {
       error.Should().BeApproximately(0, 0.0001);
       (circle.CenterTo(line).Vector.LengthSquared - 1)
         .Should().BeApproximately(0, 0.001);
+    }
+  }
+
+  [Test]
+  public void TangentToCircleConstraint_ill_conditioned_with_line_initially_horizontal()
+  {
+    // Create a fully constrained circle at 0,0 with radius 1
+    var circle = new Circle(new Point(0, 0, false), new Parameter(1, false));
+
+    var v = 1 / Math.Sin(Math.PI / 4); // sqrt(2)
+
+    // ill conditioned
+    var line = new Line(new Point(0, v, false, false), new Point(v, v, false, true));
+
+    var error = SketchSolve.Solver.Solver.Solve(0.0001, line.IsTangentTo(circle));
+
+    using (new AssertionScope())
+    {
+      error.Should().BeApproximately(0, 0.0001);
+
+      // NOTE:  looser tolerance because problem is ill conditioned
+      (circle.CenterTo(line).Vector.LengthSquared - 1)
+        .Should().BeApproximately(0, 0.01);
     }
   }
 
@@ -197,7 +265,7 @@ public class Solver_Tests
 
     var line = new Line(new Point(-100, -v, false, true), new Point(100, -v * 2.1, false, true));
 
-    var error = SketchSolve.Solver.Solver.Solve(line.IsTangentTo(circle), line.IsHorizontal());
+    var error = SketchSolve.Solver.Solver.Solve(0.0001, line.IsTangentTo(circle), line.IsHorizontal());
 
     using (new AssertionScope())
     {
@@ -225,7 +293,7 @@ public class Solver_Tests
 
     var angle = new Parameter(Math.PI / 2, false);
 
-    var error = SketchSolve.Solver.Solver.Solve(line0.IsTangentTo(circle),
+    var error = SketchSolve.Solver.Solver.Solve(0.0001, line0.IsTangentTo(circle),
       line1.IsTangentTo(circle),
       line2.IsTangentTo(circle),
       line3.IsTangentTo(circle),
