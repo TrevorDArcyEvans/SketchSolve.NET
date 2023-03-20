@@ -141,7 +141,7 @@ public sealed class Solver_Tests
     var v = 1 / Math.Sin(Math.PI / 4); // sqrt(2)
 
     // ill conditioned
-    var line = new Line(new Point(0, -v, false, false), new Point(1, 0, true, false));
+    var line = new Line(new Point(0, -v, false, false), new Point(v, 0, true, false));
 
     // TODO   objective function gets sent double.NaN
     var error = SketchSolve.Solver.Solver.Solve(0.0001, line.IsTangentTo(circle));
