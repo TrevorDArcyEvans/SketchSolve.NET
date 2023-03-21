@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+
 namespace SketchSolve.UI.Web.Drawing.Model;
 
 using System;

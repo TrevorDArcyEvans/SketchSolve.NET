@@ -1,9 +1,9 @@
-﻿using System;
-using SketchSolve.Model;
+﻿namespace SketchSolve.UI.Web.Drawing;
 
-namespace SketchSolve.UI.Web.Drawing;
-
+using System;
 using System.Drawing;
+using SketchSolve.Model;
+using Point = System.Drawing.Point;
 
 public static class PointExtensions
 {
@@ -76,10 +76,10 @@ public static class PointExtensions
 
   // stolen from:
   //    https://stackoverflow.com/questions/849211/shortest-distance-between-a-point-and-a-line-segment
-  private static double DotProduct(System.Drawing.Point pointA, System.Drawing.Point pointB, System.Drawing.Point pointC)
+  private static double DotProduct(Point pointA, Point pointB, Point pointC)
   {
-    var AB = new System.Drawing.Point();
-    var BC = new System.Drawing.Point();
+    var AB = new Point();
+    var BC = new Point();
     AB.X = pointB.X - pointA.X;
     AB.Y = pointB.Y - pointA.Y;
     BC.X = pointC.X - pointB.X;
@@ -90,10 +90,10 @@ public static class PointExtensions
   }
 
   //Compute the cross product AB x AC
-  private static double CrossProduct(System.Drawing.Point pointA, System.Drawing.Point pointB, System.Drawing.Point pointC)
+  private static double CrossProduct(Point pointA, Point pointB, Point pointC)
   {
-    var AB = new System.Drawing.Point();
-    var AC = new System.Drawing.Point();
+    var AB = new Point();
+    var AC = new Point();
     AB.X = pointB.X - pointA.X;
     AB.Y = pointB.Y - pointA.Y;
     AC.X = pointC.X - pointA.X;
@@ -104,7 +104,7 @@ public static class PointExtensions
   }
 
   //Compute the distance from A to B
-  private static double Distance(System.Drawing.Point pointA, System.Drawing.Point pointB)
+  private static double Distance(Point pointA, Point pointB)
   {
     var dX = pointA.X - pointB.X;
     var dY = pointA.Y - pointB.Y;
@@ -114,7 +114,7 @@ public static class PointExtensions
 
   //Compute the distance from AB to C
   //if isSegment is true, AB is a segment, not a line.
-  private static double LineToPointDistance2D(System.Drawing.Point pointA, System.Drawing.Point pointB, System.Drawing.Point pointC)
+  private static double LineToPointDistance2D(Point pointA, Point pointB, Point pointC)
   {
     var dist = CrossProduct(pointA, pointB, pointC) / Distance(pointA, pointB);
     var dot1 = DotProduct(pointA, pointB, pointC);
