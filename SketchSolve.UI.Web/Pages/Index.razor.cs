@@ -1,4 +1,7 @@
-﻿namespace SketchSolve.UI.Web.Pages;
+﻿using System;
+using System.Drawing;
+
+namespace SketchSolve.UI.Web.Pages;
 
 using System.Collections.Generic;
 using System.Linq;
@@ -128,13 +131,22 @@ public partial class Index
     // drawing arc
     if (_appMode == ApplicationMode.Draw && _drawEnt == DrawableEntity.Arc)
     {
+      // sequence is CentrePt --> StartPt --> EndPt
       if (_arcCentre == Point.Empty)
       {
         _arcCentre = _mouseDown;
       }
-      else
+      else if (_arcStart == Point.Empty)
       {
         _arcStart = _mouseDown;
+        var startPt = new Model.Point(_arcCentre.X, _arcCentre.Y);
+        var endPt = new Model.Point(e.ClientX - CanvasPos.X, e.ClientY - CanvasPos.Y);
+        var line = new Line(startPt, endPt);
+        _tempLine = new LineDrawer(line)
+        {
+          ShowPreview = true
+        };
+        _drawables.Add(_tempLine);
       }
     }
   }
@@ -166,9 +178,28 @@ public partial class Index
     // drawing arc
     if (_isMouseDown && _appMode == ApplicationMode.Draw && _drawEnt == DrawableEntity.Arc)
     {
-      if (_arcCentre != Point.Empty && _arcStart != Point.Empty && _tempArc is null)
+      if (_tempLine is not null)
+      {
+        _tempLine.Line.P2.X.Value = _currMouse.X;
+        _tempLine.Line.P2.Y.Value = _currMouse.Y;
+      }
+
+      // sequence is CentrePt --> StartPt --> EndPt
+      if (_arcCentre != Point.Empty &&
+          _arcStart != Point.Empty &&
+          _tempArc is null)
       {
         // TODO   create ArcDrawer
+        var centre = _arcCentre.ToModel();
+        var radPt = _arcCentre - new Size(_arcStart);
+        var rad = Math.Sqrt(radPt.X * radPt.X + radPt.Y * radPt.Y);
+        var radParam = new Parameter(rad);
+        var startAngle = Math.Atan2(_arcStart.Y - _arcCentre.Y, _arcStart.X - _arcCentre.X);
+        var endAngle = Math.Atan2(_currMouse.Y - _arcCentre.Y, _currMouse.X - _arcCentre.X);
+        var startAngleParam = new Parameter(startAngle);
+        var endAngleParam = new Parameter(endAngle);
+        var arc = new Arc(centre, radParam, startAngleParam, endAngleParam);
+        _tempArc = new ArcDrawer(arc);
         _drawables.Add(_tempArc);
       }
     }
@@ -205,6 +236,7 @@ public partial class Index
     if (_appMode == ApplicationMode.Draw && _drawEnt == DrawableEntity.Line)
     {
       _drawables.Remove(_tempLine);
+      _tempLine = null;
 
       var startPt = _lineStart.ToModel();
       var endPt = new Model.Point(e.ClientX - CanvasPos.X, e.ClientY - CanvasPos.Y);
@@ -218,11 +250,21 @@ public partial class Index
     // drawing arc
     if (_appMode == ApplicationMode.Draw && _drawEnt == DrawableEntity.Arc)
     {
-      _drawables.Remove(_tempArc);
+      // sequence is CentrePt --> StartPt --> EndPt
+      if (_arcCentre != Point.Empty &&
+          _arcStart != Point.Empty &&
+          _tempArc is not null)
+      {
+        // TODO   create Arc
+        _drawables.Remove(_tempLine);
+        _drawables.Remove(_tempArc);
+        _tempLine = null;
+        _tempArc = null;
 
-      // TODO   finish arc
-      _arcCentre = Point.Empty;
-      _arcStart = Point.Empty;
+        // TODO   finish arc
+        _arcCentre = Point.Empty;
+        _arcStart = Point.Empty;
+      }
     }
 
     _cursorStyle = DefaultCursor;
