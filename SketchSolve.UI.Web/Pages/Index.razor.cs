@@ -160,7 +160,7 @@ public partial class Index
         var startAngleParam = new Parameter(startAngle);
         var endAngleParam = new Parameter(endAngle);
         var arc = new Arc(centre, radParam, startAngleParam, endAngleParam);
-        var arcDraw = new ArcDrawer(arc);
+        var arcDraw = new UpdatableArcDrawer(arc);
         _drawables.Add(arcDraw);
 
         // reset arc creation

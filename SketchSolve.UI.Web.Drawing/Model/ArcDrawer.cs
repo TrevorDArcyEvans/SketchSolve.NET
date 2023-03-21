@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 using Excubo.Blazor.Canvas.Contexts;
 using SketchSolve.Model;
 
-public sealed class ArcDrawer : EntityDrawer
+public class ArcDrawer : EntityDrawer
 {
   public Arc Arc { get; }
-  private StartPointDrawer Start { get; }
-  private CentrePointDrawer Centre { get; }
-  private EndPointDrawer End { get; }
+  protected StartPointDrawer Start { get; }
+  protected CentrePointDrawer Centre { get; }
+  protected EndPointDrawer End { get; }
 
   public override IEnumerable<PointDrawer> SelectionPoints => new PointDrawer[] {Start, Centre, End};
 
@@ -29,6 +29,8 @@ public sealed class ArcDrawer : EntityDrawer
     var endVec = new Vector(Math.Cos(Arc.EndAngle.Value), Math.Sin(Arc.EndAngle.Value));
     var endPt = Arc.Center + Arc.Rad.Value * endVec;
 
+    // NOTE:  Start+End are now disconnected from the underlying Arc
+    //          ie changes to Start+End will not affect underlying Arc
     Start = new StartPointDrawer(startPt);
     Centre = new CentrePointDrawer(Arc.Center);
     End = new EndPointDrawer(endPt);
