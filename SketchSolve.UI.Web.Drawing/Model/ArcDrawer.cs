@@ -22,11 +22,13 @@ public sealed class ArcDrawer : EntityDrawer
 
   public ArcDrawer(Arc arc)
   {
+    Arc = arc;
+
     var startVec = new Vector(Math.Cos(Arc.StartAngle.Value), Math.Sin(Arc.StartAngle.Value));
     var startPt = Arc.Center + Arc.Rad.Value * startVec;
     var endVec = new Vector(Math.Cos(Arc.EndAngle.Value), Math.Sin(Arc.EndAngle.Value));
     var endPt = Arc.Center + Arc.Rad.Value * endVec;
-    Arc = arc;
+
     Start = new StartPointDrawer(startPt);
     Centre = new CentrePointDrawer(Arc.Center);
     End = new EndPointDrawer(endPt);
