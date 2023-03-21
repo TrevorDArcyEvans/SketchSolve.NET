@@ -23,7 +23,7 @@
         <MatRadioGroup @bind-Value="@_drawEnt" Items="@DrawableEntities">
           <ItemTemplate>
             <div>
-              <MatRadioButton Value="@context">@context.ToString()</MatRadioButton>
+              <MatRadioButton Value="@context" Disabled="@(_appMode == ApplicationMode.Select)">@context.ToString()</MatRadioButton>
             </div>
           </ItemTemplate>
         </MatRadioGroup>
