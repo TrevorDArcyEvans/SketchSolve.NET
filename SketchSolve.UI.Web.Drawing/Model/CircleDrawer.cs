@@ -57,6 +57,47 @@ public sealed class UpdatableCircleDrawer : CircleDrawer
 
   protected override async Task DrawAsyncInternal(Batch2D batch)
   {
+    const double Tolerance = 1e-5;
+    var nVec = North.Point - Circle.Center;
+    var sVec = South.Point - Circle.Center;
+    var eVec = East.Point - Circle.Center;
+    var wVec = West.Point - Circle.Center;
+
+    // if Center has moved, then *all* of NSEW will be inside/outside a Rad from Center
+    if (!(Math.Abs(Circle.Rad.Value - nVec.Length) > Tolerance) ||
+        !(Math.Abs(Circle.Rad.Value - sVec.Length) > Tolerance) ||
+        !(Math.Abs(Circle.Rad.Value - eVec.Length) > Tolerance) ||
+        !(Math.Abs(Circle.Rad.Value - wVec.Length) > Tolerance))
+    {
+      // update Rad based on new NSEW
+      if (Math.Abs(Circle.Rad.Value - nVec.Length) > Tolerance)
+      {
+        Circle.Rad.Value = nVec.Length;
+      }
+      else if (Math.Abs(Circle.Rad.Value - sVec.Length) > Tolerance)
+      {
+        Circle.Rad.Value = sVec.Length;
+      }
+      else if (Math.Abs(Circle.Rad.Value - eVec.Length) > Tolerance)
+      {
+        Circle.Rad.Value = eVec.Length;
+      }
+      else if (Math.Abs(Circle.Rad.Value - wVec.Length) > Tolerance)
+      {
+        Circle.Rad.Value = wVec.Length;
+      }
+    }
+
+    // update NSEW to sit on Circle
+    North.Point.X.Value = Circle.Center.X.Value;
+    North.Point.Y.Value = Circle.Center.Y.Value + Circle.Rad.Value;
+    South.Point.X.Value = Circle.Center.X.Value;
+    South.Point.Y.Value = Circle.Center.Y.Value - Circle.Rad.Value;
+    East.Point.X.Value = Circle.Center.X.Value + Circle.Rad.Value;
+    East.Point.Y.Value = Circle.Center.Y.Value;
+    West.Point.X.Value = Circle.Center.X.Value - Circle.Rad.Value;
+    West.Point.Y.Value = Circle.Center.Y.Value;
+
     await North.DrawAsync(batch);
     await South.DrawAsync(batch);
     await East.DrawAsync(batch);
