@@ -388,6 +388,11 @@ public partial class Index
     }
   }
 
+  private void OnClearAll()
+  {
+    _constraints.Clear();
+  }
+  
   private void OnSolve()
   {
     var error = Solver.Solver.Solve(constraints: _constraints.ToArray());
