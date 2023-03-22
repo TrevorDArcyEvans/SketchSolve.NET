@@ -342,6 +342,18 @@ public partial class Index
     _cursorStyle = DefaultCursor;
   }
 
+  private void OnDelete()
+  {
+    var selected = _drawables
+      .Where(draw => draw.IsSelected)
+      .ToList();
+
+    foreach (var draw in selected)
+    {
+      _drawables.Remove(draw);
+    }
+  }
+
   private class PointD
   {
     public double X { get; set; }
