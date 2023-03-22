@@ -7,9 +7,9 @@ using SketchSolve.Model;
 
 public static class Solver
 {
-  public static double Solve(double maxError = 1e5, params BaseConstraint[] cons)
+  public static double Solve(double maxError = 1e5, params BaseConstraint[] constraints)
   {
-    return Solve(maxError, (IEnumerable<BaseConstraint>)cons);
+    return Solve(maxError, (IEnumerable<BaseConstraint>)constraints);
   }
 
   private static Func<double[], double[]> Grad(int n, Func<double[], double> fn)
