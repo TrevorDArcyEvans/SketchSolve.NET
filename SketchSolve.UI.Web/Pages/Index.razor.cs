@@ -10,6 +10,7 @@ using Excubo.Blazor.Canvas.Contexts;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
+using SketchSolve.Constraint;
 using SketchSolve.Model;
 using SketchSolve.UI.Web.Drawing;
 using SketchSolve.UI.Web.Drawing.Model;
@@ -61,6 +62,9 @@ public partial class Index
 
   private ApplicationMode _appMode = ApplicationMode.Select;
   private DrawableEntity _drawEnt;
+
+  private ConstraintType _selConstraintType; // = ConstraintType.Fixed;
+  private readonly List<BaseConstraint> _constraints = new();
 
   private string _cursorStyle = DefaultCursor;
 
@@ -352,6 +356,41 @@ public partial class Index
     {
       _drawables.Remove(draw);
     }
+
+    _constraints.Clear();
+  }
+
+  private void OnApply()
+  {
+    switch (_selConstraintType)
+    {
+      case ConstraintType.Free:
+      case ConstraintType.Fixed:
+        var isFree = _selConstraintType == ConstraintType.Free;
+        _drawables
+          .SelectMany(draw => draw.SelectionPoints)
+          .Where(pt => pt.IsSelected)
+          .ToList()
+          .ForEach(pt => pt.Point.X.Free = pt.Point.Y.Free = isFree);
+        break;
+
+      case ConstraintType.Vertical:
+      case ConstraintType.Horizontal:
+        var constraints = _drawables
+          .OfType<LineDrawer>()
+          .Where(ine => ine.IsSelected)
+          .Select(line => _selConstraintType == ConstraintType.Vertical ? line.Line.IsVertical() : line.Line.IsHorizontal());
+        _constraints.AddRange(constraints);
+        break;
+
+      default:
+        throw new ArgumentOutOfRangeException();
+    }
+  }
+
+  private void OnSolve()
+  {
+    var error = Solver.Solver.Solve(constraints: _constraints.ToArray());
   }
 
   private class PointD
