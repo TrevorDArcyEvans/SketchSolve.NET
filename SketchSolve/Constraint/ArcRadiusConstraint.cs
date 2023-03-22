@@ -4,27 +4,27 @@ using SketchSolve.Model;
 
 public sealed class ArcRadiusConstraint : BaseConstraint
 {
-  private readonly Arc _arc1;
-  private readonly Parameter _parameter;
+  public readonly Arc Arc;
+  public readonly Parameter Radius;
 
-  public ArcRadiusConstraint(Arc arc1, Parameter parameter)
+  public ArcRadiusConstraint(Arc arc, Parameter radius)
   {
-    _arc1 = arc1;
-    _parameter = parameter;
+    Arc = arc;
+    Radius = radius;
   }
 
   public override double CalculateError()
   {
-    var a1CenterX = _arc1.Center.X.Value;
-    var a1CenterY = _arc1.Center.Y.Value;
-    var a1Radius = _arc1.Rad.Value;
-    var a1EndA = _arc1.EndAngle.Value;
+    var a1CenterX = Arc.Center.X.Value;
+    var a1CenterY = Arc.Center.Y.Value;
+    var a1Radius = Arc.Rad.Value;
+    var a1EndA = Arc.EndAngle.Value;
     var a1EndX = a1CenterX + a1Radius * Math.Cos(a1EndA);
     var a1EndY = a1CenterY + a1Radius * Math.Sin(a1EndA);
-    var a1StartA = _arc1.StartAngle.Value;
+    var a1StartA = Arc.StartAngle.Value;
     var a1StartY = a1CenterY + a1Radius * Math.Sin(a1StartA);
     var a1StartX = a1CenterX + a1Radius * Math.Cos(a1StartA);
-    var radius = _parameter.Value;
+    var radius = Radius.Value;
     var rad1 = Hypot(a1CenterX - a1StartX, a1CenterY - a1StartY);
     var rad2 = Hypot(a1CenterX - a1EndX, a1CenterY - a1EndY);
     var temp = rad1 - radius;
@@ -35,8 +35,8 @@ public sealed class ArcRadiusConstraint : BaseConstraint
   {
     return new List<IEnumerable<Parameter>>
     {
-      _arc1,
-      new[] {_parameter}
+      Arc,
+      new[] {Radius}
     };
   }
 }

@@ -4,32 +4,32 @@ using SketchSolve.Model;
 
 public sealed class P2LDistanceConstraint : BaseConstraint
 {
-  private readonly Point _point1;
-  private readonly Line _line1;
-  private readonly Parameter _parameter;
+  public readonly Point Point;
+  public readonly Line Line;
+  public readonly Parameter Distance;
 
-  public P2LDistanceConstraint(Point point1, Line line1, Parameter parameter)
+  public P2LDistanceConstraint(Point point, Line line, Parameter distance)
   {
-    _point1 = point1;
-    _line1 = line1;
-    _parameter = parameter;
+    Point = point;
+    Line = line;
+    Distance = distance;
   }
 
   public override double CalculateError()
   {
-    var l1P1X = _line1.P1.X.Value;
-    var l1P1Y = _line1.P1.Y.Value;
-    var l1P2X = _line1.P2.X.Value;
-    var l1P2Y = _line1.P2.Y.Value;
+    var l1P1X = Line.P1.X.Value;
+    var l1P1Y = Line.P1.Y.Value;
+    var l1P2X = Line.P2.X.Value;
+    var l1P2Y = Line.P2.Y.Value;
     var dx = l1P2X - l1P1X;
     var dy = l1P2Y - l1P1Y;
 
-    var p1X = _point1.X.Value;
-    var p1Y = _point1.Y.Value;
+    var p1X = Point.X.Value;
+    var p1Y = Point.Y.Value;
     var t = -(l1P1X * dx - p1X * dx + l1P1Y * dy - p1Y * dy) / (dx * dx + dy * dy);
     var xint = l1P1X + dx * t;
     var yint = l1P1Y + dy * t;
-    var distance = _parameter.Value;
+    var distance = Distance.Value;
     var temp = Hypot(p1X - xint, p1Y - yint) - distance;
     return temp * temp / 10;
   }
@@ -38,9 +38,9 @@ public sealed class P2LDistanceConstraint : BaseConstraint
   {
     return new List<IEnumerable<Parameter>>
     {
-      _point1,
-      _line1,
-      new[] {_parameter}
+      Point,
+      Line,
+      new[] {Distance}
     };
   }
 }

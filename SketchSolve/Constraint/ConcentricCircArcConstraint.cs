@@ -4,21 +4,21 @@ using SketchSolve.Model;
 
 public sealed class ConcentricCircArcConstraint : BaseConstraint
 {
-  private readonly Circle _circle1;
-  private readonly Arc _arc1;
+  public readonly Circle Circle;
+  public readonly Arc Arc;
 
-  public ConcentricCircArcConstraint(Circle circle1, Arc arc1)
+  public ConcentricCircArcConstraint(Circle circle, Arc arc)
   {
-    _circle1 = circle1;
-    _arc1 = arc1;
+    Circle = circle;
+    Arc = arc;
   }
 
   public override double CalculateError()
   {
-    var a1CenterX = _arc1.Center.X.Value;
-    var a1CenterY = _arc1.Center.Y.Value;
-    var c1CenterX = _circle1.Center.X.Value;
-    var c1CenterY = _circle1.Center.Y.Value;
+    var a1CenterX = Arc.Center.X.Value;
+    var a1CenterY = Arc.Center.Y.Value;
+    var c1CenterX = Circle.Center.X.Value;
+    var c1CenterY = Circle.Center.Y.Value;
     var temp = Hypot(a1CenterX - c1CenterX, a1CenterY - c1CenterY);
     return temp * temp;
   }
@@ -27,8 +27,8 @@ public sealed class ConcentricCircArcConstraint : BaseConstraint
   {
     return new List<IEnumerable<Parameter>>
     {
-      _circle1,
-      _arc1
+      Circle,
+      Arc
     };
   }
 }

@@ -4,19 +4,19 @@ using SketchSolve.Model;
 
 public sealed class CircleRadiusConstraint : BaseConstraint
 {
-  private readonly Circle _circle1;
-  private readonly Parameter _parameter;
+  public readonly Circle Circle;
+  public readonly Parameter Radius;
 
-  public CircleRadiusConstraint(Circle circle1, Parameter parameter)
+  public CircleRadiusConstraint(Circle circle, Parameter radius)
   {
-    _circle1 = circle1;
-    _parameter = parameter;
+    Circle = circle;
+    Radius = radius;
   }
 
   public override double CalculateError()
   {
-    var c1Rad = _circle1.Rad.Value;
-    var radius = _parameter.Value;
+    var c1Rad = Circle.Rad.Value;
+    var radius = Radius.Value;
     return (c1Rad - radius) * (c1Rad - radius);
   }
 
@@ -24,8 +24,8 @@ public sealed class CircleRadiusConstraint : BaseConstraint
   {
     return new List<IEnumerable<Parameter>>
     {
-      _circle1,
-      new[] {_parameter}
+      Circle,
+      new[] {Radius}
     };
   }
 }

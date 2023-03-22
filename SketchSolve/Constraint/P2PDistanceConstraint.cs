@@ -4,24 +4,24 @@ using SketchSolve.Model;
 
 public sealed class P2PDistanceConstraint : BaseConstraint
 {
-  private readonly Point _point1;
-  private readonly Point _point2;
-  private readonly Parameter _parameter;
+  public readonly Point Point1;
+  public readonly Point Point2;
+  public readonly Parameter Distance;
 
-  public P2PDistanceConstraint(Point point1, Point point2, Parameter parameter)
+  public P2PDistanceConstraint(Point point1, Point point2, Parameter distance)
   {
-    _point1 = point1;
-    _point2 = point2;
-    _parameter = parameter;
+    Point1 = point1;
+    Point2 = point2;
+    Distance = distance;
   }
 
   public override double CalculateError()
   {
-    var p1X = _point1.X.Value;
-    var p1Y = _point1.Y.Value;
-    var p2X = _point2.X.Value;
-    var p2Y = _point2.Y.Value;
-    var distance = _parameter.Value;
+    var p1X = Point1.X.Value;
+    var p1Y = Point1.Y.Value;
+    var p2X = Point2.X.Value;
+    var p2Y = Point2.Y.Value;
+    var distance = Distance.Value;
     return (p1X - p2X) * (p1X - p2X) + (p1Y - p2Y) * (p1Y - p2Y) - distance * distance;
   }
 
@@ -29,9 +29,9 @@ public sealed class P2PDistanceConstraint : BaseConstraint
   {
     return new List<IEnumerable<Parameter>>
     {
-      _point1,
-      _point2,
-      new[] {_parameter}
+      Point1,
+      Point2,
+      new[] {Distance}
     };
   }
 }

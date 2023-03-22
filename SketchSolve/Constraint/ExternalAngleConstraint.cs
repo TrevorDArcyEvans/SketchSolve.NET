@@ -4,21 +4,21 @@ using SketchSolve.Model;
 
 public sealed class ExternalAngleConstraint : BaseConstraint
 {
-  private readonly Line _line1;
-  private readonly Line _line2;
-  private readonly Parameter _parameter;
+  public readonly Line Line1;
+  public readonly Line Line2;
+  public readonly Parameter Angle;
 
-  public ExternalAngleConstraint(Line line1, Line line2, Parameter parameter)
+  public ExternalAngleConstraint(Line line1, Line line2, Parameter angle)
   {
-    _line1 = line1;
-    _line2 = line2;
-    _parameter = parameter;
+    Line1 = line1;
+    Line2 = line2;
+    Angle = angle;
   }
 
   public override double CalculateError()
   {
-    var angleP = _parameter.Value;
-    var temp = _line1.Vector.Cosine(_line2.Vector);
+    var angleP = Angle.Value;
+    var temp = Line1.Vector.Cosine(Line2.Vector);
     var temp2 = Math.Cos(Math.PI - angleP);
     return (temp - temp2) * (temp - temp2);
   }
@@ -27,9 +27,9 @@ public sealed class ExternalAngleConstraint : BaseConstraint
   {
     return new List<IEnumerable<Parameter>>
     {
-      _line1,
-      _line2,
-      new[] {_parameter}
+      Line1,
+      Line2,
+      new[] {Angle}
     };
   }
 }

@@ -4,13 +4,13 @@ using SketchSolve.Model;
 
 public sealed class TangentToArcConstraint : BaseConstraint
 {
-  private readonly Line _line1;
-  private readonly Arc _arc1;
+  public readonly Line Line;
+  public readonly Arc Arc;
 
-  public TangentToArcConstraint(Line line1, Arc arc1)
+  public TangentToArcConstraint(Line line, Arc arc)
   {
-    _line1 = line1;
-    _arc1 = arc1;
+    Line = line;
+    Arc = arc;
   }
 
   public override double CalculateError()
@@ -41,17 +41,17 @@ public sealed class TangentToArcConstraint : BaseConstraint
     error += temp*temp*100;
     */
 
-    var l1P1X = _line1.P1.X.Value;
-    var l1P1Y = _line1.P1.Y.Value;
-    var l1P2X = _line1.P2.X.Value;
-    var l1P2Y = _line1.P2.Y.Value;
+    var l1P1X = Line.P1.X.Value;
+    var l1P1Y = Line.P1.Y.Value;
+    var l1P2X = Line.P2.X.Value;
+    var l1P2Y = Line.P2.Y.Value;
     var dx = l1P2X - l1P1X;
     var dy = l1P2Y - l1P1Y;
 
-    var a1CenterX = _arc1.Center.X.Value;
-    var a1CenterY = _arc1.Center.Y.Value;
-    var a1Radius = _arc1.Rad.Value;
-    var a1StartA = _arc1.StartAngle.Value;
+    var a1CenterX = Arc.Center.X.Value;
+    var a1CenterY = Arc.Center.Y.Value;
+    var a1Radius = Arc.Rad.Value;
+    var a1StartA = Arc.StartAngle.Value;
     var a1StartY = a1CenterY + a1Radius * Math.Sin(a1StartA);
     var a1StartX = a1CenterX + a1Radius * Math.Cos(a1StartA);
     var radsq = (a1CenterX - a1StartX) * (a1CenterX - a1StartX) + (a1CenterY - a1StartY) * (a1CenterY - a1StartY);
@@ -66,8 +66,8 @@ public sealed class TangentToArcConstraint : BaseConstraint
   {
     return new List<IEnumerable<Parameter>>
     {
-      _line1,
-      _arc1
+      Line,
+      Arc
     };
   }
 }

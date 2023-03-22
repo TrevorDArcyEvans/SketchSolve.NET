@@ -4,18 +4,18 @@ using SketchSolve.Model;
 
 public sealed class PerpendicularConstraint : BaseConstraint
 {
-  private readonly Line _line1;
-  private readonly Line _line2;
+  public readonly Line Line1;
+  public readonly Line Line2;
 
   public PerpendicularConstraint(Line line1, Line line2)
   {
-    _line1 = line1;
-    _line2 = line2;
+    Line1 = line1;
+    Line2 = line2;
   }
 
   public override double CalculateError()
   {
-    var temp = _line1.Vector.Dot(_line2.Vector);
+    var temp = Line1.Vector.Dot(Line2.Vector);
     return temp * temp;
   }
 
@@ -23,8 +23,8 @@ public sealed class PerpendicularConstraint : BaseConstraint
   {
     return new List<IEnumerable<Parameter>>
     {
-      _line1,
-      _line2
+      Line1,
+      Line2
     };
   }
 }

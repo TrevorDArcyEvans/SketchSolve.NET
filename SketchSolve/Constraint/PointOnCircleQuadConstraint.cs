@@ -4,25 +4,25 @@ using SketchSolve.Model;
 
 public sealed class PointOnCircleQuadConstraint : BaseConstraint
 {
-  private readonly Point _point1;
-  private readonly Circle _circle1;
-  private readonly Parameter _parameter;
+  public readonly Point Point1;
+  public readonly Circle Circle1;
+  public readonly Parameter QuadIndex;
 
-  public PointOnCircleQuadConstraint(Point point1, Circle circle1, Parameter parameter)
+  public PointOnCircleQuadConstraint(Point point1, Circle circle1, Parameter quadIndex)
   {
-    _point1 = point1;
-    _circle1 = circle1;
-    _parameter = parameter;
+    Point1 = point1;
+    Circle1 = circle1;
+    QuadIndex = quadIndex;
   }
 
   public override double CalculateError()
   {
-    var c1CenterX = _circle1.Center.X.Value;
-    var c1CenterY = _circle1.Center.Y.Value;
+    var c1CenterX = Circle1.Center.X.Value;
+    var c1CenterY = Circle1.Center.Y.Value;
     var ex = c1CenterX;
     var ey = c1CenterY;
-    var c1Rad = _circle1.Rad.Value;
-    var quadIndex = _parameter.Value;
+    var c1Rad = Circle1.Rad.Value;
+    var quadIndex = QuadIndex.Value;
     switch ((int) quadIndex)
     {
       case 0:
@@ -39,8 +39,8 @@ public sealed class PointOnCircleQuadConstraint : BaseConstraint
         break;
     }
 
-    var p1X = _point1.X.Value;
-    var p1Y = _point1.Y.Value;
+    var p1X = Point1.X.Value;
+    var p1Y = Point1.Y.Value;
     var tempX = ex - p1X;
     var tempY = ey - p1Y;
     return tempX * tempX + tempY * tempY;
@@ -50,9 +50,9 @@ public sealed class PointOnCircleQuadConstraint : BaseConstraint
   {
     return new List<IEnumerable<Parameter>>
     {
-      _point1,
-      _circle1,
-      new[] {_parameter}
+      Point1,
+      Circle1,
+      new[] {QuadIndex}
     };
   }
 }

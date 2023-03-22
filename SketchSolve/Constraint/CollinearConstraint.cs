@@ -4,23 +4,23 @@ using SketchSolve.Model;
 
 public sealed class CollinearConstraint : BaseConstraint
 {
-  private readonly Line _line1;
-  private readonly Line _line2;
+  public readonly Line Line1;
+  public readonly Line Line2;
 
   public CollinearConstraint(Line line1, Line line2)
   {
-    _line1 = line1;
-    _line2 = line2;
+    Line1 = line1;
+    Line2 = line2;
   }
 
   public override double CalculateError()
   {
     var error = 0d;
 
-    var l1P1X = _line1.P1.X.Value;
-    var l1P1Y = _line1.P1.Y.Value;
-    var l1P2X = _line1.P2.X.Value;
-    var l1P2Y = _line1.P2.Y.Value;
+    var l1P1X = Line1.P1.X.Value;
+    var l1P1Y = Line1.P1.Y.Value;
+    var l1P2X = Line1.P2.X.Value;
+    var l1P2Y = Line1.P2.Y.Value;
     var dx = l1P2X - l1P1X;
     var dy = l1P2Y - l1P1Y;
 
@@ -32,10 +32,10 @@ public sealed class CollinearConstraint : BaseConstraint
     if (m <= 1 && m > -1)
     {
       //Calculate the expected y point given the x coordinate of the point
-      var l2P1X = _line2.P1.X.Value;
-      var l2P1Y = _line2.P1.Y.Value;
-      var l2P2X = _line2.P2.X.Value;
-      var l2P2Y = _line2.P2.Y.Value;
+      var l2P1X = Line2.P1.X.Value;
+      var l2P1Y = Line2.P1.Y.Value;
+      var l2P2X = Line2.P2.X.Value;
+      var l2P2Y = Line2.P2.Y.Value;
       var ey = l1P1Y + m * (l2P1X - l1P1X);
       error += (ey - l2P1Y) * (ey - l2P1Y);
 
@@ -45,10 +45,10 @@ public sealed class CollinearConstraint : BaseConstraint
     else
     {
       //Calculate the expected x point given the y coordinate of the point
-      var l2P1X = _line2.P1.X.Value;
-      var l2P1Y = _line2.P1.Y.Value;
-      var l2P2X = _line2.P2.X.Value;
-      var l2P2Y = _line2.P2.Y.Value;
+      var l2P1X = Line2.P1.X.Value;
+      var l2P1Y = Line2.P1.Y.Value;
+      var l2P2X = Line2.P2.X.Value;
+      var l2P2Y = Line2.P2.Y.Value;
       var ex = l1P1X + n * (l2P1Y - l1P1Y);
       error += (ex - l2P1X) * (ex - l2P1X);
 
@@ -63,8 +63,8 @@ public sealed class CollinearConstraint : BaseConstraint
   {
     return new List<IEnumerable<Parameter>>
     {
-      _line1,
-      _line2
+      Line1,
+      Line2
     };
   }
 }

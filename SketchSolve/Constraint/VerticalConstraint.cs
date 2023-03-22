@@ -4,17 +4,17 @@ using SketchSolve.Model;
 
 public sealed class VerticalConstraint : BaseConstraint
 {
-  private readonly Line _line1;
+  public readonly Line Line;
 
-  public VerticalConstraint(Line line1)
+  public VerticalConstraint(Line line)
   {
-    _line1 = line1;
+    Line = line;
   }
 
   public override double CalculateError()
   {
-    var l1P1X = _line1.P1.X.Value;
-    var l1P2X = _line1.P2.X.Value;
+    var l1P1X = Line.P1.X.Value;
+    var l1P2X = Line.P2.X.Value;
     var odx = l1P2X - l1P1X;
     return odx * odx;
   }
@@ -23,7 +23,7 @@ public sealed class VerticalConstraint : BaseConstraint
   {
     return new List<IEnumerable<Parameter>>
     {
-      _line1
+      Line
     };
   }
 }

@@ -4,22 +4,22 @@ using SketchSolve.Model;
 
 public sealed class LineLengthConstraint : BaseConstraint
 {
-  private readonly Line _line1;
-  private readonly Parameter _parameter;
+  public readonly Line Line;
+  public readonly Parameter Length;
 
-  public LineLengthConstraint(Line line1, Parameter parameter)
+  public LineLengthConstraint(Line line, Parameter length)
   {
-    _line1 = line1;
-    _parameter = parameter;
+    Line = line;
+    Length = length;
   }
 
   public override double CalculateError()
   {
-    var l1P1X = _line1.P1.X.Value;
-    var l1P1Y = _line1.P1.Y.Value;
-    var l1P2X = _line1.P2.X.Value;
-    var l1P2Y = _line1.P2.Y.Value;
-    var temp = Math.Sqrt(Math.Pow(l1P2X - l1P1X, 2) + Math.Pow(l1P2Y - l1P1Y, 2)) - _parameter.Value;
+    var l1P1X = Line.P1.X.Value;
+    var l1P1Y = Line.P1.Y.Value;
+    var l1P2X = Line.P2.X.Value;
+    var l1P2Y = Line.P2.Y.Value;
+    var temp = Math.Sqrt(Math.Pow(l1P2X - l1P1X, 2) + Math.Pow(l1P2Y - l1P1Y, 2)) - Length.Value;
     return temp * temp * 100;
   }
 
@@ -27,8 +27,8 @@ public sealed class LineLengthConstraint : BaseConstraint
   {
     return new List<IEnumerable<Parameter>>
     {
-      _line1,
-      new[] {_parameter}
+      Line,
+      new[] {Length}
     };
   }
 }
