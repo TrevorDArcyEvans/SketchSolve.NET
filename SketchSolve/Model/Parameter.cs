@@ -7,7 +7,7 @@ public sealed class Parameter
   public readonly double Min = -1000;
 
   // true if the parameter is free to be adjusted by the solver
-  public readonly bool Free;
+  public bool Free;
 
   public Parameter(double v, bool free = true)
   {
