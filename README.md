@@ -98,6 +98,16 @@ solver with the solution gradient computed by a
 [FiniteDifferences](http://accord-framework.net/docs/html/Overload_Accord_Math_Differentiation_FiniteDifferences_Gradient.htm)
 method.
 
+### Advantages
+* easy to add new constraints
+* relatively easy implementation
+* techniques for multi-dimension constrained optimisation well know
+
+### Disadvantages
+* cannot detect over/under/ill constrained systems
+* can only return one solution
+* numerical instability aka ill conditioning (see below)
+
 ### Ill conditioning
 Some of the unit tests are [ill conditioned](https://en.wikipedia.org/wiki/Condition_number) in that a
 very small change to the starting position will result in finding an 'acceptable' solution rather than not.
