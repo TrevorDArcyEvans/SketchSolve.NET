@@ -85,8 +85,11 @@
               <MatExpansionPanelSummary>
                 <MatExpansionPanelHeader>Points</MatExpansionPanelHeader>
               </MatExpansionPanelSummary>
-              <MatExpansionPanelDetails>
-                <p>TODO POINT CONSTRAINTS</p>
+              <MatExpansionPanelDetails Style="@(_canShowPointConstraints ? "" : "visibility: hidden")">
+                <MatCheckbox
+                  @bind-Value="@_isPtFixed"
+                  Label="Fixed"
+                  Disabled="true"/>
               </MatExpansionPanelDetails>
             </MatExpansionPanel>
 
@@ -94,7 +97,7 @@
               <MatExpansionPanelSummary>
                 <MatExpansionPanelHeader>Entity</MatExpansionPanelHeader>
               </MatExpansionPanelSummary>
-              <MatExpansionPanelDetails>
+              <MatExpansionPanelDetails Style="@(_canShowEntityConstraints ? "" : "visibility: hidden")">
                 <p>TODO ENTITY CONSTRAINTS</p>
               </MatExpansionPanelDetails>
             </MatExpansionPanel>
@@ -104,10 +107,6 @@
     </tr>
     </tbody>
   </table>
-  <div class="mat-layout-grid-inner">
-
-
-  </div>
 
   <div>
     <img id="@CoincidentImageElementName" src="constraints/coincident.png" style="display: none;">

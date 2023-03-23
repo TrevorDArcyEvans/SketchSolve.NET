@@ -70,6 +70,10 @@ public partial class Index
 
   private readonly List<IDrawable> _drawables = new();
 
+  private bool _canShowPointConstraints;
+  private bool _canShowEntityConstraints;
+  private bool _isPtFixed;
+
   protected override async Task OnAfterRenderAsync(bool firstRender)
   {
     if (firstRender)
@@ -108,29 +112,31 @@ public partial class Index
     if (_appMode == ApplicationMode.Select)
     {
       // get points under mouse
-      var selPts = _drawables
+      var selPtsNearMouse = _drawables
         .SelectMany(draw => draw.SelectionPoints)
         .Where(pt => pt.Point.IsNear(_currMouse))
         .ToList();
-      if (selPts.Any())
+      if (selPtsNearMouse.Any())
       {
-        // add points under mouse to current selection
-        selPts.ForEach(pt => pt.IsSelected = true);
+        // add points under mouse to current selections
+        selPtsNearMouse.ForEach(pt => pt.IsSelected = true);
       }
 
+
       // only select entities under mouse which do not have any points selected
-      var selDraw = _drawables
+      var selDrawsNearMouse = _drawables
         .Where(draw => !draw.SelectionPoints.Any(pt => pt.IsSelected))
         .Where(draw => draw.IsNear(_currMouse))
         .ToList();
-      if (selDraw.Any())
+      if (selDrawsNearMouse.Any())
       {
-        // add entities under mouse to current selection
-        selDraw.ForEach(draw => draw.IsSelected = true);
+        // add entities under mouse to current selections
+        selDrawsNearMouse.ForEach(draw => draw.IsSelected = true);
       }
 
+
       // nothing under mouse, so clear all selections
-      if (!selPts.Any() && !selDraw.Any())
+      if (!selPtsNearMouse.Any() && !selDrawsNearMouse.Any())
       {
         _drawables
           .SelectMany(draw => draw.SelectionPoints)
@@ -140,7 +146,35 @@ public partial class Index
           .ToList()
           .ForEach(draw => draw.IsSelected = false);
       }
+
+
+      // update point constraints which depends on selection
+      var selPts = _drawables
+        .SelectMany(draw => draw.SelectionPoints)
+        .Where(pt => pt.IsSelected)
+        .ToList();
+      if (selPts.Count == 1)
+      {
+        var selPt = selPts.Single();
+        _isPtFixed = !selPt.Point.X.Free && !selPt.Point.X.Free;
+      }
+
+      _canShowPointConstraints = selPts.Count == 1;
+
+
+      // update entity constraints which depends on selection
+      var selDraws = _drawables
+        .Where(draw => draw.IsSelected)
+        .ToList();
+      if (selDraws.Count == 1)
+      {
+        // TODO   get entity constraints
+        var selDraw = selDraws.Single();
+      }
+
+      _canShowEntityConstraints = selDraws.Count == 1;
     }
+
 
     // drawing line
     // MouseDown[StartPt] --> drag [update preview] --> MouseUp[EndPt]
@@ -156,6 +190,7 @@ public partial class Index
       };
       _drawables.Add(_tempLine);
     }
+
 
     // drawing arc
     // MouseDown[CentrePt] --> drag [update line preview] --> MouseUp[StartPt] --> move [update arc preview] --> MouseDown[EndPt]
@@ -203,6 +238,7 @@ public partial class Index
         _appMode = ApplicationMode.Select;
       }
     }
+
 
     // drawing circle
     // MouseDown[CentrePt] --> drag [update preview] --> MouseUp[Radius]
