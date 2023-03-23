@@ -107,17 +107,39 @@ public partial class Index
 
     if (_appMode == ApplicationMode.Select)
     {
-      // select points under mouse
-      _drawables
+      // get points under mouse
+      var selPts = _drawables
         .SelectMany(draw => draw.SelectionPoints)
-        .ToList()
-        .ForEach(pt => pt.IsSelected = pt.Point.IsNear(_currMouse));
+        .Where(pt => pt.Point.IsNear(_currMouse))
+        .ToList();
+      if (selPts.Any())
+      {
+        // add points under mouse to current selection
+        selPts.ForEach(pt => pt.IsSelected = true);
+      }
 
       // only select entities under mouse which do not have any points selected
-      _drawables
+      var selDraw = _drawables
         .Where(draw => !draw.SelectionPoints.Any(pt => pt.IsSelected))
-        .ToList()
-        .ForEach(draw => draw.IsSelected = draw.IsNear(_currMouse));
+        .Where(draw => draw.IsNear(_currMouse))
+        .ToList();
+      if (selDraw.Any())
+      {
+        // add entities under mouse to current selection
+        selDraw.ForEach(draw => draw.IsSelected = true);
+      }
+
+      // nothing under mouse, so clear all selections
+      if (!selPts.Any() && !selDraw.Any())
+      {
+        _drawables
+          .SelectMany(draw => draw.SelectionPoints)
+          .ToList()
+          .ForEach(pt => pt.IsSelected = false);
+        _drawables
+          .ToList()
+          .ForEach(draw => draw.IsSelected = false);
+      }
     }
 
     // drawing line
@@ -392,7 +414,7 @@ public partial class Index
   {
     _constraints.Clear();
   }
-  
+
   private void OnSolve()
   {
     var error = Solver.Solver.Solve(constraints: _constraints.ToArray());
