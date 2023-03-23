@@ -53,15 +53,19 @@
       </div>
     </div>
 
-    <div @ref="_container" class="mat-layout-grid-cell">
+    <div @ref="_container" class="mat-layout-grid-cell-span-8" style="width:800px">
       <Canvas
         @onmousemove="MouseMoveCanvasAsync"
         @onmouseup="MouseUpCanvas"
         @onmousedown="MouseDownCanvas"
-        width="1000"
+        width="800"
         height="800"
         @ref="_canvas"
         style="border: 1px solid blue"/>
+    </div>
+
+    <div class="mat-layout-grid-cell-span-2">
+      Selected single entity + points OR single point constraint/s
     </div>
   </div>
 
