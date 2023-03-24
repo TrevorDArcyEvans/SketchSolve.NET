@@ -11,6 +11,7 @@ public interface IDrawable
   bool ShowPreview { get; set; }
   bool IsSelected { get; set; }
   IEnumerable<PointDrawer> SelectionPoints { get; }
+  object Entity { get; }
   bool IsNear(Point pt);
   Task DrawAsync(Batch2D batch);
 }

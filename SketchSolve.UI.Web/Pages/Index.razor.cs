@@ -71,8 +71,10 @@ public partial class Index
   private readonly List<IDrawable> _drawables = new();
 
   private bool _canShowPointConstraints;
-  private bool _canShowEntityConstraints;
   private bool _isPtFixed;
+  
+  private bool _canShowEntityConstraints;
+  private string _selConstraint = String.Empty;
 
   protected override async Task OnAfterRenderAsync(bool firstRender)
   {
@@ -168,8 +170,14 @@ public partial class Index
         .ToList();
       if (selDraws.Count == 1)
       {
-        // TODO   get entity constraints
-        var selDraw = selDraws.Single();
+        // get entity
+        var selDrawEnt = selDraws.Single().Entity;
+        
+        // get all constraints associate with this entity
+        var selDrawEntCons = _constraints
+          .Where(cons => cons.Items.Contains(selDrawEnt))
+          .Select(cons => cons.GetType().Name);
+        _selConstraint = string.Join(Environment.NewLine, selDrawEntCons);
       }
 
       _canShowEntityConstraints = selDraws.Count == 1;
