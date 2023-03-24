@@ -5,6 +5,7 @@ using SketchSolve.Model;
 public sealed class VerticalConstraint : BaseConstraint
 {
   public readonly Line Line;
+  public override IEnumerable<object> Items => new[] { Line };
 
   public VerticalConstraint(Line line)
   {

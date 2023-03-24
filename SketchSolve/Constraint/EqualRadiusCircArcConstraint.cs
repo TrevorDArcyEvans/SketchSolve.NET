@@ -6,6 +6,7 @@ public sealed class EqualRadiusCircArcConstraint : BaseConstraint
 {
   public readonly Circle Circle;
   public readonly Arc Arc;
+  public override IEnumerable<object> Items => new object[] { Circle, Arc };
 
   public EqualRadiusCircArcConstraint(Circle circle, Arc arc)
   {

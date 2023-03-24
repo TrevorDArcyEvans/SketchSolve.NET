@@ -5,6 +5,7 @@ using SketchSolve.Model;
 public sealed class ArcRulesConstraint : BaseConstraint
 {
   public readonly Arc Arc;
+  public override IEnumerable<object> Items => new[] { Arc };
 
   public ArcRulesConstraint(Arc arc)
   {

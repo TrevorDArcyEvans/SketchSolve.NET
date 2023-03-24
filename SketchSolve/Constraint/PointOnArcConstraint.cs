@@ -6,6 +6,7 @@ public sealed class PointOnArcConstraint : BaseConstraint
 {
   public readonly Point Point;
   public readonly Arc Arc;
+  public override IEnumerable<object> Items => new object[] { Point, Arc };
 
   public PointOnArcConstraint(Point point, Arc arc)
   {

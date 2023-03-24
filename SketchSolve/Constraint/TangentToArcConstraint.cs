@@ -6,6 +6,7 @@ public sealed class TangentToArcConstraint : BaseConstraint
 {
   public readonly Line Line;
   public readonly Arc Arc;
+  public override IEnumerable<object> Items => new object[] { Line, Arc };
 
   public TangentToArcConstraint(Line line, Arc arc)
   {

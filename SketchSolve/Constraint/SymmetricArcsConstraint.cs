@@ -7,6 +7,7 @@ public sealed class SymmetricArcsConstraint : BaseConstraint
   public readonly Line SymLine;
   public readonly Arc Arc1;
   public readonly Arc Arc2;
+  public override IEnumerable<object> Items => new object[] { SymLine, Arc1, Arc2 };
 
   public SymmetricArcsConstraint(Line symLine, Arc arc1, Arc arc2)
   {

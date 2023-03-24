@@ -6,6 +6,7 @@ public sealed class PointOnPointConstraint : BaseConstraint
 {
   public readonly Point Point1;
   public readonly Point Point2;
+  public override IEnumerable<object> Items => new[] { Point1, Point2 };
 
   public PointOnPointConstraint(Point point1, Point point2)
   {

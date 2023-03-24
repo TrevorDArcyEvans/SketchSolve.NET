@@ -6,6 +6,7 @@ public sealed class TangentToCircleConstraint : BaseConstraint
 {
   public readonly Line Line;
   public readonly Circle Circle;
+  public override IEnumerable<object> Items => new object[] { Line, Circle };
 
   public TangentToCircleConstraint(Line line, Circle circle)
   {

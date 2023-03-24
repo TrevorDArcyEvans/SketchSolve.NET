@@ -6,6 +6,7 @@ public sealed class PointOnLineConstraint : BaseConstraint
 {
   public readonly Point Point;
   public readonly Line Line;
+  public override IEnumerable<object> Items => new object[] { Point, Line };
 
   public PointOnLineConstraint(Point point, Line line)
   {

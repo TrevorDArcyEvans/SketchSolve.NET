@@ -6,6 +6,7 @@ public sealed class CollinearConstraint : BaseConstraint
 {
   public readonly Line Line1;
   public readonly Line Line2;
+  public override IEnumerable<object> Items => new[] { Line1, Line2 };
 
   public CollinearConstraint(Line line1, Line line2)
   {

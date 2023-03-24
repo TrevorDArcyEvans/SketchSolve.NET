@@ -6,6 +6,7 @@ public sealed class LineLengthConstraint : BaseConstraint
 {
   public readonly Line Line;
   public readonly Parameter Length;
+  public override IEnumerable<object> Items => new[] { Line };
 
   public LineLengthConstraint(Line line, Parameter length)
   {

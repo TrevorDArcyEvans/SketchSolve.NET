@@ -6,6 +6,7 @@ public sealed class PointOnCircleConstraint : BaseConstraint
 {
   public readonly Point Point;
   public readonly Circle Circle;
+  public override IEnumerable<object> Items => new object[] { Point, Circle };
 
   public PointOnCircleConstraint(Point point, Circle circle)
   {

@@ -6,6 +6,7 @@ public sealed class ArcRadiusConstraint : BaseConstraint
 {
   public readonly Arc Arc;
   public readonly Parameter Radius;
+  public override IEnumerable<object> Items => new[] { Arc };
 
   public ArcRadiusConstraint(Arc arc, Parameter radius)
   {

@@ -7,6 +7,7 @@ public sealed class ExternalAngleConstraint : BaseConstraint
   public readonly Line Line1;
   public readonly Line Line2;
   public readonly Parameter Angle;
+  public override IEnumerable<object> Items => new[] { Line1, Line2 };
 
   public ExternalAngleConstraint(Line line1, Line line2, Parameter angle)
   {

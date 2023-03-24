@@ -5,6 +5,7 @@ using SketchSolve.Model;
 public sealed class HorizontalConstraint : BaseConstraint
 {
   public readonly Line Line;
+  public override IEnumerable<object> Items => new[] { Line };
 
   public HorizontalConstraint(Line line)
   {

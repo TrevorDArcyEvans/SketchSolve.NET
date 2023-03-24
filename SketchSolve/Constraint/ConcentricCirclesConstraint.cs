@@ -6,6 +6,7 @@ public sealed class ConcentricCirclesConstraint : BaseConstraint
 {
   public readonly Circle Circle1;
   public readonly Circle Circle2;
+  public override IEnumerable<object> Items => new[] { Circle1, Circle2 };
 
   public ConcentricCirclesConstraint(Circle circle1, Circle circle2)
   {

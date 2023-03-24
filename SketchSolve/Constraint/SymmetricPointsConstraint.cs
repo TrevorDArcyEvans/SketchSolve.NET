@@ -7,6 +7,7 @@ public sealed class SymmetricPointsConstraint : BaseConstraint
   public readonly Point Point1;
   public readonly Point Point2;
   public readonly Line SymLine;
+  public override IEnumerable<object> Items => new object[] { Point1, Point2, SymLine };
 
   public SymmetricPointsConstraint(Point point1, Point point2, Line symLine)
   {

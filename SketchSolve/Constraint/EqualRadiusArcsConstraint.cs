@@ -6,6 +6,7 @@ public sealed class EqualRadiusArcsConstraint : BaseConstraint
 {
   public readonly Arc Arc1;
   public readonly Arc Arc2;
+  public override IEnumerable<object> Items => new[] { Arc1, Arc2 };
 
   public EqualRadiusArcsConstraint(Arc arc1, Arc arc2)
   {

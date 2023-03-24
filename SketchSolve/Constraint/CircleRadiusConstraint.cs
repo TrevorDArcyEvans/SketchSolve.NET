@@ -6,6 +6,7 @@ public sealed class CircleRadiusConstraint : BaseConstraint
 {
   public readonly Circle Circle;
   public readonly Parameter Radius;
+  public override IEnumerable<object> Items => new[] { Circle };
 
   public CircleRadiusConstraint(Circle circle, Parameter radius)
   {

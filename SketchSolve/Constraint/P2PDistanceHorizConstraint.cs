@@ -7,6 +7,7 @@ public sealed class P2PDistanceHorizConstraint : BaseConstraint
   public readonly Point Point1;
   public readonly Point Point2;
   public readonly Parameter Distance;
+  public override IEnumerable<object> Items => new[] { Point1, Point2 };
 
   public P2PDistanceHorizConstraint(Point point1, Point point2, Parameter distance)
   {

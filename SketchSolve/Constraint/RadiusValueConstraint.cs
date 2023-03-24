@@ -4,6 +4,8 @@ using SketchSolve.Model;
 
 public sealed class RadiusValueConstraint : BaseConstraint
 {
+  public override IEnumerable<object> Items => new[] { this };
+
   public override double CalculateError()
   {
     throw new NotImplementedException();

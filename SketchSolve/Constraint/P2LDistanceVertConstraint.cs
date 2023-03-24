@@ -7,6 +7,7 @@ public sealed class P2LDistanceVertConstraint : BaseConstraint
   public readonly Point Point;
   public readonly Line Line;
   public readonly Parameter Distance;
+  public override IEnumerable<object> Items => new object[] { Point, Line };
 
   public P2LDistanceVertConstraint(Point point, Line line, Parameter distance)
   {

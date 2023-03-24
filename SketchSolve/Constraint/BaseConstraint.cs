@@ -13,6 +13,7 @@ public abstract class BaseConstraint : IEnumerable<Parameter>
   }
 
   protected abstract IEnumerable<IEnumerable<Parameter>> GetParameters();
+  public abstract IEnumerable<object> Items { get; }
 
   public IEnumerator<Parameter> GetEnumerator()
   {
