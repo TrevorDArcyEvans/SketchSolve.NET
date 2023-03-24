@@ -14,6 +14,7 @@ public sealed class LineDrawer : EntityDrawer
   private EndPointDrawer End { get; }
 
   public override IEnumerable<PointDrawer> SelectionPoints => new PointDrawer[] {Start, End};
+  public override object Entity => Line;
 
   public override bool IsNear(System.Drawing.Point pt)
   {

@@ -18,6 +18,7 @@ public abstract class EntityDrawer : IDrawable
 
   public bool IsSelected { get; set; }
   public bool ShowPreview { get; set; }
+  public abstract object Entity { get; }
 
   public abstract IEnumerable<PointDrawer> SelectionPoints { get; }
 

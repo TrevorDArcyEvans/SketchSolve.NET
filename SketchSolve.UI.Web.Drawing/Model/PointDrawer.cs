@@ -8,6 +8,7 @@ public abstract class PointDrawer : EntityDrawer
   public Point Point { get; }
 
   public override IEnumerable<PointDrawer> SelectionPoints => new [] { this };
+  public override object Entity => Point;
 
   public override bool IsNear(System.Drawing.Point pt)
   {

@@ -18,6 +18,7 @@ public class CircleDrawer : EntityDrawer
   }
 
   public override IEnumerable<PointDrawer> SelectionPoints => new PointDrawer[] {Centre};
+  public override object Entity => Circle;
 
   public override bool IsNear(System.Drawing.Point pt)
   {

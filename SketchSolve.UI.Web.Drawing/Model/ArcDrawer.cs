@@ -16,6 +16,7 @@ public class ArcDrawer : EntityDrawer
   protected EndPointDrawer End { get; }
 
   public override IEnumerable<PointDrawer> SelectionPoints => new PointDrawer[] {Start, Centre, End};
+  public override object Entity => Arc;
 
   public override bool IsNear(System.Drawing.Point pt)
   {
