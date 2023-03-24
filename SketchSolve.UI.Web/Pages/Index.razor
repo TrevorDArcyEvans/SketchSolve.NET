@@ -90,6 +90,7 @@
                   @bind-Value="@_isPtFixed"
                   Label="Fixed"
                   Disabled="true"/>
+                <MatButton OnClick="OnDeleteSelectedPointConstraint" Outlined="true" Icon="delete" Disabled="!_isPtFixed">Delete</MatButton>
               </MatExpansionPanelDetails>
             </MatExpansionPanel>
 

@@ -464,6 +464,15 @@ public partial class Index
     var error = Solver.Solver.Solve(constraints: _constraints.ToArray());
   }
 
+  private void OnDeleteSelectedPointConstraint()
+  {
+    var selPt = _drawables
+      .SelectMany(draw => draw.SelectionPoints)
+      .Single(pt => pt.IsSelected);
+    selPt.Point.X.Free = selPt.Point.Y.Free = true;
+    _isPtFixed = false;
+  }
+  
   private class PointD
   {
     public double X { get; set; }
