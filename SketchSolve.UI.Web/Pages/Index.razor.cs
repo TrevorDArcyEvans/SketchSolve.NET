@@ -60,7 +60,7 @@ public partial class Index
 
   private bool _isMouseDown = false;
 
-  private ApplicationMode _appMode = ApplicationMode.Select;
+  private ApplicationMode _appMode = ApplicationMode.Draw;
   private DrawableEntity _drawEnt;
 
   private ConstraintType _selConstraintType; // = ConstraintType.Fixed;
@@ -242,8 +242,6 @@ public partial class Index
         _tempArc = null;
         _arcCentre = Point.Empty;
         _arcStart = Point.Empty;
-
-        _appMode = ApplicationMode.Select;
       }
     }
 
@@ -376,8 +374,6 @@ public partial class Index
       _drawables.Remove(_tempLine);
       _tempLine = null;
       _lineStart = Point.Empty;
-
-      _appMode = ApplicationMode.Select;
     }
 
     // drawing arc
@@ -405,8 +401,6 @@ public partial class Index
       _drawables.Remove(_tempCirc);
       _tempCirc = null;
       _circCentre = Point.Empty;
-
-      _appMode = ApplicationMode.Select;
     }
 
     _cursorStyle = DefaultCursor;
