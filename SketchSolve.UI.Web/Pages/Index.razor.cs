@@ -18,24 +18,6 @@ using Point = System.Drawing.Point;
 
 public partial class Index
 {
-  private const string DefaultCursor = "default";
-  private const string HorizontalCursor = "ew-resize";
-  private const string VerticalCursor = "ns-resize";
-  private const string CoincidentCursor = "cell";
-
-  private const string CoincidentImageElementName = "coincident";
-  private const string CollinearImageElementName = "collinear";
-  private const string ConcentricImageElementName = "concentric";
-  private const string EqualImageElementName = "equal";
-  private const string FixedImageElementName = "fixed";
-  private const string HorizontalImageElementName = "horizontal";
-  private const string ParallelImageElementName = "parallel";
-  private const string PerpendicularImageElementName = "perpendicular";
-  private const string SmoothG2ImageElementName = "smooth_g2";
-  private const string SymmetricImageElementName = "symmetric";
-  private const string TangentImageElementName = "tangent";
-  private const string VerticalImageElementName = "vertical";
-
   [Inject]
   private IJSRuntime _js { get; set; }
 
@@ -65,8 +47,6 @@ public partial class Index
 
   private ConstraintType _selConstraintType; // = ConstraintType.Fixed;
   private readonly List<BaseConstraint> _constraints = new();
-
-  private string _cursorStyle = DefaultCursor;
 
   private readonly List<IDrawable> _drawables = new();
 
@@ -402,8 +382,6 @@ public partial class Index
       _tempCirc = null;
       _circCentre = Point.Empty;
     }
-
-    _cursorStyle = DefaultCursor;
   }
 
   private void OnDelete()
