@@ -72,9 +72,9 @@ public partial class Index
 
   private bool _canShowPointConstraints;
   private bool _isPtFixed;
-  
+
   private bool _canShowEntityConstraints;
-  private string _selConstraint = String.Empty;
+  private readonly List<BaseConstraint> _selConstraints = new();
 
   protected override async Task OnAfterRenderAsync(bool firstRender)
   {
@@ -172,12 +172,12 @@ public partial class Index
       {
         // get entity
         var selDrawEnt = selDraws.Single().Entity;
-        
+
         // get all constraints associate with this entity
         var selDrawEntCons = _constraints
-          .Where(cons => cons.Items.Contains(selDrawEnt))
-          .Select(cons => cons.GetType().Name);
-        _selConstraint = string.Join(Environment.NewLine, selDrawEntCons);
+          .Where(cons => cons.Items.Contains(selDrawEnt));
+        _selConstraints.Clear();
+        _selConstraints.AddRange(selDrawEntCons);
       }
 
       _canShowEntityConstraints = selDraws.Count == 1;
@@ -472,7 +472,13 @@ public partial class Index
     selPt.Point.X.Free = selPt.Point.Y.Free = true;
     _isPtFixed = false;
   }
-  
+
+  private void OnDeleteSelectedEntityConstraint(BaseConstraint cons)
+  {
+    _ = _constraints.Remove(cons);
+    _ = _selConstraints.Remove(cons);
+  }
+
   private class PointD
   {
     public double X { get; set; }

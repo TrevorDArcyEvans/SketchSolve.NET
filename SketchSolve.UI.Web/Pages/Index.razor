@@ -90,7 +90,7 @@
                   @bind-Value="@_isPtFixed"
                   Label="Fixed"
                   Disabled="true"/>
-                <MatButton OnClick="OnDeleteSelectedPointConstraint" Outlined="true" Icon="delete" Disabled="!_isPtFixed">Delete</MatButton>
+                <MatIconButton OnClick="OnDeleteSelectedPointConstraint" Outlined="true" Icon="clear" Disabled="!_isPtFixed"/>
               </MatExpansionPanelDetails>
             </MatExpansionPanel>
 
@@ -99,7 +99,25 @@
                 <MatExpansionPanelHeader>Entity</MatExpansionPanelHeader>
               </MatExpansionPanelSummary>
               <MatExpansionPanelDetails Style="@(_canShowEntityConstraints ? "" : "visibility: hidden")">
-                <p>@_selConstraint</p>
+                <table>
+                  <tbody>
+                  @{
+                    foreach (var selCons in _selConstraints)
+                    {
+                      <tr>
+                        <td>@selCons.GetType().Name</td>
+                        <td>
+                          <MatIconButton
+                            OnClick="() => OnDeleteSelectedEntityConstraint(selCons)"
+                            Outlined="true"
+                            Icon="clear"/>
+                        </td>
+
+                      </tr>
+                    }
+                  }
+                  </tbody>
+                </table>
               </MatExpansionPanelDetails>
             </MatExpansionPanel>
           </MatAccordion>
