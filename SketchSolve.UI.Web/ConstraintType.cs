@@ -2,9 +2,15 @@ namespace SketchSolve.UI.Web;
 
 public enum ConstraintType
 {
+  // one or more points
   Fixed,
   Free,
 
+  // one or more lines
   Horizontal,
-  Vertical
+  Vertical,
+  
+  // exactly two lines
+  Parallel,
+  Perpendicular
 }

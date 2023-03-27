@@ -40,7 +40,7 @@ public partial class Index
   private Point _mouseDown = new(0, 0);
   private Point _currMouse = new(0, 0);
 
-  private bool _isMouseDown = false;
+  private bool _isMouseDown;
 
   private ApplicationMode _appMode = ApplicationMode.Draw;
   private DrawableEntity _drawEnt;
@@ -419,6 +419,22 @@ public partial class Index
           .Where(ine => ine.IsSelected)
           .Select(line => _selConstraintType == ConstraintType.Vertical ? line.Line.IsVertical() : line.Line.IsHorizontal());
         _constraints.AddRange(constraints);
+        break;
+
+      case ConstraintType.Parallel:
+      case ConstraintType.Perpendicular:
+        var selDraws = _drawables
+          .OfType<LineDrawer>()
+          .Where(ine => ine.IsSelected)
+          .ToList();
+        if (selDraws.Count != 2)
+        {
+          return;
+        }
+
+        var cons =
+          _selConstraintType == ConstraintType.Parallel ? selDraws[0].Line.IsParallelTo(selDraws[1].Line) : selDraws[0].Line.IsPerpendicularTo(selDraws[1].Line);
+        _constraints.Add(cons);
         break;
 
       default:

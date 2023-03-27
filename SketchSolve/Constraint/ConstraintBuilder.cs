@@ -10,5 +10,6 @@ public static class ConstraintBuilder
   public static BaseConstraint HasInternalAngle(this Line line, Line other, Parameter angle) => new InternalAngleConstraint(line, other, angle);
   public static BaseConstraint HasExternalAngle(this Line line, Line other, Parameter angle) => new ExternalAngleConstraint(line, other, angle);
   public static BaseConstraint IsPerpendicularTo(this Line line, Line other) => new PerpendicularConstraint(line, other);
+  public static BaseConstraint IsParallelTo(this Line line, Line other) => new ParallelConstraint(line, other);
   public static BaseConstraint IsTangentTo(this Line line, Circle other) => new TangentToCircleConstraint(line, other);
 }
