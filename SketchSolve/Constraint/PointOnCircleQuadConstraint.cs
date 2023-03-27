@@ -7,7 +7,7 @@ public sealed class PointOnCircleQuadConstraint : BaseConstraint
   public readonly Point Point;
   public readonly Circle Circle;
   public readonly Parameter QuadIndex;
-  public override IEnumerable<object> Items => new object[] { Point, Circle };
+  public override IEnumerable<object> Items => new object[] {Point, Circle};
 
   public PointOnCircleQuadConstraint(Point point, Circle circle, Parameter quadIndex)
   {
@@ -26,18 +26,28 @@ public sealed class PointOnCircleQuadConstraint : BaseConstraint
     var quadIndex = QuadIndex.Value;
     switch ((int) quadIndex)
     {
+      // East
       case 0:
         ex += c1Rad;
         break;
+
+      // North
       case 1:
         ey += c1Rad;
         break;
+
+      // West
       case 2:
         ex -= c1Rad;
         break;
+
+      // South
       case 3:
         ey -= c1Rad;
         break;
+
+      default:
+        throw new ArgumentOutOfRangeException();
     }
 
     var p1X = Point.X.Value;
