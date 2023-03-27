@@ -561,6 +561,7 @@ public partial class Index
   private void OnClearAll()
   {
     _constraints.Clear();
+    _toaster.Add("No constraints in system", MatToastType.Info, "Cleared constraints");
   }
 
   private void OnSolve()
