@@ -457,7 +457,7 @@ public partial class Index
       }
         break;
 
-      case ConstraintType.TangentToCircle:
+      case ConstraintType.Tangent:
       {
         var selLines = _drawables
           .OfType<LineDrawer>()
@@ -467,32 +467,33 @@ public partial class Index
           .OfType<CircleDrawer>()
           .Where(circ => circ.IsSelected)
           .ToList();
-        if (selLines.Count != 1 || selCircs.Count != 1)
-        {
-          return;
-        }
-
-        var cons = selLines[0].Line.IsTangentTo(selCircs[0].Circle);
-        _constraints.Add(cons);
-      }
-        break;
-
-      case ConstraintType.TangentToArc:
-      {
-        var selLines = _drawables
-          .OfType<LineDrawer>()
-          .Where(line => line.IsSelected)
-          .ToList();
         var selArcs = _drawables
           .OfType<ArcDrawer>()
           .Where(arc => arc.IsSelected)
           .ToList();
-        if (selLines.Count != 1 || selArcs.Count != 1)
+
+        if (selLines.Count != 1)
         {
           return;
         }
 
-        var cons = selLines[0].Line.IsTangentTo(selArcs[0].Arc);
+        BaseConstraint cons = null;
+
+        if (selCircs.Count == 1 && selArcs.Count != 1)
+        {
+          cons = selLines[0].Line.IsTangentTo(selCircs[0].Circle);
+        }
+
+        if (selCircs.Count != 1 && selArcs.Count == 1)
+        {
+          cons = selLines[0].Line.IsTangentTo(selArcs[0].Arc);
+        }
+
+        if (cons is null)
+        {
+          return;
+        }
+
         _constraints.Add(cons);
       }
         break;
@@ -523,6 +524,7 @@ public partial class Index
           .OfType<ArcDrawer>()
           .Where(arc => arc.IsSelected)
           .ToList();
+
         BaseConstraint cons = null;
 
         if (selCircs.Count == 2 && selArcs.Count == 0)

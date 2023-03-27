@@ -17,10 +17,8 @@ public enum ConstraintType
   EqualLength,
   
   // one line + one circle
-  TangentToCircle,
-  
   // one line + one arc
-  TangentToArc,
+  Tangent,
   
   // exactly two points
   Coincident,
