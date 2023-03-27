@@ -424,6 +424,7 @@ public partial class Index
       case ConstraintType.Parallel:
       case ConstraintType.Perpendicular:
       case ConstraintType.Collinear:
+      case ConstraintType.EqualLength:
         var selDraws = _drawables
           .OfType<LineDrawer>()
           .Where(ine => ine.IsSelected)
@@ -439,7 +440,9 @@ public partial class Index
         {
           ConstraintType.Parallel => line1.IsParallelTo(line2),
           ConstraintType.Perpendicular => line1.IsPerpendicularTo(line2),
-          ConstraintType.Collinear => line1.IsCollinearTo(line2)
+          ConstraintType.Collinear => line1.IsCollinearTo(line2),
+          ConstraintType.EqualLength => line1.IsEqualInLengthTo(line2),
+          _ => throw new ArgumentOutOfRangeException()
         };
         _constraints.Add(cons);
         break;

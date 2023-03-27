@@ -12,5 +12,6 @@ public static class ConstraintBuilder
   public static BaseConstraint IsPerpendicularTo(this Line line, Line other) => new PerpendicularConstraint(line, other);
   public static BaseConstraint IsParallelTo(this Line line, Line other) => new ParallelConstraint(line, other);
   public static BaseConstraint IsCollinearTo(this Line line, Line other) => new CollinearConstraint(line, other);
+  public static BaseConstraint IsEqualInLengthTo(this Line line, Line other) => new EqualLengthConstraint(line, other);
   public static BaseConstraint IsTangentTo(this Line line, Circle other) => new TangentToCircleConstraint(line, other);
 }
