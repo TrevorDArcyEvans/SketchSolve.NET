@@ -141,8 +141,14 @@ public partial class Index
         .ToList();
       if (selPts.Count == 1)
       {
-        var selPt = selPts.Single();
-        _isPtFixed = !selPt.Point.X.Free && !selPt.Point.X.Free;
+        var selPt = selPts.Single().Point;
+        _isPtFixed = !selPt.X.Free && !selPt.X.Free;
+
+        // get all constraints associate with this point
+        var selPtCons = _constraints
+          .Where(cons => cons.Items.Contains(selPt));
+        _selConstraints.Clear();
+        _selConstraints.AddRange(selPtCons);
       }
 
       _canShowPointConstraints = selPts.Count == 1;
@@ -164,7 +170,7 @@ public partial class Index
         _selConstraints.AddRange(selDrawEntCons);
       }
 
-      _canShowEntityConstraints = selDraws.Count == 1;
+      _canShowEntityConstraints = selDraws.Count == 1 || selPts.Count == 1;
     }
 
 
