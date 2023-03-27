@@ -513,6 +513,42 @@ public partial class Index
       }
         break;
 
+      case ConstraintType.Concentric:
+      {
+        var selCircs = _drawables
+          .OfType<CircleDrawer>()
+          .Where(circ => circ.IsSelected)
+          .ToList();
+        var selArcs = _drawables
+          .OfType<ArcDrawer>()
+          .Where(arc => arc.IsSelected)
+          .ToList();
+        BaseConstraint cons = null;
+
+        if (selCircs.Count == 2 && selArcs.Count == 0)
+        {
+          cons = selCircs[0].Circle.IsConcentricWith(selCircs[1].Circle);
+        }
+
+        if (selCircs.Count == 1 && selArcs.Count == 1)
+        {
+          cons = selCircs[0].Circle.IsConcentricWith(selArcs[0].Arc);
+        }
+
+        if (selCircs.Count == 0 && selArcs.Count == 2)
+        {
+          cons = selArcs[0].Arc.IsConcentricWith(selArcs[1].Arc);
+        }
+
+        if (cons is null)
+        {
+          return;
+        }
+
+        _constraints.Add(cons);
+      }
+        break;
+
       default:
         throw new ArgumentOutOfRangeException();
     }

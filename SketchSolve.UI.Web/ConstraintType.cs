@@ -23,5 +23,10 @@ public enum ConstraintType
   TangentToArc,
   
   // exactly two points
-  Coincident
+  Coincident,
+  
+  // exactly two circles
+  // exactly two arcs
+  // one circle + one arc
+  Concentric
 }

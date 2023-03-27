@@ -15,4 +15,7 @@ public static class ConstraintBuilder
   public static BaseConstraint IsEqualInLengthTo(this Line line, Line other) => new EqualLengthConstraint(line, other);
   public static BaseConstraint IsTangentTo(this Line line, Circle other) => new TangentToCircleConstraint(line, other);
   public static BaseConstraint IsTangentTo(this Line line, Arc other) => new TangentToArcConstraint(line, other);
+  public static BaseConstraint IsConcentricWith(this Circle circ, Circle other) => new ConcentricCirclesConstraint(circ, other);
+  public static BaseConstraint IsConcentricWith(this Circle circ, Arc other) => new ConcentricCircArcConstraint(circ, other);
+  public static BaseConstraint IsConcentricWith(this Arc arc, Arc other) => new ConcentricArcsConstraint(arc, other);
 }
