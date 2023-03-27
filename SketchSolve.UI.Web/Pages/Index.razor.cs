@@ -423,6 +423,7 @@ public partial class Index
 
       case ConstraintType.Parallel:
       case ConstraintType.Perpendicular:
+      case ConstraintType.Collinear:
         var selDraws = _drawables
           .OfType<LineDrawer>()
           .Where(ine => ine.IsSelected)
@@ -432,8 +433,14 @@ public partial class Index
           return;
         }
 
-        var cons =
-          _selConstraintType == ConstraintType.Parallel ? selDraws[0].Line.IsParallelTo(selDraws[1].Line) : selDraws[0].Line.IsPerpendicularTo(selDraws[1].Line);
+        var line1 = selDraws[0].Line;
+        var line2 = selDraws[1].Line;
+        var cons = _selConstraintType switch
+        {
+          ConstraintType.Parallel => line1.IsParallelTo(line2),
+          ConstraintType.Perpendicular => line1.IsPerpendicularTo(line2),
+          ConstraintType.Collinear => line1.IsCollinearTo(line2)
+        };
         _constraints.Add(cons);
         break;
 

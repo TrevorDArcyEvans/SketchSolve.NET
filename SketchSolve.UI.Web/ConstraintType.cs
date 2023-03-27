@@ -12,5 +12,6 @@ public enum ConstraintType
   
   // exactly two lines
   Parallel,
-  Perpendicular
+  Perpendicular,
+  Collinear
 }
