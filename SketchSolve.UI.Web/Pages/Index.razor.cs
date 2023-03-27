@@ -477,6 +477,26 @@ public partial class Index
       }
         break;
 
+      case ConstraintType.TangentToArc:
+      {
+        var selLines = _drawables
+          .OfType<LineDrawer>()
+          .Where(line => line.IsSelected)
+          .ToList();
+        var selArcs = _drawables
+          .OfType<ArcDrawer>()
+          .Where(arc => arc.IsSelected)
+          .ToList();
+        if (selLines.Count != 1 || selArcs.Count != 1)
+        {
+          return;
+        }
+
+        var cons = selLines[0].Line.IsTangentTo(selArcs[0].Arc);
+        _constraints.Add(cons);
+      }
+        break;
+
       default:
         throw new ArgumentOutOfRangeException();
     }

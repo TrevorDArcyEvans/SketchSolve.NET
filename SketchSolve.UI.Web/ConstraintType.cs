@@ -17,5 +17,8 @@ public enum ConstraintType
   EqualLength,
   
   // one line + one circle
-  TangentToCircle
+  TangentToCircle,
+  
+  // one line + one arc
+  TangentToArc
 }
