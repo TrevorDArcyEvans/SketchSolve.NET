@@ -512,6 +512,7 @@ public partial class Index
   private void OnSolve()
   {
     var error = Solver.Solver.Solve(constraints: _constraints.ToArray());
+    _toaster.Add($"Error: {error:E3}", MatToastType.Info, "Solver completed");
   }
 
   private void OnDeleteSelectedPointConstraint()
