@@ -408,6 +408,7 @@ public partial class Index
     {
       case ConstraintType.Free:
       case ConstraintType.Fixed:
+      {
         var isFree = _selConstraintType == ConstraintType.Free;
         _drawables
           .SelectMany(draw => draw.SelectionPoints)
@@ -415,23 +416,27 @@ public partial class Index
           .ToList()
           .ForEach(pt => pt.Point.X.Free = pt.Point.Y.Free = isFree);
         break;
+      }
 
       case ConstraintType.Vertical:
       case ConstraintType.Horizontal:
+      {
         var constraints = _drawables
           .OfType<LineDrawer>()
           .Where(ine => ine.IsSelected)
           .Select(line => _selConstraintType == ConstraintType.Vertical ? line.Line.IsVertical() : line.Line.IsHorizontal());
         _constraints.AddRange(constraints);
+      }
         break;
 
       case ConstraintType.Parallel:
       case ConstraintType.Perpendicular:
       case ConstraintType.Collinear:
       case ConstraintType.EqualLength:
+      {
         var selDraws = _drawables
           .OfType<LineDrawer>()
-          .Where(ine => ine.IsSelected)
+          .Where(line => line.IsSelected)
           .ToList();
         if (selDraws.Count != 2)
         {
@@ -449,6 +454,27 @@ public partial class Index
           _ => throw new ArgumentOutOfRangeException()
         };
         _constraints.Add(cons);
+      }
+        break;
+
+      case ConstraintType.TangentToCircle:
+      {
+        var selLines = _drawables
+          .OfType<LineDrawer>()
+          .Where(line => line.IsSelected)
+          .ToList();
+        var selCircs = _drawables
+          .OfType<CircleDrawer>()
+          .Where(circ => circ.IsSelected)
+          .ToList();
+        if (selLines.Count != 1 || selCircs.Count != 1)
+        {
+          return;
+        }
+
+        var cons = selLines[0].Line.IsTangentTo(selCircs[0].Circle);
+        _constraints.Add(cons);
+      }
         break;
 
       default:

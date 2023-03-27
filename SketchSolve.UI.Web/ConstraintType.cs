@@ -14,5 +14,8 @@ public enum ConstraintType
   Parallel,
   Perpendicular,
   Collinear,
-  EqualLength
+  EqualLength,
+  
+  // one line + one circle
+  TangentToCircle
 }
