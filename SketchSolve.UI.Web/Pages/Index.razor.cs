@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Excubo.Blazor.Canvas;
 using Excubo.Blazor.Canvas.Contexts;
+using MatBlazor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
@@ -20,6 +21,9 @@ public partial class Index
 {
   [Inject]
   private IJSRuntime _js { get; set; }
+
+  [Inject]
+  private IMatToaster _toaster { get; set; }
 
   private ElementReference _container;
   private Canvas _canvas;
@@ -450,6 +454,8 @@ public partial class Index
       default:
         throw new ArgumentOutOfRangeException();
     }
+
+    _toaster.Add(_selConstraintType.ToString(), MatToastType.Info, "Added constraint");
   }
 
   private void OnClearAll()
