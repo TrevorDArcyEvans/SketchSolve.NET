@@ -415,8 +415,8 @@ public partial class Index
           .Where(pt => pt.IsSelected)
           .ToList()
           .ForEach(pt => pt.Point.X.Free = pt.Point.Y.Free = isFree);
-        break;
       }
+        break;
 
       case ConstraintType.Vertical:
       case ConstraintType.Horizontal:
@@ -493,6 +493,22 @@ public partial class Index
         }
 
         var cons = selLines[0].Line.IsTangentTo(selArcs[0].Arc);
+        _constraints.Add(cons);
+      }
+        break;
+
+      case ConstraintType.Coincident:
+      {
+        var selPts = _drawables
+          .SelectMany(draw => draw.SelectionPoints)
+          .Where(pt => pt.IsSelected)
+          .ToList();
+        if (selPts.Count != 2)
+        {
+          return;
+        }
+
+        var cons = selPts[0].Point.IsCoincidentWith(selPts[1].Point);
         _constraints.Add(cons);
       }
         break;

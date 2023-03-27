@@ -20,5 +20,8 @@ public enum ConstraintType
   TangentToCircle,
   
   // one line + one arc
-  TangentToArc
+  TangentToArc,
+  
+  // exactly two points
+  Coincident
 }
