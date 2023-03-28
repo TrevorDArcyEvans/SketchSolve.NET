@@ -438,6 +438,16 @@ public partial class Index
         _constraints.AddRange(constraints);
       }
         break;
+      
+      case ConstraintType.LineLength:
+      {
+        var constraints = _drawables
+          .OfType<LineDrawer>()
+          .Where(ine => ine.IsSelected)
+          .Select(line => line.Line.HasLength(_value));
+        _constraints.AddRange(constraints);
+      }
+        break;
 
       case ConstraintType.Parallel:
       case ConstraintType.Perpendicular:

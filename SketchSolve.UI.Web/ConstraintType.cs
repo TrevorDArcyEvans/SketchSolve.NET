@@ -9,6 +9,7 @@ public enum ConstraintType
   // one or more lines
   Horizontal,
   Vertical,
+  LineLength,
 
   // exactly two lines
   Parallel,
