@@ -27,4 +27,6 @@ public static class ConstraintBuilder
   public static BaseConstraint IsEqualInRadiusTo(this Circle circ, Arc other) => new EqualRadiusCircArcConstraint(circ, other);
   public static BaseConstraint IsEqualInRadiusTo(this Arc arc, Arc other) => new EqualRadiusArcsConstraint(arc, other);
   public static BaseConstraint HasLength(this Line line, int length) => new LineLengthConstraint(line, new Parameter(length, false));
+  public static BaseConstraint HasRadius(this Circle circ, int radius) => new CircleRadiusConstraint(circ, new Parameter(radius, false));
+  public static BaseConstraint HasRadius(this Arc arc, int radius) => new ArcRadiusConstraint(arc, new Parameter(radius, false));
 }

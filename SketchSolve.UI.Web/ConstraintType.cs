@@ -36,5 +36,9 @@ public enum ConstraintType
   // exactly two arcs
   // one circle + one arc
   Concentric,
-  EqualRadius
+  EqualRadius,
+
+  // one or more circles
+  // one or more arcs
+  RadiusValue
 }

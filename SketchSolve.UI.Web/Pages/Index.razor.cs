@@ -448,6 +448,21 @@ public partial class Index
         _constraints.AddRange(constraints);
       }
         break;
+      
+      case ConstraintType.RadiusValue:
+      {
+        var circCons = _drawables
+          .OfType<CircleDrawer>()
+          .Where(circ => circ.IsSelected)
+          .Select(circ => circ.Circle.HasRadius(_value));
+        _constraints.AddRange(circCons);
+        var arcCons = _drawables
+          .OfType<ArcDrawer>()
+          .Where(arc => arc.IsSelected)
+          .Select(arc => arc.Arc.HasRadius(_value));
+        _constraints.AddRange(arcCons);
+      }
+        break;
 
       case ConstraintType.Parallel:
       case ConstraintType.Perpendicular:
