@@ -18,12 +18,9 @@ public sealed class P2PDistanceConstraint : BaseConstraint
 
   public override double CalculateError()
   {
-    var p1X = Point1.X.Value;
-    var p1Y = Point1.Y.Value;
-    var p2X = Point2.X.Value;
-    var p2Y = Point2.Y.Value;
-    var distance = Distance.Value;
-    return (p1X - p2X) * (p1X - p2X) + (p1Y - p2Y) * (p1Y - p2Y) - distance * distance;
+    var p2pDist = (Point1 - Point2).Length;
+    var err = p2pDist - Distance.Value;
+    return err * err;
   }
 
   protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
