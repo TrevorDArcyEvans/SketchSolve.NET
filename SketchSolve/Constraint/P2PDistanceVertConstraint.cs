@@ -18,10 +18,10 @@ public sealed class P2PDistanceVertConstraint : BaseConstraint
 
   public override double CalculateError()
   {
-    var p1Y = Point1.Y.Value;
-    var p2Y = Point2.Y.Value;
-    var distance = Distance.Value;
-    return (p1Y - p2Y) * (p1Y - p2Y) - distance * distance;
+    var dY = Math.Abs(Point1.Y.Value - Point2.Y.Value);
+    var dist = Distance.Value;
+    var err = dY - dist;
+    return err * err;
   }
 
   protected override IEnumerable<IEnumerable<Parameter>> GetParameters()
