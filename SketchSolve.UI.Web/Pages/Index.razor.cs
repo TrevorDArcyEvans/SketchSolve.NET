@@ -60,6 +60,8 @@ public partial class Index
   private bool _canShowEntityConstraints;
   private readonly List<BaseConstraint> _selConstraints = new();
 
+  private int _value = 200;
+
   protected override async Task OnAfterRenderAsync(bool firstRender)
   {
     if (firstRender)
