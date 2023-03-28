@@ -7,6 +7,9 @@ public static class ConstraintBuilder
   public static BaseConstraint IsHorizontal(this Line line) => new HorizontalConstraint(line);
   public static BaseConstraint IsVertical(this Line line) => new VerticalConstraint(line);
   public static BaseConstraint IsCoincidentWith(this Point pt, Point other) => new PointOnPointConstraint(pt, other);
+  public static BaseConstraint IsCoincidentWith(this Point pt, Line other) => new PointOnLineConstraint(pt, other);
+  public static BaseConstraint IsCoincidentWith(this Point pt, Circle other) => new PointOnCircleConstraint(pt, other);
+  public static BaseConstraint IsCoincidentWith(this Point pt, Arc other) => new PointOnArcConstraint(pt, other);
   public static BaseConstraint HasInternalAngle(this Line line, Line other, Parameter angle) => new InternalAngleConstraint(line, other, angle);
   public static BaseConstraint HasExternalAngle(this Line line, Line other, Parameter angle) => new ExternalAngleConstraint(line, other, angle);
   public static BaseConstraint IsPerpendicularTo(this Line line, Line other) => new PerpendicularConstraint(line, other);

@@ -442,17 +442,17 @@ public partial class Index
       case ConstraintType.Collinear:
       case ConstraintType.EqualLength:
       {
-        var selDraws = _drawables
+        var selLines = _drawables
           .OfType<LineDrawer>()
           .Where(line => line.IsSelected)
           .ToList();
-        if (selDraws.Count != 2)
+        if (selLines.Count != 2)
         {
           return;
         }
 
-        var line1 = selDraws[0].Line;
-        var line2 = selDraws[1].Line;
+        var line1 = selLines[0].Line;
+        var line2 = selLines[1].Line;
         var cons = _selConstraintType switch
         {
           ConstraintType.Parallel => line1.IsParallelTo(line2),
@@ -512,12 +512,49 @@ public partial class Index
           .SelectMany(draw => draw.SelectionPoints)
           .Where(pt => pt.IsSelected)
           .ToList();
-        if (selPts.Count != 2)
+
+        BaseConstraint cons = null;
+
+        if (selPts.Count == 2)
+        {
+          cons = selPts[0].Point.IsCoincidentWith(selPts[1].Point);
+        }
+
+        if (selPts.Count == 1)
+        {
+          var selPt = selPts.Single().Point;
+          var selLines = _drawables
+            .OfType<LineDrawer>()
+            .Where(line => line.IsSelected)
+            .ToList();
+          var selCircs = _drawables
+            .OfType<CircleDrawer>()
+            .Where(circ => circ.IsSelected)
+            .ToList();
+          var selArcs = _drawables
+            .OfType<ArcDrawer>()
+            .Where(arc => arc.IsSelected)
+            .ToList();
+
+          if (selLines.Count == 1)
+          {
+            cons = selPt.IsCoincidentWith(selLines.Single().Line);
+          }
+          else if (selCircs.Count == 1)
+          {
+            cons = selPt.IsCoincidentWith(selCircs.Single().Circle);
+          }
+          else if (selArcs.Count == 1)
+          {
+            cons = selPt.IsCoincidentWith(selArcs.Single().Arc);
+          }
+        }
+
+        if (cons is null)
         {
           return;
         }
 
-        var cons = selPts[0].Point.IsCoincidentWith(selPts[1].Point);
         _constraints.Add(cons);
       }
         break;
