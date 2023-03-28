@@ -18,4 +18,7 @@ public static class ConstraintBuilder
   public static BaseConstraint IsConcentricWith(this Circle circ, Circle other) => new ConcentricCirclesConstraint(circ, other);
   public static BaseConstraint IsConcentricWith(this Circle circ, Arc other) => new ConcentricCircArcConstraint(circ, other);
   public static BaseConstraint IsConcentricWith(this Arc arc, Arc other) => new ConcentricArcsConstraint(arc, other);
+  public static BaseConstraint IsEqualInRadiusTo(this Circle circ, Circle other) => new EqualRadiusCirclesConstraint(circ, other);
+  public static BaseConstraint IsEqualInRadiusTo(this Circle circ, Arc other) => new EqualRadiusCircArcConstraint(circ, other);
+  public static BaseConstraint IsEqualInRadiusTo(this Arc arc, Arc other) => new EqualRadiusArcsConstraint(arc, other);
 }

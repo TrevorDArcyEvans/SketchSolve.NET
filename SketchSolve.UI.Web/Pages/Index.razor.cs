@@ -523,6 +523,7 @@ public partial class Index
         break;
 
       case ConstraintType.Concentric:
+      case ConstraintType.EqualRadius:
       {
         var selCircs = _drawables
           .OfType<CircleDrawer>()
@@ -537,17 +538,32 @@ public partial class Index
 
         if (selCircs.Count == 2 && selArcs.Count == 0)
         {
-          cons = selCircs[0].Circle.IsConcentricWith(selCircs[1].Circle);
+          cons = _selConstraintType switch
+          {
+            ConstraintType.Concentric => selCircs[0].Circle.IsConcentricWith(selCircs[1].Circle),
+            ConstraintType.EqualRadius => selCircs[0].Circle.IsEqualInRadiusTo(selCircs[1].Circle),
+            _ => throw new ArgumentOutOfRangeException()
+          };
         }
 
         if (selCircs.Count == 1 && selArcs.Count == 1)
         {
-          cons = selCircs[0].Circle.IsConcentricWith(selArcs[0].Arc);
+          cons = _selConstraintType switch
+          {
+            ConstraintType.Concentric => selCircs[0].Circle.IsConcentricWith(selArcs[0].Arc),
+            ConstraintType.EqualRadius => selCircs[0].Circle.IsEqualInRadiusTo(selArcs[0].Arc),
+            _ => throw new ArgumentOutOfRangeException()
+          };
         }
 
         if (selCircs.Count == 0 && selArcs.Count == 2)
         {
-          cons = selArcs[0].Arc.IsConcentricWith(selArcs[1].Arc);
+          cons = _selConstraintType switch
+          {
+            ConstraintType.Concentric => selArcs[0].Arc.IsConcentricWith(selArcs[1].Arc),
+            ConstraintType.EqualRadius => selArcs[0].Arc.IsEqualInRadiusTo(selArcs[1].Arc),
+            _ => throw new ArgumentOutOfRangeException()
+          };
         }
 
         if (cons is null)

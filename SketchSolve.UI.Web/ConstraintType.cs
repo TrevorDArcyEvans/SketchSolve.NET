@@ -26,5 +26,6 @@ public enum ConstraintType
   // exactly two circles
   // exactly two arcs
   // one circle + one arc
-  Concentric
+  Concentric,
+  EqualRadius
 }
