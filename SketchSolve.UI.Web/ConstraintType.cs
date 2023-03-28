@@ -25,7 +25,12 @@ public enum ConstraintType
   // one point + one circle
   // one point + one arc
   Coincident,
-  
+
+  // one point + one line
+  // one point + one circle
+  // one point + one arc
+  CoincidentMidPoint,
+
   // exactly two circles
   // exactly two arcs
   // one circle + one arc

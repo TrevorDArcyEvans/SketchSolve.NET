@@ -559,6 +559,46 @@ public partial class Index
       }
         break;
 
+      case ConstraintType.CoincidentMidPoint:
+      {
+        var selPts = _drawables
+          .SelectMany(draw => draw.SelectionPoints)
+          .Where(pt => pt.IsSelected)
+          .ToList();
+
+        BaseConstraint cons = null;
+
+        if (selPts.Count == 1)
+        {
+          var selPt = selPts.Single().Point;
+          var selLines = _drawables
+            .OfType<LineDrawer>()
+            .Where(line => line.IsSelected)
+            .ToList();
+          var selArcs = _drawables
+            .OfType<ArcDrawer>()
+            .Where(arc => arc.IsSelected)
+            .ToList();
+
+          if (selLines.Count == 1)
+          {
+            cons = selPt.IsCoincidentWithMidPoint(selLines.Single().Line);
+          }
+          else if (selArcs.Count == 1)
+          {
+            cons = selPt.IsCoincidentWithMidPoint(selArcs.Single().Arc);
+          }
+        }
+
+        if (cons is null)
+        {
+          return;
+        }
+
+        _constraints.Add(cons);
+      }
+        break;
+
       case ConstraintType.Concentric:
       case ConstraintType.EqualRadius:
       {

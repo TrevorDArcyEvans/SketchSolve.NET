@@ -10,6 +10,8 @@ public static class ConstraintBuilder
   public static BaseConstraint IsCoincidentWith(this Point pt, Line other) => new PointOnLineConstraint(pt, other);
   public static BaseConstraint IsCoincidentWith(this Point pt, Circle other) => new PointOnCircleConstraint(pt, other);
   public static BaseConstraint IsCoincidentWith(this Point pt, Arc other) => new PointOnArcConstraint(pt, other);
+  public static BaseConstraint IsCoincidentWithMidPoint(this Point pt, Line other) => new PointOnLineMidpointConstraint(pt, other);
+  public static BaseConstraint IsCoincidentWithMidPoint(this Point pt, Arc other) => new PointOnArcMidpointConstraint(pt, other);
   public static BaseConstraint HasInternalAngle(this Line line, Line other, Parameter angle) => new InternalAngleConstraint(line, other, angle);
   public static BaseConstraint HasExternalAngle(this Line line, Line other, Parameter angle) => new ExternalAngleConstraint(line, other, angle);
   public static BaseConstraint IsPerpendicularTo(this Line line, Line other) => new PerpendicularConstraint(line, other);
