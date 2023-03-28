@@ -49,7 +49,7 @@ public partial class Index
   private ApplicationMode _appMode = ApplicationMode.Draw;
   private DrawableEntity _drawEnt;
 
-  private ConstraintType _selConstraintType; // = ConstraintType.Fixed;
+  private ConstraintType _selConstraintType;
   private readonly List<BaseConstraint> _constraints = new();
 
   private readonly List<IDrawable> _drawables = new();
