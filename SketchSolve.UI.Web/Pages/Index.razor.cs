@@ -122,6 +122,8 @@ public partial class Index
 
 
       // nothing under mouse, so clear all selections
+      _canShowPointConstraints = _canShowEntityConstraints = false;
+
       if (!selPtsNearMouse.Any() && !selDrawsNearMouse.Any())
       {
         _drawables
@@ -149,9 +151,9 @@ public partial class Index
           .Where(cons => cons.Items.Contains(selPt));
         _selConstraints.Clear();
         _selConstraints.AddRange(selPtCons);
-      }
 
-      _canShowPointConstraints = selPts.Count == 1;
+        _canShowPointConstraints = _canShowEntityConstraints = true;
+      }
 
 
       // update entity constraints which depends on selection
@@ -168,9 +170,9 @@ public partial class Index
           .Where(cons => cons.Items.Contains(selDrawEnt));
         _selConstraints.Clear();
         _selConstraints.AddRange(selDrawEntCons);
-      }
 
-      _canShowEntityConstraints = selDraws.Count == 1 || selPts.Count == 1;
+        _canShowEntityConstraints = true;
+      }
     }
 
 
