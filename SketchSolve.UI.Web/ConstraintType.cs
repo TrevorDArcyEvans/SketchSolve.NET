@@ -46,5 +46,9 @@ public enum ConstraintType
   // one point + one line
   Distance,
   DistanceHorizontal,
-  DistanceVertical
+  DistanceVertical,
+
+  // exactly two lines
+  InternalAngle,
+  ExternalAngle
 }

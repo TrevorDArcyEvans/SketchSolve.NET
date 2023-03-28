@@ -733,6 +733,32 @@ public partial class Index
       }
         break;
 
+      case ConstraintType.InternalAngle:
+      case ConstraintType.ExternalAngle:
+      {
+        var selLines = _drawables
+          .OfType<LineDrawer>()
+          .Where(line => line.IsSelected)
+          .ToList();
+        if (selLines.Count != 2)
+        {
+          return;
+        }
+
+        var line1 = selLines[0].Line;
+        var line2 = selLines[1].Line;
+        var angleRad = _value * Math.PI / 180d;
+        var angle = new Parameter(angleRad, false);
+        var cons = _selConstraintType switch
+        {
+          ConstraintType.InternalAngle => line1.HasInternalAngle(line2, angle),
+          ConstraintType.ExternalAngle => line1.HasExternalAngle(line2, angle),
+          _ => throw new ArgumentOutOfRangeException()
+        };
+        _constraints.Add(cons);
+      }
+        break;
+
       default:
         throw new ArgumentOutOfRangeException();
     }
