@@ -133,6 +133,10 @@ Further, in some cases, _Accord_ will try to set a parameter to [NaN](https://en
 * ~~refactor to class based constraints~~
 * ~~fix unit tests not running on Linux~~
 * ~~ConstraintBuilder support for all constraints~~
+* fix arc related constraints
+  * line tangent to arc
+  * point on arc
+  * point on arc mid-point
 * unit tests for constraint errors
 * unit tests for constraint parameters
 * ~~fix unit tests for solver~~
