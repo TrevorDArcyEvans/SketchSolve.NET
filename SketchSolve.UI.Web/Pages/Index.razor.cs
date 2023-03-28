@@ -438,7 +438,7 @@ public partial class Index
         _constraints.AddRange(constraints);
       }
         break;
-      
+
       case ConstraintType.LineLength:
       {
         var constraints = _drawables
@@ -448,7 +448,7 @@ public partial class Index
         _constraints.AddRange(constraints);
       }
         break;
-      
+
       case ConstraintType.RadiusValue:
       {
         var circCons = _drawables
@@ -668,6 +668,60 @@ public partial class Index
             ConstraintType.EqualRadius => selArcs[0].Arc.IsEqualInRadiusTo(selArcs[1].Arc),
             _ => throw new ArgumentOutOfRangeException()
           };
+        }
+
+        if (cons is null)
+        {
+          return;
+        }
+
+        _constraints.Add(cons);
+      }
+        break;
+
+      case ConstraintType.Distance:
+      case ConstraintType.DistanceHorizontal:
+      case ConstraintType.DistanceVertical:
+      {
+        var selPts = _drawables
+          .SelectMany(draw => draw.SelectionPoints)
+          .Where(pt => pt.IsSelected)
+          .ToList();
+
+        BaseConstraint cons = null;
+
+        if (selPts.Count == 2)
+        {
+          var selPt1 = selPts[0].Point;
+          var selPt2 = selPts[1].Point;
+          cons = _selConstraintType switch
+          {
+            ConstraintType.Distance => selPt1.HasDistance(selPt2, _value),
+            ConstraintType.DistanceHorizontal => selPt1.HasDistanceHorizontal(selPt2, _value),
+            ConstraintType.DistanceVertical => selPt1.HasDistanceVertical(selPt2, _value),
+            _ => throw new ArgumentOutOfRangeException()
+          };
+        }
+
+        if (selPts.Count == 1)
+        {
+          var selPt = selPts.Single().Point;
+          var selLines = _drawables
+            .OfType<LineDrawer>()
+            .Where(line => line.IsSelected)
+            .ToList();
+
+          if (selLines.Count == 1)
+          {
+            var selLine = selLines.Single().Line;
+            cons = _selConstraintType switch
+            {
+              ConstraintType.Distance => selPt.HasDistance(selLine, _value),
+              ConstraintType.DistanceHorizontal => selPt.HasDistanceHorizontal(selLine, _value),
+              ConstraintType.DistanceVertical => selPt.HasDistanceVertical(selLine, _value),
+              _ => throw new ArgumentOutOfRangeException()
+            };
+          }
         }
 
         if (cons is null)

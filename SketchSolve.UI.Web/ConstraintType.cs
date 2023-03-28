@@ -40,5 +40,11 @@ public enum ConstraintType
 
   // one or more circles
   // one or more arcs
-  RadiusValue
+  RadiusValue,
+  
+  // exactly two points
+  // one point + one line
+  Distance,
+  DistanceHorizontal,
+  DistanceVertical
 }
