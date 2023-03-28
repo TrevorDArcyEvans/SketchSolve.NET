@@ -1,5 +1,7 @@
 # SketchSolve
 
+![screenshot-ui](docs/screenshot.png)
+
 A geometric constraints solver for use in CAD software
 
 ## Background
@@ -83,11 +85,14 @@ $ cd SketchSolve.NET
 $ dotnet restore
 $ dotnet build
 $ dotnet test
+$ cd SketchSolve.UI.Web
+$ dotnet run
 ```
+open [SketchSolve.NET](https://localhost:5001/)
 
 ## Problem formulation
 Each constraint has a notion of 'error' ie how 'far' away it is from it's target condition.
-In this project, constraint parameters are varied to minimise the overall (sum of ell individual) errors.
+In this project, constraint parameters are varied to minimise the overall (sum of all individual) errors.
 Thus, the problem is reduced to finding the global/local minima nearest the initial starting point.
 Note that some constraints are linear and others are angular, which makes summing an overall error
 problematic ie adding incompatible units.
@@ -101,7 +106,7 @@ method.
 ### Advantages
 * easy to add new constraints
 * relatively easy implementation
-* techniques for multi-dimension constrained optimisation well know
+* techniques for multi-dimension constrained optimisation well known
 
 ### Disadvantages
 * cannot detect over/under/ill constrained systems
@@ -127,12 +132,12 @@ Further, in some cases, _Accord_ will try to set a parameter to [NaN](https://en
 ## Further work
 * ~~refactor to class based constraints~~
 * ~~fix unit tests not running on Linux~~
-* ConstraintBuilder support for all constraints
+* ~~ConstraintBuilder support for all constraints~~
 * unit tests for constraint errors
 * unit tests for constraint parameters
 * ~~fix unit tests for solver~~
 * more unit tests for solver
-* portable UI aka test harness
+* ~~portable UI aka test harness~~
 * ~~perturb starting parameters for unacceptable solutions~~
   * ~~have to limit number of perturbations~~ 
 
@@ -141,7 +146,7 @@ Further, in some cases, _Accord_ will try to set a parameter to [NaN](https://en
 * [Sketchpad](https://en.wikipedia.org/wiki/Sketchpad)
 * [A Geometric Constraint Solver](https://core.ac.uk/download/pdf/4971979.pdf)
 * [Modelling of Geometric Constraints in CAD-Applications](https://userpages.uni-koblenz.de/~ros/ModellingGeometricConstraints.pdf)
-* [Interactive 2D Constraint-Based Geometric Construction System](papers.cumincad.org/data/works/att/41d4.content.pdf)
+* [Interactive 2D Constraint-Based Geometric Construction System](http://papers.cumincad.org/data/works/att/41d4.content.pdf)
 * [Geometric Sketch Constraint Solving with User Feedback](https://acdl.mit.edu/ESP/Publications/AIAApaper2013-0702.pdf)
 * [OpenCSM: An Open-Source Constructive Solid Modeler for MDAO](https://acdl.mit.edu/esp/Publications/AIAApaper2013-0701.pdf)
 * [SolveSpace - parametric 3d CAD](https://solvespace.com/index.pl)
