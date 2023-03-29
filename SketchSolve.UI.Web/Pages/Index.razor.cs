@@ -230,8 +230,8 @@ public partial class Index
         _drawables.Add(arcDraw);
 
         // reset arc creation
-        _drawables.Remove(_tempLine);
-        _drawables.Remove(_tempArc);
+        _ = _drawables.Remove(_tempLine);
+        _ = _drawables.Remove(_tempArc);
         _tempLine = null;
         _tempArc = null;
         _arcCentre = Point.Empty;
@@ -342,6 +342,8 @@ public partial class Index
 
   private void MouseUpCanvas(MouseEventArgs e)
   {
+    _currMouse.X = (int) (e.ClientX - CanvasPos.X);
+    _currMouse.Y = (int) (e.ClientY - CanvasPos.Y);
     _isMouseDown = false;
 
     // clear previews
@@ -374,7 +376,8 @@ public partial class Index
     // MouseDown[CentrePt] --> drag [update line preview] --> MouseUp[StartPt] --> move [update arc preview] --> MouseDown[EndPt]
     if (_appMode == ApplicationMode.Draw && _drawEnt == DrawableEntity.Arc)
     {
-      if (_arcStart == Point.Empty)
+      if (_arcCentre != Point.Empty && 
+          _arcStart == Point.Empty)
       {
         _arcStart = _currMouse;
       }
