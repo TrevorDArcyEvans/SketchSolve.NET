@@ -53,5 +53,5 @@ public enum ConstraintType
   ExternalAngle,
   
   // one point + one circle
-  OnQuadrant  
+  OnQuadrant
 }
