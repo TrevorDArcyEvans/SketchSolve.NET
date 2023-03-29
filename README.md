@@ -154,7 +154,7 @@ Further, in some cases, _Accord_ will try to set a parameter to [NaN](https://en
 * [Geometric Sketch Constraint Solving with User Feedback](https://acdl.mit.edu/ESP/Publications/AIAApaper2013-0702.pdf)
 * [OpenCSM: An Open-Source Constructive Solid Modeler for MDAO](https://acdl.mit.edu/esp/Publications/AIAApaper2013-0701.pdf)
 * [SolveSpace - parametric 3d CAD](https://solvespace.com/index.pl)
-* [Geometric Constraint Solving](geosolver.sourceforge.net)
+* [Geometric Constraint Solving](https://geosolver.sourceforge.net)
 * [imuli/geosolver-python](https://github.com/imuli/geosolver-python)
 
 ## Acknowledgements
