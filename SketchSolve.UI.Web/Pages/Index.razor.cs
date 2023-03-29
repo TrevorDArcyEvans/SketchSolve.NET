@@ -475,6 +475,7 @@ public partial class Index
           .ToList();
         if (selLines.Count != 2)
         {
+          _toaster.Add("Must select 2 lines", MatToastType.Danger, "Failed to add constraint");
           return;
         }
 
@@ -526,6 +527,7 @@ public partial class Index
 
         if (cons is null)
         {
+          _toaster.Add("Must select 1 line + 1 circle OR 1 line + 1 arc", MatToastType.Danger, "Failed to add constraint");
           return;
         }
 
@@ -579,6 +581,7 @@ public partial class Index
 
         if (cons is null)
         {
+          _toaster.Add("Must select 2 points OR 1 point + 1 line OR 1 point + 1 circle OR 1 point + 1 arc", MatToastType.Danger, "Failed to add constraint");
           return;
         }
 
@@ -619,6 +622,7 @@ public partial class Index
 
         if (cons is null)
         {
+          _toaster.Add("Must select 1 point + 1 line OR 1 point + 1 circle OR 1 point + 1 ard", MatToastType.Danger, "Failed to add constraint");
           return;
         }
 
@@ -672,6 +676,7 @@ public partial class Index
 
         if (cons is null)
         {
+          _toaster.Add("Must select 2 circles OR 2 arcs OR 1 circle + 1 arc", MatToastType.Danger, "Failed to add constraint");
           return;
         }
 
@@ -726,6 +731,7 @@ public partial class Index
 
         if (cons is null)
         {
+          _toaster.Add("Must select 2 points OR 1 point + 1 line", MatToastType.Danger, "Failed to add constraint");
           return;
         }
 
@@ -742,6 +748,7 @@ public partial class Index
           .ToList();
         if (selLines.Count != 2)
         {
+          _toaster.Add("Must select 2 points", MatToastType.Danger, "Failed to add constraint");
           return;
         }
 
@@ -772,6 +779,7 @@ public partial class Index
 
         if (selPts.Count != 1 || selCircs.Count != 1 || _value > 4)
         {
+          _toaster.Add("Must select 1 point + 1 circle + value < 4", MatToastType.Danger, "Failed to add constraint");
           return;
         }
 
