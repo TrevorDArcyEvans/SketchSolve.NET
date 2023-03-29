@@ -50,5 +50,8 @@ public enum ConstraintType
 
   // exactly two lines
   InternalAngle,
-  ExternalAngle
+  ExternalAngle,
+  
+  // one point + one circle
+  OnQuadrant  
 }

@@ -759,6 +759,48 @@ public partial class Index
       }
         break;
 
+      case ConstraintType.OnQuadrant:
+      {
+        var selPts = _drawables
+          .SelectMany(draw => draw.SelectionPoints)
+          .Where(pt => pt.IsSelected)
+          .ToList();
+        var selCircs = _drawables
+          .OfType<CircleDrawer>()
+          .Where(circ => circ.IsSelected)
+          .ToList();
+
+        if (selPts.Count != 1 || selCircs.Count != 1 || _value > 4)
+        {
+          return;
+        }
+
+        BaseConstraint cons = null;
+
+        // Quadrants are defined:
+        //    0 --> east
+        //    1 --> north
+        //    2 --> west
+        //    3 --. south
+        // but UI min value is 1, so have to subtract 1
+        // NOTE:  north and south are reversed in UI
+        //        as canvas y axis runs down screen
+        var updatedQuad = -_value switch
+        {
+          1 => 0,
+          2 => 3,
+          3 => 2,
+          4 => 1,
+          _ => throw new ArgumentOutOfRangeException()
+        };
+        var selPt = selPts.Single().Point;
+        var selCirc = selCircs.Single().Circle;
+        cons = new PointOnCircleQuadConstraint(selPt, selCirc, new Parameter(updatedQuad, false));
+
+        _constraints.Add(cons);
+      }
+        break;
+
       default:
         throw new ArgumentOutOfRangeException();
     }
