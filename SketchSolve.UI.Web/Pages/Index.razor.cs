@@ -785,7 +785,7 @@ public partial class Index
         // but UI min value is 1, so have to subtract 1
         // NOTE:  north and south are reversed in UI
         //        as canvas y axis runs down screen
-        var updatedQuad = -_value switch
+        var updatedQuad = _value switch
         {
           1 => 0,
           2 => 3,
