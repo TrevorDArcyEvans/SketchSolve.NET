@@ -15,6 +15,12 @@
       <td style="vertical-align:top">
         <div>
           <div>
+            <MatH4>
+              <a href="https://github.com/TrevorDArcyEvans/SketchSolve.NET">SketchSolve.NET</a>
+            </MatH4>
+          </div>
+          <hr/>
+          <div>
             <MatH5>Application Mode</MatH5>
             <MatRadioGroup @bind-Value="_appMode" Items="@ApplicationModes">
               <ItemTemplate>
@@ -46,7 +52,7 @@
             <MatSelectItem @bind-Value="@_selConstraintType" Items="@ConstraintTypes">
             </MatSelectItem>
             <p/>
-            <MatNumericUpDownField Label="Value" Minimum="1" FieldType="MatNumericUpDownFieldType.Numeric" @bind-Value="@_value" />
+            <MatNumericUpDownField Label="Value" Minimum="1" FieldType="MatNumericUpDownFieldType.Numeric" @bind-Value="@_value"/>
             <p/>
             <MatButton OnClick="OnApply" Outlined="true" Icon="check">Apply</MatButton>
             <p/>
